@@ -4,6 +4,9 @@ import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import { Grid, Stack } from '@mui/material';
 import Divider from '@mui/material/Divider';
+import '../src/components/SideNav.css'
+import Policy from './components/Policy';
+import PolicyDetail from './components/PolicyDetail';
 function App() {
   return (
     <Router>
@@ -32,6 +35,8 @@ function AuthenticatedRoutes() {
         <Grid item xs={8} md={10}> 
             <Routes >
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/policy" element={<Policy />} />
+              <Route path="/policy/addpolicy" element={<PolicyDetail />} />
             </Routes>
         </Grid>
     </Grid>

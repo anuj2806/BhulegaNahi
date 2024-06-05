@@ -3,3 +3,6 @@
     color: blue !important;
     background-color: transparent;
 }
+.MuiDataGrid-columnHeaderTitle{
+    font-weight: 600 !important;
+}

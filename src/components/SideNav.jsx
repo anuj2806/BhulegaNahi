@@ -15,9 +15,9 @@ import DownloadIcon from '@mui/icons-material/Download';
 import ArticleIcon from '@mui/icons-material/Article';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
-import './SideNav.css'
+
 export default function SideNav() {
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
