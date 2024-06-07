@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import TabContext from '@material-ui/lab/TabContext';
+import TabList from '@material-ui/lab/TabList';
+import TabPanel from '@material-ui/lab/TabPanel';
+import AddPolicyForm from './AddPolicyForm';
+import FileUpload from './FileUpload';
 
-export default function PolicyTab() {
+const PolicyTab=()=> {
   const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
@@ -21,9 +23,10 @@ export default function PolicyTab() {
             <Tab label="Upload Policy" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1">Item One</TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="1"><AddPolicyForm/></TabPanel>
+        <TabPanel value="2"><FileUpload/></TabPanel>
       </TabContext>
     </Box>
   );
 }
+export default PolicyTab

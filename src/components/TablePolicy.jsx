@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Box, Divider, Typography } from '@mui/material';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { Link } from 'react-router-dom';
+import PolicyOptionButton from './PolicyOptionButton';
 const columns = [
 
   { field: 'typeOfPolicy',
@@ -11,7 +12,6 @@ const columns = [
     headerClassName:"tableheader",
     // renderCell: (params) => (console.log(params))
     renderCell: (value) => {
-        console.log(value);
           return <Link to={'/policy'} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
     }
 },
@@ -31,7 +31,7 @@ const columns = [
     sortable: false,
     width: 5,
     renderCell: (params) => {
-        return  <MoreVertOutlinedIcon style={{marginTop:'10px'}}/>;
+        return  <PolicyOptionButton />;
       }
   },
 ];
@@ -46,7 +46,7 @@ const rows = [
 
 export default function TablePolicy() {
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '100%'}}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -56,7 +56,9 @@ export default function TablePolicy() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        sx={{border:0}}
+        sx={{border:0, "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+                          outline: "none !important"},
+            }}
         disableRowSelectionOnClick
         // checkboxSelection
         // slots={{toolbar: DataGridTitle}}

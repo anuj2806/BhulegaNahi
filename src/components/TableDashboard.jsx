@@ -11,7 +11,6 @@ const columns = [
     headerClassName:"tableheader",
     // renderCell: (params) => (console.log(params))
     renderCell: (value) => {
-        console.log(value);
           return <Link to={'/policy'} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
     }
 },

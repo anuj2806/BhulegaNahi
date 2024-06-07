@@ -2,6 +2,7 @@ import { Button, Container, Stack,Grid,Typography,Box,Divider } from '@mui/mater
 import React from 'react'
 import PolicyIcon from '@mui/icons-material/Policy';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import PolicyTab from './PolicyTab';
 const PolicyDetail = () => {
   return (
     <Container>
@@ -15,7 +16,7 @@ const PolicyDetail = () => {
                 </Box>
             </Grid>
             <Grid item xs={12} md={12}>
-              
+              <PolicyTab/>
             </Grid>    
         </Grid>
     </Container>

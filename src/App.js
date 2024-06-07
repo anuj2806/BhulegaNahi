@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import '../src/components/SideNav.css'
 import Policy from './components/Policy';
 import PolicyDetail from './components/PolicyDetail';
+import UpdateDetails from './components/UpdateDetails';
 function App() {
   return (
     <Router>
@@ -37,6 +38,7 @@ function AuthenticatedRoutes() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/policy/addpolicy" element={<PolicyDetail />} />
+              <Route path="/policy/updateDetails" element={<UpdateDetails />} />
             </Routes>
         </Grid>
     </Grid>
