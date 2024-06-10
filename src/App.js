@@ -5,9 +5,9 @@ import Dashboard from './components/Dashboard';
 import { Grid, Stack } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import '../src/components/SideNav.css'
-import Policy from './components/Policy';
-import PolicyDetail from './components/PolicyDetail';
-import UpdateDetails from './components/UpdateDetails';
+import Policy from './components/Policy/Policy';
+import PolicyDetail from './components/Policy/PolicyDetail';
+import UpdateDetails from './components/Policy/UpdateDetails';
 function App() {
   return (
     <Router>

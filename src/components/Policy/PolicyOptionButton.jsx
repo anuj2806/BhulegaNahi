@@ -16,6 +16,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { Padding } from '@mui/icons-material';
 import UpdateDetails from './UpdateDetails';
+import RemovePolicy from './RemovePolicy';
+import AddAgent from './AddAgent';
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -65,7 +67,11 @@ export default function PolicyOptionButton() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [currButton,setCurrButton] = useState();
   const [isopen, setIsOpen] = useState(false);
+  const [openRemove, setopenRemove] = useState(false);
+  const [openAgent, setopenAgent] = useState(false);
   const handleIsClose = () => setIsOpen(false);
+  const handleOpenRemove = () => setopenRemove(false);
+  const handleOpenAgent = () => setopenAgent(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -75,6 +81,12 @@ export default function PolicyOptionButton() {
     setAnchorEl(null);
     if(index===0 ){
       setIsOpen(true);
+    }
+    else if(index===1 ){
+      setopenAgent(true);
+    }
+    else if(index===6 ){
+      setopenRemove(true);
     };
   };
   const handleClose1 = () => {
@@ -139,6 +151,9 @@ export default function PolicyOptionButton() {
         </MenuItem>
       </StyledMenu>
       <UpdateDetails name={currButton} open={isopen} handleClose={handleIsClose}/>
+      <RemovePolicy  open={openRemove} handleClose={handleOpenRemove}/>
+      <AddAgent  open={openAgent} handleClose={handleOpenAgent}/>
+
     </div>
   );
 }

@@ -10,7 +10,7 @@ const Header = () => {
         </Grid>
         <Grid item xs={8} md={10} alignContent={'center'}>
             <Stack direction={'row'} justifyContent={'space-between'} p={'0px 10px'} >
-                <Typography variant="h5" component="subtitle1" fontFamily={'Inter'} fontWeight={'700'} >Dahboard</Typography>
+                <Typography variant="h5" component="subtitle1" fontFamily={'Inter'} fontWeight={'700'} ></Typography>
                 <AccountMenu/>
             </Stack>
         </Grid>

@@ -7,32 +7,32 @@ const columns = [
 
   { field: 'typeOfPolicy',
     headerName: 'Type Of Policy',
-    width: 180,
+    width: 200,
     headerClassName:"tableheader",
     // renderCell: (params) => (console.log(params))
     renderCell: (value) => {
           return <Link to={'/policy'} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
     }
 },
-  { field: 'nameOfCompany', headerName: 'Name Of Company', width: 180 },
+  { field: 'nameOfCompany', headerName: 'Name Of Company', width: 200 },
   {
     field: 'amountOfPremium',
     headerName: 'Amount Of Premium',
-    width: 180,
+    width: 200,
   },
   {
     field: 'dateOfRenewal',
     headerName: 'Date Of Renewal',
-    width: 180,
+    width: 200,
     
   },
-  {
-    sortable: false,
-    width: 5,
-    renderCell: (params) => {
-        return  <MoreVertOutlinedIcon style={{marginTop:'10px'}}/>;
-      }
-  },
+  // {
+  //   sortable: false,
+  //   width: 5,
+  //   renderCell: (params) => {
+  //       return  <MoreVertOutlinedIcon style={{marginTop:'10px'}}/>;
+  //     }
+  // },
 ];
 
 const rows = [
