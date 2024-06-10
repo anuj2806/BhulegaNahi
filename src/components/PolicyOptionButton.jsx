@@ -1,4 +1,4 @@
-import React,{useState,useRef } from 'react';
+import React,{useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -63,18 +63,19 @@ const StyledMenu = styled((props) => (
 
 export default function PolicyOptionButton() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currButton,setCurrButton] = useState()
+  const [currButton,setCurrButton] = useState();
+  const [isopen, setIsOpen] = useState(false);
+  const handleIsClose = () => setIsOpen(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const childButtonRef = useRef(null);
-  const handleClose = (name) => {
+  const handleClose = (index,name) => {
     setCurrButton(name);
     setAnchorEl(null);
-    if (childButtonRef.current) {
-      childButtonRef.current.click();
-    }
+    if(index===0 ){
+      setIsOpen(true);
+    };
   };
   const handleClose1 = () => {
     setAnchorEl(null);
@@ -102,42 +103,42 @@ export default function PolicyOptionButton() {
         open={open}
         onClose={handleClose1}
       >
-        <MenuItem onClick={() => handleClose('Update Details')} disableRipple>
+        <MenuItem onClick={() => handleClose(0,'Update Details')} disableRipple>
           <EditIcon />
           Update Details
         </MenuItem>
         <Divider sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose('Add Agent')} disableRipple>
+        <MenuItem onClick={() => handleClose(1,'Add Agent')} disableRipple>
           <PersonAddIcon />
           Add Agent
         </MenuItem>
         <Divider sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose('Pros and Cons')} disableRipple>
+        <MenuItem onClick={() => handleClose(2,'Pros and Cons')} disableRipple>
           <InfoIcon />
           Pros and Cons
         </MenuItem>
         <Divider sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose('Advisory')} disableRipple>
+        <MenuItem onClick={() => handleClose(3,'Advisory')} disableRipple>
           <InfoIcon />
           Advisory
         </MenuItem>
         <Divider  sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose('Share')} disableRipple>
+        <MenuItem onClick={() => handleClose(4,'Share')} disableRipple>
           <ShareIcon />
           Share
         </MenuItem>
         <Divider  sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose('Download PDF')} disableRipple>
+        <MenuItem onClick={() => handleClose(5,'Download PDF')} disableRipple>
           <FileDownloadOutlinedIcon />
           Download PDF
         </MenuItem>
         <Divider  sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose('Remove')} disableRipple>
+        <MenuItem onClick={() => handleClose(6,'Remove')} disableRipple>
           <DeleteIcon />
           Remove
         </MenuItem>
       </StyledMenu>
-      <UpdateDetails name={currButton} ref={childButtonRef} />
+      <UpdateDetails name={currButton} open={isopen} handleClose={handleIsClose}/>
     </div>
   );
 }

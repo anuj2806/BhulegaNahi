@@ -13,6 +13,7 @@ const PolicyTab=()=> {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleClick = ()=> setValue('2');
 
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -23,7 +24,7 @@ const PolicyTab=()=> {
             <Tab label="Upload Policy" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1"><AddPolicyForm/></TabPanel>
+        <TabPanel value="1"><AddPolicyForm handleClick={handleClick}/></TabPanel>
         <TabPanel value="2"><FileUpload/></TabPanel>
       </TabContext>
     </Box>

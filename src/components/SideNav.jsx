@@ -25,7 +25,7 @@ export default function SideNav() {
 
   return (
         <>
-            <Box sx={{ width: '100%',height:'82vh', maxWidth: 360, bgcolor: 'background.paper' }}>
+            <Box sx={{ width: '100%',height:'82vh', minWidth: 225, bgcolor: 'background.paper' }}>
             <List component="nav" aria-label="main mailbox folders">
                 <Link to={'/dashboard'} style={{textDecoration:'none',color:'black'}} >
                     <ListItemButton

@@ -6,8 +6,9 @@ import FormControl from '@mui/material/FormControl';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Link } from 'react-router-dom';
 
-const AddPolicyForm = () => {
+const AddPolicyForm = ({handleClick}) => {
     const [policyData,setpolicyData] =useState({
         policyType:'',
         companyName:'',
@@ -113,10 +114,10 @@ const AddPolicyForm = () => {
         <Grid item xs={12} md={12} />
             <Grid item xs={1} md={2} />
             <Grid item xs={5} md={4}>
-                <Button variant="outlined" fullWidth>Cancel</Button>
+                <Button variant="outlined" fullWidth component={Link} to="/policy">Cancel</Button>
             </Grid>
             <Grid item xs={5} md={4}>
-                <Button variant="contained" fullWidth>Submit</Button>
+                <Button variant="contained" fullWidth onClick={handleClick}>Submit </Button>
             </Grid>
             <Grid item xs={1} md={2} />
         </Grid>

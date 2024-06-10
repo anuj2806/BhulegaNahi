@@ -7,6 +7,7 @@ import { FaRegFileImage } from "react-icons/fa6";
 import { FaRegFilePdf } from "react-icons/fa";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { Link } from 'react-router-dom';
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileSize, setFileSize] = useState(0);
@@ -187,7 +188,7 @@ const FileUpload = () => {
             <Grid container spacing={2}>
                 <Grid item xs={1} md={2} ></Grid>
                 <Grid item xs={5} md={4} >
-                    <Button variant="outlined" fullWidth onClick={handleCancel}>
+                    <Button variant="outlined" fullWidth component={Link} to="/policy">
                         Cancel
                     </Button>
                 </Grid>
@@ -217,7 +218,7 @@ const FileUpload = () => {
                 <Button onClick={handlePreviewClose} color="primary">Close</Button>
             </DialogActions>
         </Dialog>
-      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{ vertical:'top', horizontal:'center' }}>
         <Alert
             onClose={handleClose}
             severity="success"

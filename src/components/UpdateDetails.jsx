@@ -15,6 +15,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import ShowDetails from './ShowDetails';
 
 const style = {
   position: 'absolute',
@@ -23,15 +24,18 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 600,
   bgcolor: 'background.paper',
-  border: '1px solid grey',
+ 
   boxShadow: 24,
   borderRadius:'5px',
 };
 
-const UpdateDetails = forwardRef((props,ref) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const UpdateDetails = (props) => {
+  const [isopen, setIsOpen] = useState(false);
+  const handleIsOpen = () => {
+    props.handleClose();
+    setIsOpen(true);
+    }
+  const handleIsClose = () => setIsOpen(false);
 
   const [policyData,setpolicyData] =useState({
     policyType:'',
@@ -57,9 +61,8 @@ function handleDatePickerChange(event)
 
   return (
     <div>
-      <Button onClick={handleOpen} ref={ref}></Button>
       <Modal
-        open={open}
+        open={props.open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -169,16 +172,17 @@ function handleDatePickerChange(event)
         <Grid item xs={12} md={12} />
             <Grid item xs={1} md={2} />
             <Grid item xs={5} md={4}>
-                <Button variant="outlined" fullWidth onClick={handleClose}>Cancel</Button>
+                <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>
             </Grid>
             <Grid item xs={5} md={4}>
-                <Button variant="contained" fullWidth>Submit</Button>
+                <Button variant="contained" fullWidth onClick={handleIsOpen}>Submit</Button>
             </Grid>
             <Grid item xs={1} md={2} />
         </Grid>
         </Box>
       </Modal>
+      <ShowDetails open={isopen} handleClick={handleIsClose} name={'Mediclaim Policy'}/>
     </div>
   );
-})
+}
 export default  UpdateDetails
