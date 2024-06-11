@@ -65,7 +65,7 @@ const RemovePolicy = (props) => {
             </Grid>
         </Box>
       </Modal>
-      <Snackbar open={isopen} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{ vertical:'bottom', horizontal:'center' }}>
+      <Snackbar open={isopen} autoHideDuration={3000} onClose={handleClose}  anchorOrigin={{ vertical:'bottom', horizontal:'center' }}>
         <Alert
             onClose={handleClose}
             severity="success"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback,useNavigate } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Button, Typography, IconButton, LinearProgress, Dialog, DialogTitle, DialogContent, DialogActions, Stack, Grid } from '@mui/material';
 import { CloudUpload as CloudUploadIcon, Cancel as CancelIcon, Preview as PreviewIcon } from '@mui/icons-material';
@@ -15,7 +15,8 @@ const FileUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [filePreview, setFilePreview] = useState(null);
   const [openPreview, setOpenPreview] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     if (selectedFile) {
       const fileURL = URL.createObjectURL(selectedFile);
@@ -24,14 +25,11 @@ const FileUpload = () => {
     }
   }, [selectedFile]);
  
-
- 
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
+    navigate("/policy");
     setOpen(false);
   };
 
@@ -218,7 +216,7 @@ const FileUpload = () => {
                 <Button onClick={handlePreviewClose} color="primary">Close</Button>
             </DialogActions>
         </Dialog>
-      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{ vertical:'top', horizontal:'center' }}>
+      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}  anchorOrigin={{ vertical:'top', horizontal:'center' }}>
         <Alert
             onClose={handleClose}
             severity="success"
