@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback,useNavigate } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Button, Typography, IconButton, LinearProgress, Dialog, DialogTitle, DialogContent, DialogActions, Stack, Grid } from '@mui/material';
 import { CloudUpload as CloudUploadIcon, Cancel as CancelIcon, Preview as PreviewIcon } from '@mui/icons-material';
@@ -7,7 +7,7 @@ import { FaRegFileImage } from "react-icons/fa6";
 import { FaRegFilePdf } from "react-icons/fa";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileSize, setFileSize] = useState(0);

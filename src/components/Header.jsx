@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {  Grid, Stack,Typography} from '@mui/material';
 import logo from '../assests/logo.png'
-import AccountMenu from './AccountMenu';
+import AccountMenu from './Dashboard/AccountMenu';
 const Header = () => {
     return (
     <Grid container>
         <Grid item xs={4} md={2}>
-        <img src={logo} alt="bhuleganahi" width={'194px'}/>
+        {/* <img src={logo} alt="bhuleganahi" width={'194px'}/> */}
         </Grid>
         <Grid item xs={8} md={10} alignContent={'center'}>
             <Stack direction={'row'} justifyContent={'space-between'} p={'0px 10px'} >

@@ -1,6 +1,5 @@
 import { Button, Container, Stack,Grid,Typography,Box,Divider } from '@mui/material'
 import React from 'react'
-import PolicyIcon from '@mui/icons-material/Policy';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import PolicyTab from './PolicyTab';
 const PolicyDetail = () => {

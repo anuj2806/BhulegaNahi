@@ -1,13 +1,18 @@
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import SideNav from './components/SideNav';
 import Header from './components/Header';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import { Grid, Stack } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import '../src/components/SideNav.css'
 import Policy from './components/Policy/Policy';
 import PolicyDetail from './components/Policy/PolicyDetail';
 import UpdateDetails from './components/Policy/UpdateDetails';
+import FamilySpace from './components/FamilySpace/FamilySpace';
+import MemberPolicy from './components/FamilySpace/MemberPolicy';
+import Agents from './components/Agents/Agents';
+import AgentPolicy from './components/Agents/AgentPolicy';
+import Calendar from './components/Calendar';
 function App() {
   return (
     <Router>
@@ -39,6 +44,11 @@ function AuthenticatedRoutes() {
               <Route path="/policy" element={<Policy />} />
               <Route path="/policy/addpolicy" element={<PolicyDetail />} />
               <Route path="/policy/updateDetails" element={<UpdateDetails />} />
+              <Route path="/familySpace" element={<FamilySpace />} />
+              <Route path="/familySpace/:memberid" element={<MemberPolicy />} />
+              <Route path="/agents" element={<Agents />} />
+              <Route path="/agents/:agentid" element={<AgentPolicy />} />
+              <Route path="/policyCalender" element={<Calendar />} />
             </Routes>
         </Grid>
     </Grid>

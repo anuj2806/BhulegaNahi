@@ -19,7 +19,7 @@ const PolicyTab=()=> {
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="add policy tabs">
+          <TabList onChange={handleChange} aria-label="add policy tabs" indicatorColor='primary'>
             <Tab label="Add Policy Form" value="1" />
             <Tab label="Upload Policy" value="2" />
           </TabList>

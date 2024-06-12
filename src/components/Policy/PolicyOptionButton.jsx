@@ -5,19 +5,18 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import InfoIcon from '@mui/icons-material/Info';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Padding } from '@mui/icons-material';
 import UpdateDetails from './UpdateDetails';
 import RemovePolicy from './RemovePolicy';
 import AddAgent from './AddAgent';
+import ProsCons from './ProsCons';
+import Advisory from './Advisory';
+import SharePolicy from './SharePolicy';
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -65,25 +64,38 @@ const StyledMenu = styled((props) => (
 
 export default function PolicyOptionButton() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currButton,setCurrButton] = useState();
   const [isopen, setIsOpen] = useState(false);
   const [openRemove, setopenRemove] = useState(false);
   const [openAgent, setopenAgent] = useState(false);
+  const [openProsCons, setopenProsCons] = useState(false);
+  const [openAdvisory, setopenAdvisory] = useState(false);
+  const [openShare, setopenShare] = useState(false);
   const handleIsClose = () => setIsOpen(false);
   const handleOpenRemove = () => setopenRemove(false);
   const handleOpenAgent = () => setopenAgent(false);
+  const handleOpenProsCons = () => setopenProsCons(false);
+  const handleOpenAdvisory = () => setopenAdvisory(false);
+  const handleOpenShare = () => setopenShare(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (index,name) => {
-    setCurrButton(name);
     setAnchorEl(null);
     if(index===0 ){
       setIsOpen(true);
     }
     else if(index===1 ){
       setopenAgent(true);
+    }
+    else if(index===2 ){
+      setopenProsCons(true);
+    }
+    else if(index===3 ){
+      setopenAdvisory(true);
+    }
+    else if(index===4 ){
+      setopenShare(true);
     }
     else if(index===6 ){
       setopenRemove(true);
@@ -150,9 +162,12 @@ export default function PolicyOptionButton() {
           Remove
         </MenuItem>
       </StyledMenu>
-      <UpdateDetails name={currButton} open={isopen} handleClose={handleIsClose}/>
+      <UpdateDetails  open={isopen} handleClose={handleIsClose}/>
       <RemovePolicy  open={openRemove} handleClose={handleOpenRemove}/>
       <AddAgent  open={openAgent} handleClose={handleOpenAgent}/>
+      <ProsCons  open={openProsCons} handleClose={handleOpenProsCons}/>
+      <Advisory  open={openAdvisory} handleClose={handleOpenAdvisory}/>
+      <SharePolicy  open={openShare} handleClose={handleOpenShare}/>
 
     </div>
   );

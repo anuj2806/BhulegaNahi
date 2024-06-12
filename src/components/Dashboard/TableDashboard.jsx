@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Divider, Typography } from '@mui/material';
-import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { Link } from 'react-router-dom';
 const columns = [
 
@@ -11,7 +9,7 @@ const columns = [
     headerClassName:"tableheader",
     // renderCell: (params) => (console.log(params))
     renderCell: (value) => {
-          return <Link to={'/policy'} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
+          return <Link style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
     }
 },
   { field: 'nameOfCompany', headerName: 'Name Of Company', width: 200 },
@@ -36,11 +34,11 @@ const columns = [
 ];
 
 const rows = [
-  { id: 1, typeOfPolicy: 'Snow', nameOfCompany: 'Jon', amountOfPremium: 35,dateOfRenewal:'23/05/2024' },
-  { id: 2, typeOfPolicy: 'Lannister', nameOfCompany: 'Cersei', amountOfPremium: 42,dateOfRenewal:'23/05/2024' },
-  { id: 3, typeOfPolicy: 'Lannister', nameOfCompany: 'Jaime', amountOfPremium: 45,dateOfRenewal:'23/05/2024' },
-  { id: 4, typeOfPolicy: 'Stark', nameOfCompany: 'Arya', amountOfPremium: 16,dateOfRenewal:'23/05/2024' },
-  { id: 5, typeOfPolicy: 'Targaryen', nameOfCompany: 'Daenerys', amountOfPremium: 345,dateOfRenewal:'23/05/2024' },
+  { id: 1, typeOfPolicy: 'Mediclaim Policy', nameOfCompany: 'HDFC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
+  { id: 2, typeOfPolicy: 'Term Life Insurance', nameOfCompany: 'ICICI', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
+  { id: 3, typeOfPolicy: 'Whole Life Insurance', nameOfCompany: 'LIC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
+  { id: 4, typeOfPolicy: 'Unit-Linked Insurance Plans', nameOfCompany: 'ACKO', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
+  { id: 5, typeOfPolicy: 'Child Plans', nameOfCompany: 'PNB', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
 ];
 
 export default function TableDashboard() {

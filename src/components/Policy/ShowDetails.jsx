@@ -1,21 +1,11 @@
-import React,{useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import CloseIcon from '@mui/icons-material/Close';
-
 import { Grid,IconButton} from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-
+import { IoCloseCircle } from "react-icons/io5";
 const style = {
   position: 'absolute',
   top: '50%',
@@ -29,15 +19,7 @@ const style = {
 };
 
 const ShowDetails = (props) => {
-  const [policyData,setpolicyData] =useState({
-    companyName:'HDFC',
-    policyNumber:'234567',
-    amount:'3456789',
-    startDate:'10/06/2024',
-    renewalDate:'10/12/2024',
-    agentName:'Sagar',
-})
-
+    console.log(props.data);
   return (
     <div>
       <Modal
@@ -49,10 +31,10 @@ const ShowDetails = (props) => {
             <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'space-between'}}>
             <div></div>
             <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
-                {props.name}
+                {props.data.policyType}
             </Typography>
             <IconButton onClick={props.handleClick} sx={{alignSelf:'centre'}}>
-                <CloseIcon style={{ color: 'white' }}/>
+                <IoCloseCircle color='white'/>
             </IconButton>
             </Box>
             <Grid  container spacing={2} p={4} >
@@ -61,7 +43,7 @@ const ShowDetails = (props) => {
                     id="standard-read-only-input"
                     variant="standard"
                     label="Name Of Company"
-                    defaultValue={policyData.companyName}
+                    defaultValue={props.data.companyName}
                     InputProps={{
                         readOnly: true,
                     }}
@@ -72,7 +54,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Premium Amount"
-                        defaultValue={policyData.amount}
+                        defaultValue={props.data.amount}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -83,7 +65,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Policy Number"
-                        defaultValue={policyData.policyNumber}
+                        defaultValue={props.data.policyNumber}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -94,7 +76,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Start Date"
-                        defaultValue={policyData.startDate}
+                        defaultValue={props.data.startDate}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -105,7 +87,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Renewal Date"
-                        defaultValue={policyData.renewalDate}
+                        defaultValue={props.data.renewalDate}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -116,7 +98,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Agent"
-                        defaultValue={policyData.agentName}
+                        defaultValue={props.data.agentName}
                         InputProps={{
                             readOnly: true,
                         }}

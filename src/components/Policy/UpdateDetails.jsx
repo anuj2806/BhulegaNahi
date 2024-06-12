@@ -1,10 +1,8 @@
-import React,{useState,forwardRef } from 'react';
+import React,{useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
-
 import { Grid} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
@@ -12,17 +10,14 @@ import FormControl from '@mui/material/FormControl';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import ShowDetails from './ShowDetails';
-
+import dayjs from 'dayjs';
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600,
+  width: 700,
   bgcolor: 'background.paper',
  
   boxShadow: 24,
@@ -31,10 +26,9 @@ const style = {
 
 const UpdateDetails = (props) => {
   const [isopen, setIsOpen] = useState(false);
-  const handleIsOpen = () => {
-    props.handleClose();
-    setIsOpen(true);
-    }
+  const [startDate,setStartDate] =useState();
+  const [renewalDate,setrenewalDate] =useState();
+  
   const handleIsClose = () => setIsOpen(false);
 
   const [policyData,setpolicyData] =useState({
@@ -43,21 +37,38 @@ const UpdateDetails = (props) => {
     policyNumber:'',
     amount:'',
     startDate:'',
-    endDate:'',
+    renewalDate:'',
 })
+const [showData,setshowData] =useState({
+    policyType:'',
+    companyName:'',
+    policyNumber:'',
+    amount:'',
+    startDate:'',
+    renewalDate:'',
+    agentName:'',
+});
 const handleInputChange = (event) => {
     const { name, value } = event.target;
     setpolicyData((prevData) => {
       const newData = { ...prevData, [name]: value };
-      console.log(newData)
       return newData;
     });
   };
-
-function handleDatePickerChange(event)
-{
-    console.log(event)
-}
+  const handleIsOpen = () => {
+    props.handleClose();
+    console.log(policyData)
+    setshowData({
+        policyType:policyData.policyType,
+        companyName:policyData.companyName,
+        policyNumber:'HDFC72398',
+        amount:policyData.amount,
+        startDate:policyData.startDate,
+        renewalDate:policyData.renewalDate,
+        agentName:'Sagar',
+    })
+    setIsOpen(true);
+    }
 
   return (
     <div>
@@ -69,7 +80,7 @@ function handleDatePickerChange(event)
         <Box sx={style}>
             <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
             <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
-                {props.name}
+                Update Details
             </Typography>
             </Box>
         <Grid
@@ -150,8 +161,18 @@ function handleDatePickerChange(event)
             </InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                inputFormat="DD/MM/YYYY"
                 sx={{ paddingTop: '20px' }}
                 slotProps={{ textField: { size: 'small' } }}
+                value={startDate}
+                onChange={(newValue) => {
+                    setStartDate(newValue);
+                    setpolicyData((prevData) => {
+                        const newData = { ...prevData, ['startDate']: dayjs(newValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY')};
+                        return newData;
+                      });
+
+                }}
                 />
             </LocalizationProvider>
             </FormControl>
@@ -163,8 +184,19 @@ function handleDatePickerChange(event)
             </InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                disablePast
+                inputFormat="DD/MM/YYYY"
                 sx={{ paddingTop: '20px' }}
                 slotProps={{ textField: { size: 'small' } }}
+                value={renewalDate}
+                onChange={(newValue) => {
+                    setrenewalDate(newValue);
+                    setpolicyData((prevData) => {
+                        const newData = { ...prevData, ['renewalDate']:dayjs(newValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') };
+                        return newData;
+                      });
+
+                }}
                 />
             </LocalizationProvider>
             </FormControl>
@@ -181,7 +213,7 @@ function handleDatePickerChange(event)
         </Grid>
         </Box>
       </Modal>
-      <ShowDetails open={isopen} handleClick={handleIsClose} name={'Mediclaim Policy'}/>
+      <ShowDetails open={isopen} handleClick={handleIsClose} data={showData}/>
     </div>
   );
 }

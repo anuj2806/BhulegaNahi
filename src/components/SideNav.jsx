@@ -17,100 +17,103 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 
 export default function SideNav() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const [selectedIndex, setSelectedIndex] = React.useState('');
+  const pageName = window.location.pathname;
+  const currPage = pageName.split('/')[1];
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-
+    React.useEffect(()=>{
+         setSelectedIndex(currPage)
+        },[currPage])
   return (
         <>
             <Box sx={{ width: '100%',height:'82vh', minWidth: 225, bgcolor: 'background.paper' }}>
             <List component="nav" aria-label="main mailbox folders">
                 <Link to={'/dashboard'} style={{textDecoration:'none',color:'black'}} >
                     <ListItemButton
-                        selected={selectedIndex === 0}
-                        onClick={(event) => handleListItemClick(event, 0)}
+                        selected={selectedIndex === 'dashboard'}
+                        onClick={(event) => handleListItemClick(event, 'dashboard')}
                         >
                         <ListItemIcon>
-                            <HomeIcon color={selectedIndex===0?'primary':''}/>
+                            <HomeIcon color={selectedIndex==='dashboard' ?'primary':''}/>
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
                     </ListItemButton>
                 </Link>
                 <Link to={'/policy'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 1}
-                    onClick={(event) => handleListItemClick(event, 1)}
+                    selected={selectedIndex === 'policy'}
+                    onClick={(event) => handleListItemClick(event, 'policy')}
                     >
                     <ListItemIcon>
-                        <PolicyIcon color={selectedIndex=== 1?'primary':''}/>
+                        <PolicyIcon color={selectedIndex=== 'policy' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Policy" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/familySpace'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 2}
-                    onClick={(event) => handleListItemClick(event, 2)}
+                    selected={selectedIndex === 'familySpace'}
+                    onClick={(event) => handleListItemClick(event, 'familySpace')}
                     >
                     <ListItemIcon>
-                        <GroupAddIcon color={selectedIndex=== 2?'primary':''}/>
+                        <GroupAddIcon color={selectedIndex=== 'familySpace' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Family Space" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/agents'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 3}
-                    onClick={(event) => handleListItemClick(event, 3)}
+                    selected={selectedIndex === 'agents'}
+                    onClick={(event) => handleListItemClick(event, 'agents')}
                     >
                     <ListItemIcon>
-                        <GroupsIcon color={selectedIndex=== 3?'primary':''}/>
+                        <GroupsIcon color={selectedIndex=== 'agents' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Agents" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/policyCalender'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 4}
-                    onClick={(event) => handleListItemClick(event, 4)}
+                    selected={selectedIndex === 'policyCalender'}
+                    onClick={(event) => handleListItemClick(event, 'policyCalender')}
                     >
                     <ListItemIcon>
-                        <EventAvailableIcon color={selectedIndex=== 4?'primary':''}/>
+                        <EventAvailableIcon color={selectedIndex=== 'policyCalender' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Policy Calender" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/claimAssistance'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 5}
-                    onClick={(event) => handleListItemClick(event, 5)}
+                    selected={selectedIndex === 'claimAssistance'}
+                    onClick={(event) => handleListItemClick(event, 'claimAssistance')}
                     >
                     <ListItemIcon>
-                        <DescriptionIcon color={selectedIndex===5?'primary':''}/>
+                        <DescriptionIcon color={selectedIndex==='claimAssistance' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Claim Assistance" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/downloadSOP'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 6}
-                    onClick={(event) => handleListItemClick(event, 6)}
+                    selected={selectedIndex === 'downloadSOP'}
+                    onClick={(event) => handleListItemClick(event, 'downloadSOP')}
                     >
                     <ListItemIcon>
-                        <DownloadIcon color={selectedIndex===6?'primary':''}/>
+                        <DownloadIcon color={selectedIndex=== 'downloadSOP' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Download SOP's" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/blog'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
-                    selected={selectedIndex === 7}
-                    onClick={(event) => handleListItemClick(event, 7)}
+                    selected={selectedIndex === 'blog'}
+                    onClick={(event) => handleListItemClick(event, 'blog')}
                     >
                     <ListItemIcon>
-                        <ArticleIcon color={selectedIndex===7?'primary':''}/>
+                        <ArticleIcon color={selectedIndex=== 'blog' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Blog" />
                 </ListItemButton>
