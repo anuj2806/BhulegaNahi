@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import CalendarShowDetail from './CalendarShowDetail';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
@@ -29,6 +30,13 @@ const events = [
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isopen, setIsOpen] = useState(false);
+  const handleIsClose = () => setIsOpen(false);
+  const [policyData,setpolicyData] =useState({
+    name:'Piyush Singhal',
+    policyNumber:'1231342',
+    amount:'876',
+})
 
   const handleMonthChange = (event) => {
     setCurrentMonth(currentMonth.month(event.target.value));
@@ -41,30 +49,31 @@ const Calendar = () => {
   const renderHeader = () => {
     const dateFormat = 'MMMM YYYY';
     const months = Array.from({ length: 12 }, (_, index) => dayjs().month(index).format('MMMM'));
-    const years = Array.from({ length: 10 }, (_, index) => dayjs().year(dayjs().year() + index).year());
+    const years = Array.from({ length: 1 }, (_, index) => dayjs().year(dayjs().year() + index).year());
 
     return (
-      <Grid container alignItems="center" justifyContent="space-between" padding={2}>
+      <Grid container p={1} justifyContent="space-between" >
         <Grid item>
           <IconButton onClick={prevMonth}>
             <ChevronLeft />
           </IconButton>
         </Grid>
         <Grid item>
-          <Select value={currentMonth.month()} onChange={handleMonthChange}>
+          <Select value={currentMonth.month()} sx={{width:'200px'}} onChange={handleMonthChange} size='small' >
             {months.map((month, index) => (
               <MenuItem key={index} value={index}>
-                {month}
+                {month} {years}
               </MenuItem>
             ))}
           </Select>
-          <Select value={currentMonth.year()} onChange={handleYearChange}>
+          
+          {/* <Select value={currentMonth.year()} onChange={handleYearChange}  size='small'>
             {years.map((year, index) => (
               <MenuItem key={index} value={year}>
                 {year}
               </MenuItem>
             ))}
-          </Select>
+          </Select> */}
         </Grid>
         <Grid item>
           <IconButton onClick={nextMonth}>
@@ -76,18 +85,15 @@ const Calendar = () => {
   };
 
   const renderDays = () => {
-    const dateFormat = 'dddd';
+    const day =['MON','TUE','WED','THU','FRI','SAT','SUN']
     const days = [];
-    let startDate = currentMonth.startOf('isoWeek');
-
-    for (let i = 0; i < 7; i++) {
+    day.forEach ((val,i)=>{
       days.push(
-        <Grid item xs key={i} textAlign="center">
-          <Typography variant="body1">{startDate.add(i, 'day').format(dateFormat)}</Typography>
+        <Grid item xs key={i} display={'flex'} justifyContent={'center'}  border={'1px solid #e0e0e0'} height={'40px'}>
+          <Typography variant="subtitle" color={'#969696'} fontFamily={'Inter'} fontWeight={'medium'} fontSize={16} alignSelf={'center'} >{val}</Typography>
         </Grid>
       );
-    }
-
+    })
     return <Grid container>{days}</Grid>;
   };
 
@@ -96,7 +102,7 @@ const Calendar = () => {
     const monthEnd = currentMonth.endOf('month');
     const startDate = monthStart.startOf('isoWeek');
     const endDate = monthEnd.endOf('isoWeek');
-
+    console.log(monthStart,monthEnd,startDate,endDate);
     const dateFormat = 'D';
     const rows = [];
 
@@ -113,28 +119,32 @@ const Calendar = () => {
             key={day.toString()}
             style={{
               border: '1px solid #e0e0e0',
-              height: '100px',
+              height: '80px',
+              width:'80px',
               backgroundColor: !day.isSame(monthStart, 'month') ? '#f9f9f9' : '#fff',
               color: !day.isSame(monthStart, 'month') ? '#d0d0d0' : '#000',
-              position: 'relative',
+              position:'relative',
             }}
           >
-            <Box padding={1} display="flex" justifyContent="space-between">
-              <Typography variant="body2">{day.format(dateFormat)}</Typography>
+            <Box  height={'100%'} display="flex" justifyContent='center'>
+            <Typography variant="subtitle" color={'#969696'} fontFamily={'Inter'} fontWeight={'medium'} fontSize={21} alignSelf={'center'} >{day.format(dateFormat)}</Typography>
             </Box>
-            <Box display="flex" flexDirection="column" alignItems="flex-start" padding={1}>
+            <Box display="flex" justifyContent={'center'} alignItems="center" mt={'-15px'} >
               {events
                 .filter(event => event.date.isSame(cloneDay, 'day'))
                 .map((event, index) => (
                   <Box
                     key={index}
-                    width={8}
-                    height={8}
+                    width={10}
+                    height={10}
                     borderRadius="50%"
-                    marginY={0.5}
+                    marginX={0.5}
                     bgcolor={event.color}
-                    onClick={() => setSelectedEvent(event)}
+                    onClick={() => {setSelectedEvent(event);
+                      setIsOpen(true)
+                    }}
                     style={{ cursor: 'pointer' }}
+                    
                   />
                 ))}
             </Box>
@@ -161,23 +171,17 @@ const Calendar = () => {
   };
 
   return (
-    <Box>
+    <>
+    <Box mt={'-25px'} >
       {renderHeader()}
+      <Box border={'1px solid #e0e0e0'}>
       {renderDays()}
       {renderCells()}
-      <Dialog open={!!selectedEvent} onClose={() => setSelectedEvent(null)}>
-        <DialogTitle>Event Details</DialogTitle>
-        <DialogContent>
-          {selectedEvent && (
-            <>
-              <Typography>Date: {selectedEvent.date.format('MMMM D, YYYY')}</Typography>
-              <Typography>Color: {selectedEvent.color}</Typography>
-              <Typography>Description: {selectedEvent.description}</Typography>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+      </Box>
+      
+      <CalendarShowDetail open={isopen} handleClick={handleIsClose} data={policyData} event={selectedEvent}/>
     </Box>
+    </>
   );
 };
 

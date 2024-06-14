@@ -12,7 +12,8 @@ import FamilySpace from './components/FamilySpace/FamilySpace';
 import MemberPolicy from './components/FamilySpace/MemberPolicy';
 import Agents from './components/Agents/Agents';
 import AgentPolicy from './components/Agents/AgentPolicy';
-import Calendar from './components/Calendar';
+import Calendar from './components/PolicyCalendar/Calendar';
+import PolicyCalendar from './components/PolicyCalendar/PolicyCalendar';
 function App() {
   return (
     <Router>
@@ -48,7 +49,7 @@ function AuthenticatedRoutes() {
               <Route path="/familySpace/:memberid" element={<MemberPolicy />} />
               <Route path="/agents" element={<Agents />} />
               <Route path="/agents/:agentid" element={<AgentPolicy />} />
-              <Route path="/policyCalender" element={<Calendar />} />
+              <Route path="/policyCalender" element={<PolicyCalendar />} />
             </Routes>
         </Grid>
     </Grid>
