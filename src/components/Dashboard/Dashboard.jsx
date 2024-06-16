@@ -17,7 +17,9 @@ const Dashboard = () => {
   return (
     <Grid container spacing={2} p={2}>
         <Grid item xs={12} md={12}>
-            <Typography variant='h5'>Welcome Back, Joey Tribbiani</Typography>
+            <Typography variant="subtitle1" component="subtitle1" fontFamily={'Lato'} color={'rgba(0,0,0,0.87)'} fontWeight={'semibold'} fontSize={'20px'}>
+                Welcome Back, Joey Tribbiani
+            </Typography>
             <Divider/>
         </Grid>
         <Grid item xs={12} md={4}>

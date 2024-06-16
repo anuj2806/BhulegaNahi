@@ -15,9 +15,9 @@ const Agents = () => {
                 <Box >
                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
                         <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Agents(5)</Typography>
-                        <Button variant="contained" size="small" startIcon={<GroupsIcon/>} onClick={addAgentClick} sx={{height:'40px', marginTop:'5px'}} >Add Agent</Button>
+                        <Button variant="contained" size="small"  startIcon={<GroupsIcon/>} onClick={addAgentClick} sx={{height:'35px'}} >Add Agent</Button>
                     </Stack>
-                    <Divider sx={{marginTop:'10px'}}/>
+                    <Divider sx={{marginTop:'5px'}}/>
                 </Box>
             </Grid>
             <Grid item xs={12} md={12}>

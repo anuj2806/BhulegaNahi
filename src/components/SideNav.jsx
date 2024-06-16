@@ -28,7 +28,7 @@ export default function SideNav() {
         },[currPage])
   return (
         <>
-            <Box sx={{ width: '100%',height:'82vh', minWidth: 225, bgcolor: 'background.paper' }}>
+            <Box sx={{ width: '100%',height:'89vh',    overflow: 'hidden', bgcolor: 'background.paper' }}>
             <List component="nav" aria-label="main mailbox folders">
                 <Link to={'/dashboard'} style={{textDecoration:'none',color:'black'}} >
                     <ListItemButton
@@ -122,7 +122,7 @@ export default function SideNav() {
             </List>
             <Divider />
             <List component="nav" aria-label="secondary mailbox folder">
-                <Link to={'/logout'} style={{textDecoration:'none',color:'black'}} >
+                <Link to={'/'} style={{textDecoration:'none',color:'black'}} >
                 <ListItemButton
                 selected={selectedIndex === 8}
                 onClick={(event) => handleListItemClick(event, 8)}

@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import CalendarShowDetail from './CalendarShowDetail';
-
+import Tooltip from '@mui/material/Tooltip';
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 
@@ -27,8 +27,8 @@ const events = [
   { date: dayjs(new Date(2024, 5, 32)), color: 'orange', description: 'Event 14' },
 ];
 
-const Calendar = () => {
-  const [currentMonth, setCurrentMonth] = useState(dayjs());
+const Calendar = ({currentMonth}) => {
+  // const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isopen, setIsOpen] = useState(false);
   const handleIsClose = () => setIsOpen(false);
@@ -38,58 +38,12 @@ const Calendar = () => {
     amount:'876',
 })
 
-  const handleMonthChange = (event) => {
-    setCurrentMonth(currentMonth.month(event.target.value));
-  };
-
-  const handleYearChange = (event) => {
-    setCurrentMonth(currentMonth.year(event.target.value));
-  };
-
-  const renderHeader = () => {
-    const dateFormat = 'MMMM YYYY';
-    const months = Array.from({ length: 12 }, (_, index) => dayjs().month(index).format('MMMM'));
-    const years = Array.from({ length: 1 }, (_, index) => dayjs().year(dayjs().year() + index).year());
-
-    return (
-      <Grid container p={1} justifyContent="space-between" >
-        <Grid item>
-          <IconButton onClick={prevMonth}>
-            <ChevronLeft />
-          </IconButton>
-        </Grid>
-        <Grid item>
-          <Select value={currentMonth.month()} sx={{width:'200px'}} onChange={handleMonthChange} size='small' >
-            {months.map((month, index) => (
-              <MenuItem key={index} value={index}>
-                {month} {years}
-              </MenuItem>
-            ))}
-          </Select>
-          
-          {/* <Select value={currentMonth.year()} onChange={handleYearChange}  size='small'>
-            {years.map((year, index) => (
-              <MenuItem key={index} value={year}>
-                {year}
-              </MenuItem>
-            ))}
-          </Select> */}
-        </Grid>
-        <Grid item>
-          <IconButton onClick={nextMonth}>
-            <ChevronRight />
-          </IconButton>
-        </Grid>
-      </Grid>
-    );
-  };
-
   const renderDays = () => {
     const day =['MON','TUE','WED','THU','FRI','SAT','SUN']
     const days = [];
     day.forEach ((val,i)=>{
       days.push(
-        <Grid item xs key={i} display={'flex'} justifyContent={'center'}  border={'1px solid #e0e0e0'} height={'40px'}>
+        <Grid item xs={1.714} key={i} display={'flex'} justifyContent={'center'}  border={'1px solid #e0e0e0'} height={'40px'}>
           <Typography variant="subtitle" color={'#969696'} fontFamily={'Inter'} fontWeight={'medium'} fontSize={16} alignSelf={'center'} >{val}</Typography>
         </Grid>
       );
@@ -102,7 +56,7 @@ const Calendar = () => {
     const monthEnd = currentMonth.endOf('month');
     const startDate = monthStart.startOf('isoWeek');
     const endDate = monthEnd.endOf('isoWeek');
-    console.log(monthStart,monthEnd,startDate,endDate);
+    // console.log(monthStart,monthEnd,startDate,endDate);
     const dateFormat = 'D';
     const rows = [];
 
@@ -115,12 +69,12 @@ const Calendar = () => {
         days.push(
           <Grid
             item
-            xs
+            xs={1.714}
             key={day.toString()}
             style={{
               border: '1px solid #e0e0e0',
               height: '80px',
-              width:'80px',
+              // width:'80px',
               backgroundColor: !day.isSame(monthStart, 'month') ? '#f9f9f9' : '#fff',
               color: !day.isSame(monthStart, 'month') ? '#d0d0d0' : '#000',
               position:'relative',
@@ -153,7 +107,7 @@ const Calendar = () => {
         day = day.add(1, 'day');
       }
       rows.push(
-        <Grid container key={day.toString()}>
+        <Grid container key={day.toString()} >
           {days}
         </Grid>
       );
@@ -161,19 +115,28 @@ const Calendar = () => {
     }
     return rows;
   };
-
-  const nextMonth = () => {
-    setCurrentMonth(currentMonth.add(1, 'month'));
-  };
-
-  const prevMonth = () => {
-    setCurrentMonth(currentMonth.subtract(1, 'month'));
-  };
-
   return (
     <>
-    <Box mt={'-25px'} >
-      {renderHeader()}
+      <Box display="flex" justifyContent={'flex-end'} alignItems="center" mt={'-20px'} pb={'2px'} >
+                {[{color: 'red', description: 'Due in a week'},
+                  {color: 'orange', description: 'Due in 15 days'},
+                  {color: 'green', description: 'Due in a month'}]
+                .map((event, index) => (
+                  <Tooltip title={event.description} arrow>
+                    <Box
+                      key={index}
+                      width={15}
+                      height={15}
+                      borderRadius="50%"
+                      marginX={0.5}
+                      bgcolor={event.color}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </Tooltip>
+                  ))}
+              </Box>
+      <Box>
+      {/* {renderHeader()} */}
       <Box border={'1px solid #e0e0e0'}>
       {renderDays()}
       {renderCells()}

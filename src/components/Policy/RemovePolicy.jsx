@@ -25,7 +25,6 @@ const RemovePolicy = (props) => {
     setIsOpen(true);
     props.handleClose();
     }
-  const handleIsClose = () => setIsOpen(false);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -65,7 +64,7 @@ const RemovePolicy = (props) => {
             </Grid>
         </Box>
       </Modal>
-      <Snackbar open={isopen} autoHideDuration={3000} onClose={handleClose}  anchorOrigin={{ vertical:'bottom', horizontal:'center' }}>
+      <Snackbar open={isopen} autoHideDuration={3000} onClose={handleClose}  anchorOrigin={{ vertical:'top', horizontal:'center' }}>
         <Alert
             onClose={handleClose}
             severity="success"
