@@ -7,11 +7,6 @@ import { Grid} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { FaSquarePlus } from "react-icons/fa6";
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { Form } from 'react-router-dom';
 
 const style = {
   position: 'absolute',

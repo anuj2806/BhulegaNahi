@@ -1,9 +1,9 @@
 import  React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import TabContext from '@material-ui/lab/TabContext';
-import TabList from '@material-ui/lab/TabList';
-import TabPanel from '@material-ui/lab/TabPanel';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import Calendar from './Calendar';
 import YearlyPremium from './YearlyPremium';
 import TotalYearlyPremium from './TotalYearlyPremium';
