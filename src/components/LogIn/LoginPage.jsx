@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, Box, Grid, CardMedia,Stack,IconButton } from '@mui/material';
-import MuiPhoneNumber from 'material-ui-phone-number';
+// import MuiPhoneNumber from 'material-ui-phone-number';
+import { MuiTelInput } from 'mui-tel-input';
 import { Link } from 'react-router-dom';
 import logo from '../../assests/logo.png'
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -25,12 +26,12 @@ const LoginPage = () => {
             <Typography variant="subtitle1" gutterBottom className='subtitle'>
               Enter phone to continue
             </Typography>
-            <MuiPhoneNumber
+            <MuiTelInput
                           id="phone"
                           name="phone"
                           size='small'
-                          // value={props.phone}
-                          defaultCountry={'in'}
+                          value={phoneNo}
+                          defaultCountry="IN"
                           onChange={handleOnChange}
                           variant='outlined'
                           required
@@ -38,6 +39,7 @@ const LoginPage = () => {
                           countryCodeEditable={false}
                           enableLongNumbers
                           disableAreaCodes
+                          forceCallingCode 
                       />
             <Box mt={2}>
               <Button variant="contained" fullWidth className='continueButton' onClick={()=>{setLogin(false);setOtpPage(true)}}>
