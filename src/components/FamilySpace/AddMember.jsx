@@ -31,8 +31,9 @@ const AddMember = (props) => {
     }
 
     const [policyData,setpolicyData] =useState({
+        memberName:'',
         emailid:'',
-        permissionss:'Select Permissions',
+        contactNumber:'',
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -53,9 +54,26 @@ const AddMember = (props) => {
                 </Typography>
                 </Box>
             <Box>
-               <Grid container spacing={2} p={4}>
+            <Grid container spacing={2} p={4} >
                     <Grid item xs={12} md={6}>
-                        <FormControl variant="standard" fullWidth>
+                        <FormControl variant="standard" fullWidth required>
+                        <InputLabel shrink htmlFor="memberName">
+                           Member Name
+                        </InputLabel>
+                        <TextField
+                            sx={{ paddingTop: '20px' }}
+                            size="small"
+                            id="memberName"
+                            name="memberName"
+                            placeholder="Enter Member Name"
+                            value={policyData.memberName}
+                            onChange={handleInputChange}
+                            
+                        />
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <FormControl variant="standard" fullWidth required>
                         <InputLabel shrink htmlFor="emailid">
                            Email Id
                         </InputLabel>
@@ -67,32 +85,25 @@ const AddMember = (props) => {
                             placeholder="Enter Email Id"
                             value={policyData.emailid}
                             onChange={handleInputChange}
+                            
                         />
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6} >
-                        <FormControl variant="standard" fullWidth>
-                        <InputLabel shrink htmlFor="permissions">
-                            Permissions
+                    <Grid item xs={12} md={6}>
+                        <FormControl variant="standard" fullWidth required>
+                        <InputLabel shrink htmlFor="contactNumber">
+                            Contact Number
                         </InputLabel>
-                        <Select
-                            id = 'permissions'
-                            name='permissionss'
-                            input={<OutlinedInput />}
-                            value={policyData.permissionss}
-                            label="permissions"
-                            onChange={handleInputChange}
+                        <TextField
+                            sx={{ paddingTop: '20px' }}
                             size="small"
-                            sx={{ marginTop: '20px' }}
-                        >
-                            <MenuItem value="">
-                            <em>Select Permissions</em>
-                            </MenuItem>
-                            {
-                                permissions.map((permission,index)=>(<MenuItem value={permission} key={index}>{permission}</MenuItem>))
-                            }
+                            id="contactNumber"
+                            name="contactNumber"
+                            placeholder="Enter Contact Number"
+                            value={policyData.contactNumber}
+                            onChange={handleInputChange}
                             
-                        </Select>
+                        />
                         </FormControl>
                     </Grid>
                 </Grid>

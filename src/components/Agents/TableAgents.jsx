@@ -1,34 +1,9 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import IconButton from '@mui/material/IconButton';
-const columns = [
-
-  { field: 'name',
-    headerName: 'Agent Name',
-    width: 350,
-    headerClassName:"tableheader",
-    renderCell: (value) => {
-          return <Link to={`/agents/${value.formattedValue}`} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
-    }
-},
-  { field: 'email', headerName: 'Email', width: 350 },
-  {
-    field: 'contactNumber',
-    headerName: 'Contact Number',
-    width: 300,
-  },
-  {
-    sortable: false,
-    width: 5,
-    renderCell: (params) => {
-        return (<IconButton>
-            <MoreVertIcon />
-          </IconButton>);
-      }
-  },
-];
+import AgentOptionButton from './AgentOptionButton';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const rows = [
   { id: 1, name: 'Rudhir Bhalla', email: 'rudhir@gmail.com', contactNumber: '9678213924'},
@@ -39,7 +14,38 @@ const rows = [
 ];
 
 export default function TableAgents() {
-    
+  const [isopen, setIsOpen] = React.useState(false);
+  const handleOpenAlert=()=>setIsOpen(true);
+  const handleClosealert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setIsOpen(false);
+  };
+  const columns = [
+
+    { field: 'name',
+      headerName: 'Agent Name',
+      width: 350,
+      headerClassName:"tableheader",
+      renderCell: (value) => {
+            return <Link to={`/agents/${value.formattedValue}`} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
+      }
+  },
+    { field: 'email', headerName: 'Email', width: 350 },
+    {
+      field: 'contactNumber',
+      headerName: 'Contact Number',
+      width: 300,
+    },
+    {
+      sortable: false,
+      width: 5,
+      renderCell: (params) => {
+          return (<AgentOptionButton data={params.row} handleOpenAlert={handleOpenAlert}/>);
+        }
+    },
+  ];
   return (
     <div style={{ height: 480, width: '100%'}}>
       <DataGrid
@@ -56,6 +62,16 @@ export default function TableAgents() {
             }}
         disableRowSelectionOnClick
       />
+      <Snackbar open={isopen} autoHideDuration={2000}  onClose={handleClosealert}  anchorOrigin={{ vertical:'top', horizontal:'center' }}>
+        <Alert
+            onClose={handleClosealert}
+            severity="success"
+            variant="filled"
+            sx={{ width: '100%'}}
+        >
+            Record Deleted Successfully.
+        </Alert>
+        </Snackbar>
     </div>
   );
 }

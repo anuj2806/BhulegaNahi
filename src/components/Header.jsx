@@ -6,7 +6,7 @@ const Header = () => {
     return (
     <Grid container>
         <Grid item xs={4} md={2} p={'0px 10px'}>
-        <img src={logo} alt="bhuleganahi" width={'150px'} height={'40px'} />
+        {/* <img src={logo} alt="bhuleganahi" width={'150px'} height={'40px'} /> */}
         </Grid>
         <Grid item xs={8} md={10} alignContent={'center'}>
             <Stack direction={'row'} justifyContent={'space-between'} p={'0px 10px'} >
