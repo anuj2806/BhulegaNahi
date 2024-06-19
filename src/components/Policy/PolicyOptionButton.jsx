@@ -80,6 +80,15 @@ export default function PolicyOptionButton() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+ 
+  function downloadPDF(pdf,val) {
+      const linkSource = `data:application/pdf;base64,${pdf}`;
+      const downloadLink = document.createElement("a");
+      const fileName = val+".pdf";
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();}
+
   const handleClose = (index,name) => {
     setAnchorEl(null);
     if(index===0 ){
@@ -96,6 +105,9 @@ export default function PolicyOptionButton() {
     }
     else if(index===4 ){
       setopenShare(true);
+    }
+    else if(index===5 ){
+      downloadPDF('SGVsbG8gV29ybGQhCg==','PolicyName')
     }
     else if(index===6 ){
       setopenRemove(true);

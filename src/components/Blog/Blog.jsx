@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import blogImg from '../../assests/blog.png'
 import { Link } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
+import SearchBar from './SearchBar';
 const Blog =() =>{
     const data = [1,2,3,4,5,6]
     const [page, setPage] = useState(1);
@@ -18,6 +19,7 @@ const Blog =() =>{
                 <Box >
                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
                         <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Blog</Typography>
+                        <SearchBar/>
                     </Stack>
                     <Divider />
                 </Box>

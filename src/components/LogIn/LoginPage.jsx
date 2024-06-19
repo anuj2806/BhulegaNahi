@@ -2,17 +2,29 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, Box, Grid, CardMedia,Stack,IconButton } from '@mui/material';
 // import MuiPhoneNumber from 'material-ui-phone-number';
 import { MuiTelInput } from 'mui-tel-input';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import logo from '../../assests/logo.png'
 import DescriptionIcon from '@mui/icons-material/Description';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import VerifyOTP from './VerifyOTP';
+import PersonalInfo from './PersonalInfo';
 const LoginPage = () => {
   const [loginpage,setLogin]=useState(true);
   const [otppage,setOtpPage]=useState(false);
+  const [personalInfo,setpersonalInfo]=useState(false)
   const [phoneNo,setPhoneNo]=useState();
     const handleOnChange =(value)=>(setPhoneNo(value))
+    const navigate = useNavigate();
+  const verifyOTP = () =>{
+    if(phoneNo==='+91 63778 61314'){
+      navigate('/dashboard')
+    }else{
+      setLogin(false)
+      setOtpPage(false)
+      setpersonalInfo(true)
+    }
+  }
   return (
     <Grid container p={10}>
       <Grid item xs={1} md={4} />
@@ -83,12 +95,13 @@ const LoginPage = () => {
               <Typography mb={1} variant="subtitle1"  fontFamily={'Lato'} fontSize={'14px'} fontWeight={'regular'} color={'rgba(0,0,0,0.38)'}>
                Resend One-Time Password
               </Typography>
-              <Button  variant="contained" fullWidth className='continueButton' component={Link} to="/dashboard">
+              <Button  variant="contained" fullWidth className='continueButton' onClick={verifyOTP}>
                 Continue
               </Button>
             </Grid>    
         </Grid>
         </CardContent>)}
+        {personalInfo && (<PersonalInfo/>)}
         </Card>
       </Grid>
       <Grid item xs={1} md={4}/>

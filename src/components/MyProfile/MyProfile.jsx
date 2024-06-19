@@ -20,9 +20,9 @@ const MyProfile =() =>{
                 <Box >
                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
                         <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Profile</Typography>
-                        <IconButton onClick={()=>setOpen(true)}>
-                            <RiPencilFill />
-                        </IconButton>
+                        <Button variant="contained" size='small' onClick={()=>setOpen(true)} startIcon={<RiPencilFill />}>
+                            Edit
+                        </Button>
                     </Stack>
                     <Divider />
                 </Box>

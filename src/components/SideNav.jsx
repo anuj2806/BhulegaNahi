@@ -18,14 +18,15 @@ import { Link } from 'react-router-dom';
 
 export default function SideNav() {
   const [selectedIndex, setSelectedIndex] = React.useState('');
-  const pageName = window.location.pathname;
-  const currPage = pageName.split('/')[1];
+  
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
     React.useEffect(()=>{
+        const pageName = window.location.pathname;
+        const currPage = pageName.split('/')[1];
          setSelectedIndex(currPage)
-        },[currPage])
+        },[])
   return (
         <>
             <Box sx={{ width: '100%',height:'89vh',    overflow: 'hidden', bgcolor: 'background.paper' }}>

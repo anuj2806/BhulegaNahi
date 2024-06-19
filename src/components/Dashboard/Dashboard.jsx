@@ -7,6 +7,7 @@ import TableDashboard from './TableDashboard';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { Link } from 'react-router-dom';
 const Dashboard = () => {
     const [age, setAge] = React.useState('Last 15 Days');
 
@@ -23,6 +24,7 @@ const Dashboard = () => {
             <Divider/>
         </Grid>
         <Grid item xs={12} md={4}>
+            <Link to={'/policy'} style={{textDecoration:'none'}}>
             <Card variant="outlined">
                     <CardContent className='datatiles'  style={{padding:0}}>
                     <Grid container >
@@ -38,6 +40,7 @@ const Dashboard = () => {
                     </Grid>
                     </CardContent>
                 </Card>
+            </Link>
         </Grid>
         <Grid item xs={12} md={4}>
         <Card variant="outlined">
