@@ -16,11 +16,14 @@ import ArticleIcon from '@mui/icons-material/Article';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 
-export default function SideNav() {
+export default function SideNav({isMobile, handleDrawerToggle }) {
   const [selectedIndex, setSelectedIndex] = React.useState('');
   
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+    if (isMobile) {
+        handleDrawerToggle();
+      }
   };
     React.useEffect(()=>{
         const pageName = window.location.pathname;
