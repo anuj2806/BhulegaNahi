@@ -1,7 +1,7 @@
 {
   "name": "bhuleganahi",
   "version": "0.1.0",
-  "homepage": "https://anuj2806.github.io/BhulegaNahi/login",
+  "homepage": "https://anuj2806.github.io/BhulegaNahi",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
