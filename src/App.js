@@ -31,7 +31,7 @@ function App() {
     <Router>
       <CssBaseline />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/*" element={<AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile} />} />
       </Routes>
     </Router>
