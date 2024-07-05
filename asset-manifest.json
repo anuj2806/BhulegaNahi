@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/BhulegaNahi/static/css/main.c11d0f12.css",
+    "main.js": "/BhulegaNahi/static/js/main.6e99bd5e.js",
+    "static/media/blogDetail.png": "/BhulegaNahi/static/media/blogDetail.f301f7eee6b5d5d700bc.png",
+    "static/media/blog.png": "/BhulegaNahi/static/media/blog.1c296bc9a2463423a25b.png",
+    "static/media/sop.png": "/BhulegaNahi/static/media/sop.61944f4e4ca40d3b72eb.png",
+    "index.html": "/BhulegaNahi/index.html",
+    "main.c11d0f12.css.map": "/BhulegaNahi/static/css/main.c11d0f12.css.map",
+    "main.6e99bd5e.js.map": "/BhulegaNahi/static/js/main.6e99bd5e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c11d0f12.css",
+    "static/js/main.6e99bd5e.js"
+  ]
+}
