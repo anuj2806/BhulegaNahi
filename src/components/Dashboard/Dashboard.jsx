@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Link } from 'react-router-dom';
-const Dashboard = () => {
+const Dashboard = ({setActivePage}) => {
     const [age, setAge] = React.useState('Last 15 Days');
 
   const handleChange = (event) => {
@@ -24,7 +24,7 @@ const Dashboard = () => {
             <Divider/>
         </Grid>
         <Grid item xs={12} md={4}>
-            <Link to={'/policy'} style={{textDecoration:'none'}}>
+            <Link to={'/policy'} style={{textDecoration:'none'}} onClick={()=>setActivePage('policy')}>
             <Card variant="outlined">
                     <CardContent className='datatiles'  style={{padding:0}}>
                     <Grid container >

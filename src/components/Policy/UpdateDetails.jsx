@@ -77,7 +77,7 @@ const handleInputChange = (event) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} width={[300,700]}>
             <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
             <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                 Update Details
@@ -180,7 +180,7 @@ const handleInputChange = (event) => {
         <Grid item xs={12} md={4}>
             <FormControl variant="standard" fullWidth>
             <InputLabel shrink htmlFor="renewal-date">
-                Renewal Date
+                Expiry Date
             </InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker

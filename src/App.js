@@ -21,6 +21,8 @@ import Blog from './components/Blog/Blog.jsx';
 import BlogDetail from './components/Blog/BlogDetail.jsx';
 import LoginPage from './components/LogIn/LoginPage.jsx';
 import MyProfile from './components/MyProfile/MyProfile.jsx';
+import Appointment from './components/Appointment/Appointment.jsx';
+import Test from './testing.jsx';
 function App() {
   const isMobile = useMediaQuery('(max-width:1200px)');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -39,7 +41,6 @@ function App() {
 }
 
 function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
- 
   return (
     <Grid container >
         <Grid item xs={12} md={12} style={{ zIndex:2000 }}>        
@@ -75,7 +76,7 @@ function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
       ) : (
         <>
         <Grid item xs={1.99}>
-          <SideNav isMobile={isMobile}  handleDrawerToggle={handleDrawerToggle}/>
+          <SideNav isMobile={isMobile}  handleDrawerToggle={handleDrawerToggle} />
         </Grid>
         <Divider orientation="vertical" flexItem />
         </>
@@ -93,10 +94,12 @@ function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
               <Route path="/agents/:agentid" element={<AgentPolicy />} />
               <Route path="/policyCalender" element={<PolicyCalendar />} />
               <Route path="/claimAssistance" element={<ClaimAssistance />} />
+              <Route path="/appointment" element={<Appointment />} />
               <Route path="/downloadSOP" element={<DownloadSOP />} />
               <Route path="/downloadSOP/:policyname" element={<SOPpage />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:blogId" element={<BlogDetail />} />
+              {/* <Route path="/test" element={<Test />} /> */}
             </Routes>
         </Grid>
     </Grid>

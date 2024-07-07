@@ -9,13 +9,12 @@ import { FaRegFilePdf } from "react-icons/fa";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Link,useNavigate } from 'react-router-dom';
-
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 700,
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius:'5px',
@@ -29,6 +28,7 @@ const UploadClaimAssistance = (props) => {
     const [filePreview, setFilePreview] = useState(null);
     const [openPreview, setOpenPreview] = useState(false);
     const [open, setOpen] = useState(false);
+    const [openModel,setOpenModel]=useState(false);
     const navigate = useNavigate();
     useEffect(() => {
       if (selectedFile) {
@@ -43,7 +43,7 @@ const UploadClaimAssistance = (props) => {
         return;
       }
       navigate("/claimAssistance");
-      props.handleClose();
+      setOpenModel(false);
     };
   
     const onDrop = useCallback((acceptedFiles) => {
@@ -108,10 +108,15 @@ const UploadClaimAssistance = (props) => {
     const handlePreviewClose = () => {
       setOpenPreview(false);
     };
+
+    const onClickUpload=()=>{
+        setOpenModel(true)
+    }
   return (
     <div>
-      <Modal open={props.open}>
-        <Box sx={style}>
+    <Button variant="contained" onClick={onClickUpload} size="small" startIcon={<FileUploadIcon />} sx={{height:'35px'}}>Upload</Button>
+      <Modal open={openModel}>
+        <Box sx={style} width={[300,700]}>
             <Grid container spacing={1} p={4}>
                 <Grid item xs={12} md={12} >
                     <Typography variant="subtitle" fontFamily={'Lato'} fontWeight={'medium'} fontSize={20} >
@@ -201,7 +206,7 @@ const UploadClaimAssistance = (props) => {
                     <Grid container spacing={2}>
                         <Grid item xs={1} md={2} ></Grid>
                         <Grid item xs={5} md={4} >
-                            <Button variant="outlined" fullWidth component={Link} to="/claimAssistance" onClick={props.handleClose}>
+                            <Button variant="outlined" fullWidth component={Link} to="/claimAssistance" onClick={()=>setOpenModel(false)}>
                                 Cancel
                             </Button>
                         </Grid>

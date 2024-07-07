@@ -20,7 +20,7 @@ const columns = [
   },
   {
     field: 'dateOfRenewal',
-    headerName: 'Date Of Renewal',
+    headerName: 'Date Of Expiry',
     width: 200,
     
   },
@@ -53,7 +53,9 @@ export default function TableDashboard() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        sx={{border:0}}
+        sx={{border:0, "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+          outline: "none !important"},
+        }}
         disableRowSelectionOnClick
         // checkboxSelection
         // slots={{toolbar: DataGridTitle}}

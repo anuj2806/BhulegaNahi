@@ -11,7 +11,6 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius:'5px',
@@ -25,7 +24,7 @@ const RemoveMember = (props) => {
   return (
     <>
       <Modal open={props.open}>
-        <Box sx={style}>
+        <Box sx={style} width={[300,500]}>
             <Grid container spacing={2} p={4} >
                 <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                     <RxCrossCircled color='red' size={'50px'} />

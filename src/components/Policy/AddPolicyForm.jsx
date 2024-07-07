@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button, Grid} from '@mui/material';
+import {Button, Grid,MenuItem,OutlinedInput,Select, Typography} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +15,7 @@ const AddPolicyForm = ({handleClick}) => {
         amount:'',
         startDate:'',
         endDate:'',
+        natureOfFrequency:'',
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -24,7 +25,7 @@ const AddPolicyForm = ({handleClick}) => {
           return newData;
         });
       };
-
+    const frequency = ['One time','Monthly','Quarterly','Semi - Annually','Annually','Once in Two Year','Once in Three Year','Others'];
     function handleDatePickerChange(event)
     {
         console.log(event)
@@ -39,34 +40,54 @@ const AddPolicyForm = ({handleClick}) => {
         >
         <Grid item xs={12} md={4} >
             <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="type-of-policy">
+            <InputLabel shrink htmlFor="typeofpolicy">
                 Type of Policy
             </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="type-of-policy"
-                name="policyType"
-                placeholder="Enter your policy"
-                value={policyData.policyType}
-                onChange={handleInputChange}
-            />
+            <Select
+                    id = 'typeofpolicy'
+                    name='policyType'
+                    input={<OutlinedInput />}
+                    value={policyData.policyType}
+                    label="Type of Policy"
+                    onChange={handleInputChange}
+                    size="small"
+                    displayEmpty
+                    sx={{ marginTop: '20px' }}
+                >
+                    <MenuItem value='' disabled >
+                         <Typography color={'#778899b8'}>Select policy</Typography> 
+                    </MenuItem>
+                        {
+                        frequency.map((agent,index)=>(<MenuItem value={agent} key={index}>{agent}</MenuItem>))
+                        }
+                            
+                </Select>
             </FormControl>
         </Grid>
         <Grid item xs={12} md={4}>
             <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="name-of-company">
+            <InputLabel shrink htmlFor="nameofcompany">
                 Name of Company
             </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="name-of-company"
-                name="companyName"
-                placeholder="Enter your company"
-                value={policyData.companyName}
-                onChange={handleInputChange}
-            />
+            <Select
+                    id = 'nameofcompany'
+                    name='companyName'
+                    input={<OutlinedInput />}
+                    value={policyData.companyName}
+                    label="Name of Company"
+                    onChange={handleInputChange}
+                    size="small"
+                    displayEmpty
+                    sx={{ marginTop: '20px' }}
+                >
+                    <MenuItem value='' disabled >
+                         <Typography color={'#778899b8'}>Select company</Typography> 
+                    </MenuItem>
+                        {
+                        frequency.map((agent,index)=>(<MenuItem value={agent} key={index}>{agent}</MenuItem>))
+                        }
+                            
+                </Select>
             </FormControl>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -101,7 +122,7 @@ const AddPolicyForm = ({handleClick}) => {
         <Grid item xs={12} md={4}>
             <FormControl variant="standard" fullWidth>
             <InputLabel shrink htmlFor="renewal-date">
-                Renewal Date
+                Expiry Date
             </InputLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -109,6 +130,32 @@ const AddPolicyForm = ({handleClick}) => {
                 slotProps={{ textField: { size: 'small' } }}
                 />
             </LocalizationProvider>
+            </FormControl>
+        </Grid>
+        <Grid item xs={12} md={4} >
+            <FormControl variant="standard" fullWidth>
+                <InputLabel shrink htmlFor="natureOfFrequency">
+                    Nature of Frequency
+                </InputLabel>
+                <Select
+                    id = 'natureOfFrequency'
+                    name='natureOfFrequency'
+                    input={<OutlinedInput />}
+                    value={policyData.natureOfFrequency}
+                    label="Nature Of Frequency"
+                    onChange={handleInputChange}
+                    size="small"
+                    displayEmpty
+                    sx={{ marginTop: '20px' }}
+                >
+                    <MenuItem value='' disabled >
+                         <Typography color={'#778899b8'}>Select frequency</Typography> 
+                    </MenuItem>
+                        {
+                        frequency.map((agent,index)=>(<MenuItem value={agent} key={index}>{agent}</MenuItem>))
+                        }
+                            
+                </Select>
             </FormControl>
         </Grid>
         <Grid item xs={12} md={12} />

@@ -11,7 +11,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600,
+
   bgcolor: 'background.paper',
  
   boxShadow: 24,
@@ -27,7 +27,7 @@ const ShowDetails = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} width={[300,600]}>
             <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'space-between'}}>
             <div></div>
             <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
@@ -86,7 +86,7 @@ const ShowDetails = (props) => {
                     <TextField
                         id="standard-read-only-input"
                         variant="standard"
-                        label="Renewal Date"
+                        label="Expiry Date"
                         defaultValue={props.data.renewalDate}
                         InputProps={{
                             readOnly: true,

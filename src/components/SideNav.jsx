@@ -10,6 +10,7 @@ import PolicyIcon from '@mui/icons-material/Policy';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupsIcon from '@mui/icons-material/Groups';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DescriptionIcon from '@mui/icons-material/Description';
 import DownloadIcon from '@mui/icons-material/Download';
 import ArticleIcon from '@mui/icons-material/Article';
@@ -17,7 +18,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 
 export default function SideNav({isMobile, handleDrawerToggle }) {
+    
   const [selectedIndex, setSelectedIndex] = React.useState('');
+  
   
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -25,10 +28,12 @@ export default function SideNav({isMobile, handleDrawerToggle }) {
         handleDrawerToggle();
       }
   };
+
     React.useEffect(()=>{
         const pageName = window.location.pathname;
         const currPage = pageName.split('/')[1];
-         setSelectedIndex(currPage)
+        setSelectedIndex(currPage);
+        
         },[])
   return (
         <>
@@ -84,7 +89,7 @@ export default function SideNav({isMobile, handleDrawerToggle }) {
                     onClick={(event) => handleListItemClick(event, 'policyCalender')}
                     >
                     <ListItemIcon>
-                        <EventAvailableIcon color={selectedIndex=== 'policyCalender' ?'primary':''}/>
+                        <CalendarMonthIcon color={selectedIndex=== 'policyCalender' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Policy Calender" />
                 </ListItemButton>
@@ -98,6 +103,17 @@ export default function SideNav({isMobile, handleDrawerToggle }) {
                         <DescriptionIcon color={selectedIndex==='claimAssistance' ?'primary':''}/>
                     </ListItemIcon>
                     <ListItemText primary="Claim Assistance" />
+                </ListItemButton>
+                </Link>
+                <Link to={'/appointment'} style={{textDecoration:'none',color:'black'}} >
+                <ListItemButton
+                    selected={selectedIndex === 'appointment'}
+                    onClick={(event) => handleListItemClick(event, 'appointment')}
+                    >
+                    <ListItemIcon>
+                        <EventAvailableIcon color={selectedIndex==='appointment' ?'primary':''}/>
+                    </ListItemIcon>
+                    <ListItemText primary="Appointment" />
                 </ListItemButton>
                 </Link>
                 <Link to={'/downloadSOP'} style={{textDecoration:'none',color:'black'}} >

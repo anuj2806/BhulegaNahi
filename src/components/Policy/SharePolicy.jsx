@@ -17,7 +17,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600,
+ 
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius:'5px',
@@ -42,7 +42,6 @@ const SharePolicy = (props) => {
         const { name, value } = event.target;
         setpolicyData((prevData) => {
         const newData = { ...prevData, [name]: value };
-        console.log(newData)
         return newData;
         });
     };
@@ -57,7 +56,7 @@ const SharePolicy = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style}>
+        <Box sx={style} width={[300,700]}>
                 <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
                 <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                     {label}

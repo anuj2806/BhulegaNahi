@@ -3,10 +3,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import PolicyOptionButton from './PolicyOptionButton';
 import ShowDetails from './ShowDetails';
+import PolicyView from './PolicyView';
 
 
 const rows = [
-  { id: 1, typeOfPolicy: 'Mediclaim Policy', nameOfCompany: 'HDFC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
+  { id: 1, typeOfPolicy: 'Mediclaim Policy', nameOfCompany: 'HDFC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024',view: 'bhuleganahi/src/assests/htmlreq.pdf' },
   { id: 2, typeOfPolicy: 'Term Life Insurance', nameOfCompany: 'ICICI', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
   { id: 3, typeOfPolicy: 'Whole Life Insurance', nameOfCompany: 'LIC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
   { id: 4, typeOfPolicy: 'Unit-Linked Insurance Plans', nameOfCompany: 'ACKO', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
@@ -51,16 +52,26 @@ export default function TablePolicy() {
       {
         field: 'amountOfPremium',
         headerName: 'Amount Of Premium',
-        width: 240,
+        width: 200,
         renderCell: (value) => {
           return 'Rs. '+ value.formattedValue;
     }
       },
       {
         field: 'dateOfRenewal',
-        headerName: 'Date Of Renewal',
-        width: 240,
+        headerName: 'Date Of Expiry',
+        width: 200,
         
+      },
+      { 
+        field: 'view',
+        sortable: false,
+        disableColumnMenu:true,
+        headerName:'View',
+        width: 130,
+        renderCell: (value) => {
+          return <PolicyView filepath={value.row.view}/>;
+        }
       },
       {
         sortable: false,
@@ -81,7 +92,7 @@ export default function TablePolicy() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        sx={{border:0, "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+        sx={{border:0, "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
                           outline: "none !important"},
             }}
         onRowClick={handleRowClick}
