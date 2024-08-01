@@ -20,7 +20,7 @@ export default function AccountMenu() {
     if(a==='profile'){
       navigate('/profile')
     }else if(a==='logout')
-      {navigate('/')}
+      {}
   };
   return (
     <React.Fragment>

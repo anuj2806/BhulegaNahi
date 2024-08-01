@@ -23,18 +23,20 @@ import LoginPage from './components/LogIn/LoginPage.jsx';
 import MyProfile from './components/MyProfile/MyProfile.jsx';
 import Appointment from './components/Appointment/Appointment.jsx';
 import Test from './testing.jsx';
+import ProtectedRoute from './components/Admin/ProtectedRoute.js';
 function App() {
   const isMobile = useMediaQuery('(max-width:1200px)');
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  var user = {};
   return (
     <Router>
       <CssBaseline />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/*" element={<AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile} />} />
+        <Route path="/login" element={<ProtectedRoute isAuthenticated={user?false:true}><LoginPage /></ProtectedRoute>} />
+        <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false}><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile} /></ProtectedRoute>} />
       </Routes>
     </Router>
   );
