@@ -1,4 +1,4 @@
-import React,{useState } from 'react';
+import React,{useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -7,6 +7,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Grid} from '@mui/material';
 import { RxCrossCircled } from "react-icons/rx";
+import { useDeletePolicyMutation } from '../../redux/api/policyAPI';
+import { ResponseToast } from '../../utils/features';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -18,19 +20,18 @@ const style = {
 };
 
 const RemovePolicy = (props) => {
-  const [isopen, setIsOpen] = useState(false);
-  const deletePolicy = () => {
-    // delete logic
-    setIsOpen(true);
-    props.handleClose();
+    const [id,setId] = useState();
+    const [deletePolicy] = useDeletePolicyMutation();
+    const deletePolicyfun = async() => {
+      const res = await deletePolicy(id);
+      ResponseToast(res,null,null);
+      props.handleClose();
     }
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setIsOpen(false);
-  };
+    useEffect(()=>{
+      if(props.policyData){
+        setId(props.policyData.id)
+      }
+    },[props.policyData])
   return (
     <div>
       <Modal open={props.open}>
@@ -57,22 +58,12 @@ const RemovePolicy = (props) => {
                         <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>
                     </Grid>
                     <Grid item xs={5} md={4}>
-                        <Button variant="contained" fullWidth onClick={deletePolicy}>Delete</Button>
+                        <Button variant="contained" fullWidth onClick={deletePolicyfun}>Delete</Button>
                     </Grid>
                     <Grid item xs={1} md={2} />
             </Grid>
         </Box>
       </Modal>
-      <Snackbar open={isopen} autoHideDuration={3000} onClose={handleClose}  anchorOrigin={{ vertical:'top', horizontal:'center' }}>
-        <Alert
-            onClose={handleClose}
-            severity="success"
-            variant="filled"
-            sx={{ width: '100%' }}
-        >
-            File Deleted Successfully.
-        </Alert>
-        </Snackbar>
     </div>
   );
 }

@@ -17,7 +17,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 
-export default function SideNav({isMobile, handleDrawerToggle }) {
+export default function SideNav({isMobile, handleDrawerToggle,setCurrPage }) {
     
   const [selectedIndex, setSelectedIndex] = React.useState('');
   
@@ -28,7 +28,9 @@ export default function SideNav({isMobile, handleDrawerToggle }) {
         handleDrawerToggle();
       }
   };
-
+    setCurrPage = (currPage) =>{
+    setSelectedIndex(currPage);
+}
     React.useEffect(()=>{
         const pageName = window.location.pathname;
         const currPage = pageName.split('/')[1];

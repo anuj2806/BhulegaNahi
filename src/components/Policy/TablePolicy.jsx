@@ -1,23 +1,20 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import PolicyOptionButton from './PolicyOptionButton';
 import ShowDetails from './ShowDetails';
 import PolicyView from './PolicyView';
+import { useAllPoliciesQuery } from '../../redux/api/policyAPI';
+import toast from 'react-hot-toast';
+import { Typography } from '@mui/material';
+import { transformData } from '../../utils/features';
+import dayjs from 'dayjs';
 
-
-const rows = [
-  { id: 1, typeOfPolicy: 'Mediclaim Policy', nameOfCompany: 'HDFC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024',view: 'bhuleganahi/src/assests/htmlreq.pdf' },
-  { id: 2, typeOfPolicy: 'Term Life Insurance', nameOfCompany: 'ICICI', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 3, typeOfPolicy: 'Whole Life Insurance', nameOfCompany: 'LIC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 4, typeOfPolicy: 'Unit-Linked Insurance Plans', nameOfCompany: 'ACKO', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 5, typeOfPolicy: 'Child Plans', nameOfCompany: 'PNB', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-];
-
-export default function TablePolicy() {
+export default function TablePolicy({totalPolicies}) {
   const [open,setOpen]=useState(false);
     const handleIsClose = ()=> (setOpen(false));
     const [policyData,setpolicyData] =useState({
+        id:'',
         policyType:'',
         companyName:'',
         policyNumber:'',
@@ -28,18 +25,28 @@ export default function TablePolicy() {
     });
     const handleRowClick = (params) => {
         setpolicyData({
-            policyType:params.row.typeOfPolicy,
-            companyName:params.row.nameOfCompany,
-            policyNumber:'HDFC72398',
-            amount:params.row.amountOfPremium,
-            startDate:'12/05/2024',
-            renewalDate:params.row.dateOfRenewal,
-            agentName:'Sagar',
+            id:params.row._id,
+            policyType:params.row.policyName,
+            companyName:params.row.companyName,
+            policyNumber:params.row.policyNumber,
+            amount:params.row.premiumAmount,
+            startDate:dayjs(params.row.startDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+            renewalDate:dayjs(params.row.endDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+            agentName:params.row.agent,
         })
     };
+    const {data,error,isError} = useAllPoliciesQuery();
+    const {policies} = data || [];
+    if (isError) {
+          const err = error;
+          toast.error(err.data.message);
+    }
+    useEffect(()=>{
+      totalPolicies(data?.policies.length);
+    },[policies])
+    
     const columns = [
-
-      { field: 'typeOfPolicy',
+      { field: 'policyName',
         headerName: 'Type Of Policy',
         width: 240,
         headerClassName:"tableheader",
@@ -48,9 +55,9 @@ export default function TablePolicy() {
               return <Link onClick={()=>setOpen(true)} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
         }
     },
-      { field: 'nameOfCompany', headerName: 'Name Of Company', width: 240 },
+      { field: 'companyName', headerName: 'Name Of Company', width: 240 },
       {
-        field: 'amountOfPremium',
+        field: 'premiumAmount',
         headerName: 'Amount Of Premium',
         width: 200,
         renderCell: (value) => {
@@ -58,46 +65,51 @@ export default function TablePolicy() {
     }
       },
       {
-        field: 'dateOfRenewal',
+        field: 'endDate',
         headerName: 'Date Of Expiry',
         width: 200,
-        
+        renderCell: (value) => {
+          return dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') ;
+        }
       },
       { 
-        field: 'view',
+        field: 'photo',
         sortable: false,
         disableColumnMenu:true,
         headerName:'View',
         width: 130,
         renderCell: (value) => {
-          return <PolicyView filepath={value.row.view}/>;
+          return <PolicyView filepath={value.row.photo}/>;
         }
       },
       {
         sortable: false,
         width: 5,
         renderCell: (params) => {
-            return  <PolicyOptionButton />;
+            return  <PolicyOptionButton policyData={policyData}/>;
           }
       },
     ];
   return (
     <div style={{ height: 480, width: '100%'}}>
-      <DataGrid
-        rows={rows}
+      {data ? (<DataGrid
+        rows={policies}
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 8 },
           },
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[8, 10]}
         sx={{border:0, "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
                           outline: "none !important"},
             }}
         onRowClick={handleRowClick}
         disableRowSelectionOnClick
-      />
+        getRowId={(row) => row._id}
+      />):<Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
+                No Policy Found
+            </Typography>}
       <ShowDetails open={open} handleClick={handleIsClose} data={policyData}/>
     </div>
   );

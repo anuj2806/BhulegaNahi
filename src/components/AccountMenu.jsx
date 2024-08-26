@@ -8,10 +8,15 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
+import toast from 'react-hot-toast';
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const {user} = useSelector((state) => state.userReducer );
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -20,8 +25,18 @@ export default function AccountMenu() {
     if(a==='profile'){
       navigate('/profile')
     }else if(a==='logout')
-      {}
+      {
+        logoutHandler();
+      }
   };
+  const logoutHandler = async () =>{
+    try {
+        await signOut(auth);
+        toast.success("Logout Successfully!");
+    } catch (error) {
+        toast.error("Logout Failed!");
+    }
+}
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -34,7 +49,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+            <Avatar sx={{ width: 32, height: 32 }} src={user.photo}></Avatar>
           </IconButton>
         </Tooltip>
       </Box>

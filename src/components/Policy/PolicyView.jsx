@@ -8,7 +8,7 @@ const PolicyView = ({filepath}) => {
     const onClickView = async () => {
         try {
             
-            const response = await fetch(filepath);
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/${filepath}`);
             const blob = await response.blob();
             const fileURL = URL.createObjectURL(blob);
             setFilePreview(fileURL);

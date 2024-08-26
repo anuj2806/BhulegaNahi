@@ -19,7 +19,6 @@ const style = {
 };
 
 const ShowDetails = (props) => {
-    console.log(props.data);
   return (
     <div>
       <Modal
@@ -93,7 +92,7 @@ const ShowDetails = (props) => {
                         }}
                         />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                {props.data.agentName && <Grid item xs={12} md={4}>
                     <TextField
                         id="standard-read-only-input"
                         variant="standard"
@@ -103,7 +102,7 @@ const ShowDetails = (props) => {
                             readOnly: true,
                         }}
                         />
-                </Grid>   
+                </Grid>}   
             </Grid>
         </Box>
       </Modal>

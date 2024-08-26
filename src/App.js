@@ -1,9 +1,9 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import SideNav from './components/SideNav';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard/Dashboard';
-import { Grid, Stack,useMediaQuery,Drawer,CssBaseline  } from '@mui/material';
+import { Grid, useMediaQuery,Drawer,CssBaseline  } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import '../src/components/SideNav.css'
 import Policy from './components/Policy/Policy';
@@ -22,22 +22,45 @@ import BlogDetail from './components/Blog/BlogDetail.jsx';
 import LoginPage from './components/LogIn/LoginPage.jsx';
 import MyProfile from './components/MyProfile/MyProfile.jsx';
 import Appointment from './components/Appointment/Appointment.jsx';
-import Test from './testing.jsx';
 import ProtectedRoute from './components/Admin/ProtectedRoute.js';
+import LandingPage from './components/Home/LandingPage.jsx';
+import { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from 'react-redux';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase.js';
+import { userExist, userNotExist } from './redux/reducer/userReducer.js';
+import { getUser } from './redux/api/userAPI.js';
 function App() {
   const isMobile = useMediaQuery('(max-width:1200px)');
   const [mobileOpen, setMobileOpen] = useState(false);
+  
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  var user = {};
+  const {user,loading} = useSelector((state) => state.userReducer );
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    onAuthStateChanged(auth,async (user) =>{
+      if(user){
+        console.log("user is"+user.uid);
+        const data = await getUser(user.uid);
+        dispatch(userExist(data.user))
+        
+      }else{
+        dispatch(userNotExist(null))
+      }
+    })
+  },[])
+ // console.log("user is"+user);
   return (
     <Router>
       <CssBaseline />
       <Routes>
-        <Route path="/login" element={<ProtectedRoute isAuthenticated={user?false:true}><LoginPage /></ProtectedRoute>} />
-        <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false}><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile} /></ProtectedRoute>} />
+        <Route path="/" element={<LandingPage />} /> 
+        <Route path="/login" element={<ProtectedRoute isAuthenticated={user?false:true} ><LoginPage /></ProtectedRoute>} />
+        <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false} redirect='/'><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile}/></ProtectedRoute>} />
       </Routes>
+      <Toaster/>
     </Router>
   );
 }
@@ -46,7 +69,7 @@ function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
   return (
     <Grid container >
         <Grid item xs={12} md={12} style={{ zIndex:2000 }}>        
-          <Header isMobile={isMobile} handleDrawerToggle={handleDrawerToggle} />
+          <Header isMobile={isMobile} handleDrawerToggle={handleDrawerToggle}/>
           <Divider />
         </Grid>
        

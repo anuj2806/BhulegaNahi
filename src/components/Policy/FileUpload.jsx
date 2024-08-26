@@ -140,7 +140,7 @@ const FileUpload = () => {
                 <Box>
                     <label htmlFor="contained-button-file">
                         <Button variant="outlined" component="span">
-                        Select File
+                            Select File
                         </Button>
                     </label>
                 </Box>

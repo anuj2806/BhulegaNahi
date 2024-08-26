@@ -62,7 +62,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function PolicyOptionButton() {
+export default function PolicyOptionButton({policyData}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isopen, setIsOpen] = useState(false);
   const [openRemove, setopenRemove] = useState(false);
@@ -202,8 +202,8 @@ export default function PolicyOptionButton() {
           Remove
         </MenuItem>
       </StyledMenu>
-      <UpdateDetails  open={isopen} handleClose={handleIsClose}/>
-      <RemovePolicy  open={openRemove} handleClose={handleOpenRemove}/>
+      <UpdateDetails  open={isopen} handleClose={handleIsClose} policyData={policyData}/>
+      <RemovePolicy  open={openRemove} handleClose={handleOpenRemove} policyData={policyData}/>
       <AddAgent  open={openAgent} handleClose={handleOpenAgent}/>
       <ProsCons  open={openProsCons} handleClose={handleOpenProsCons}/>
       <Advisory  open={openAdvisory} handleClose={handleOpenAdvisory}/>

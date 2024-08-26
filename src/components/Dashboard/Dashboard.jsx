@@ -1,5 +1,5 @@
 import { Box, Divider, Grid, Typography,Stack,CardContent,Card } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PolicyIcon from '@mui/icons-material/Policy';
 import GroupsIcon from '@mui/icons-material/Groups';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -8,23 +8,42 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Link } from 'react-router-dom';
-const Dashboard = ({setActivePage}) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser, useUserDetailQuery } from '../../redux/api/userAPI';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { userExist, userNotExist } from '../../redux/reducer/userReducer';
+const Dashboard = () => {
     const [age, setAge] = React.useState('Last 15 Days');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+    const dispatch = useDispatch();
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+    const {user} = useSelector((state) => state.userReducer );
     
+    useEffect(()=>{
+        onAuthStateChanged(auth,async (user) =>{
+        if(user){
+            
+            const data = await getUser(user.uid);
+            console.log(data.user);
+            dispatch(userExist(data.user))
+            
+        }else{
+            dispatch(userNotExist(null))
+        }
+        })
+    },[])
   return (
     <Grid container spacing={2} p={2}>
         <Grid item xs={12} md={12}>
             <Typography variant="subtitle1" component="subtitle1" fontFamily={'Lato'} color={'rgba(0,0,0,0.87)'} fontWeight={'semibold'} fontSize={'20px'}>
-                Welcome Back, Joey Tribbiani
+                Welcome Back, {user.name}
             </Typography>
             <Divider/>
         </Grid>
         <Grid item xs={12} md={4}>
-            <Link to={'/policy'} style={{textDecoration:'none'}} onClick={()=>setActivePage('policy')}>
+            <Link to={'/policy'} style={{textDecoration:'none'}} >
             <Card variant="outlined">
                     <CardContent className='datatiles'  style={{padding:0}}>
                     <Grid container >
@@ -34,7 +53,7 @@ const Dashboard = ({setActivePage}) => {
                         <Grid item xs={8} md={8}>
                             <Stack direction={'column'}  alignItems={'center'} m={'auto'} p={2}>
                                 <Typography variant="subtitle1" component="subtitle1" fontFamily={'Inter'} fontWeight={'500'} >Total Policy</Typography>
-                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>121</Typography>
+                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.policies.length}</Typography>
                             </Stack> 
                         </Grid>    
                     </Grid>
@@ -52,7 +71,7 @@ const Dashboard = ({setActivePage}) => {
                         <Grid item xs={8} md={8}>
                             <Stack direction={'column'}  alignItems={'center'} m={'auto'} p={2}>
                                 <Typography variant="subtitle1" component="subtitle1" fontFamily={'Inter'} fontWeight={'500'} >Total Family Space</Typography>
-                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>121</Typography>
+                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.familyMembers.length}</Typography>
                             </Stack> 
                         </Grid>    
                     </Grid>
@@ -69,7 +88,7 @@ const Dashboard = ({setActivePage}) => {
                         <Grid item xs={8} md={8}>
                             <Stack direction={'column'}  alignItems={'center'} m={'auto'} p={2}>
                                 <Typography variant="subtitle1" component="subtitle1" fontFamily={'Inter'} fontWeight={'500'} >Total Agents</Typography>
-                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>121</Typography>
+                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.agents.length}</Typography>
                             </Stack> 
                         </Grid>    
                     </Grid>

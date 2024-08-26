@@ -3,13 +3,16 @@ import Typography from '@mui/material/Typography';
 import { Button, Grid,Stack,Divider,Box,Container,TextField,IconButton } from '@mui/material';
 import { RiPencilFill } from "react-icons/ri";
 import UpdateProfile from './UpdateProfile';
+import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 const MyProfile =() =>{
+    const {user} = useSelector((state) => state.userReducer );
     const [data,setData]=useState({
-        'name':'Chand Kumar',
-        'email':'chand@gmail.com',
-        'gender':'Male',
-        'dob':'16/06/2001',
-        'contactNo':'6674654554'
+        'name':user.name,
+        'email':user.email,
+        'gender':user.gender,
+        'dob':dayjs(user.dob, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY'),
+        'contactNo':user.phone
     })
     const [open,setOpen]=useState(false);
     const handleClose =()=>setOpen(false);

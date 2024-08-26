@@ -1,51 +1,52 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useAllPoliciesQuery } from '../../redux/api/policyAPI';
+import dayjs from 'dayjs';
+import { Typography } from '@mui/material';
 const columns = [
-
-  { field: 'typeOfPolicy',
+  { field: 'policyName',
     headerName: 'Type Of Policy',
-    width: 200,
+    width: 240,
     headerClassName:"tableheader",
-    // renderCell: (params) => (console.log(params))
-    renderCell: (value) => {
-          return <Link style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
-    }
 },
-  { field: 'nameOfCompany', headerName: 'Name Of Company', width: 200 },
+  { field: 'companyName', headerName: 'Name Of Company', width: 240 },
   {
-    field: 'amountOfPremium',
+    field: 'premiumAmount',
     headerName: 'Amount Of Premium',
     width: 200,
+    renderCell: (value) => {
+      return 'Rs. '+ value.formattedValue;
+}
   },
   {
-    field: 'dateOfRenewal',
+    field: 'endDate',
     headerName: 'Date Of Expiry',
     width: 200,
-    
+    renderCell: (value) => {
+      return dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') ;
+    }
   },
-  // {
-  //   sortable: false,
-  //   width: 5,
-  //   renderCell: (params) => {
-  //       return  <MoreVertOutlinedIcon style={{marginTop:'10px'}}/>;
-  //     }
-  // },
+  
 ];
 
-const rows = [
-  { id: 1, typeOfPolicy: 'Mediclaim Policy', nameOfCompany: 'HDFC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 2, typeOfPolicy: 'Term Life Insurance', nameOfCompany: 'ICICI', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 3, typeOfPolicy: 'Whole Life Insurance', nameOfCompany: 'LIC', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 4, typeOfPolicy: 'Unit-Linked Insurance Plans', nameOfCompany: 'ACKO', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-  { id: 5, typeOfPolicy: 'Child Plans', nameOfCompany: 'PNB', amountOfPremium: 7893.00,dateOfRenewal:'23/05/2024' },
-];
+
 
 export default function TableDashboard() {
+  const {data,error,isError} = useAllPoliciesQuery();
+    const {policies} = data || [];
+    if (isError) {
+          const err = error;
+          toast.error(err.data.message);
+    }
+    React.useEffect(()=>{
+
+    },[policies])
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
+      {data ? (<DataGrid
+        rows={policies}
         columns={columns}
         initialState={{
           pagination: {
@@ -54,12 +55,14 @@ export default function TableDashboard() {
         }}
         pageSizeOptions={[5, 10]}
         sx={{border:0, "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
-          outline: "none !important"},
-        }}
+                          outline: "none !important"},
+            }}
         disableRowSelectionOnClick
-        // checkboxSelection
-        // slots={{toolbar: DataGridTitle}}
-      />
+        getRowId={(row) => row._id}
+      />):<Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
+                No Policy Found
+            </Typography>}
+      
     </div>
   );
 }
