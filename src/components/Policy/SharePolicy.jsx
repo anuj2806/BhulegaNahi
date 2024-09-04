@@ -3,143 +3,124 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid} from '@mui/material';
+import { Checkbox, Chip, Grid, ListItemText} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
-import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { FaSquarePlus } from "react-icons/fa6";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { useSelector } from 'react-redux';
+import { useGetAllFamilyMembersQuery } from '../../redux/api/userAPI';
+import toast from 'react-hot-toast';
+import { useSharePolicyMutation } from '../../redux/api/sharedPolicyAPI';
+import { ResponseToast } from '../../utils/features';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
- 
+
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius:'5px',
+  
+};
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
 };
 
 const SharePolicy = (props) => {
-    const [label,setLabel] =useState('Add Agent');
-    const [selectMember,setSelectMember]= useState(true);
-    const [newMember,setNewMember]= useState(false);
+    const {user} = useSelector((state) => state.userReducer);
+    const [personName, setPersonName] = useState([]);
+    const [sharePolicy] = useSharePolicyMutation();
+    const policyId = props.policyId;
 
-    const addsharePolicy = () => {
-        // add agent logic
+    const handleChange = (event) => {
+        const { value } = event.target;
+        setPersonName(typeof value === 'string' ? value.split(',') : value,);
+    };
+    const {data,error,isError} = useGetAllFamilyMembersQuery(user._id);
+  
+    const {familyMembers} = data || [];
+    if (isError) {
+          const err = error;
+          toast.error(err.data.message);
+    }
+
+    const addsharePolicy = async () => {
+        const res = await sharePolicy(
+            {
+                "sharedBy":user._id,
+                "sharedTo":personName[0],
+                "sharedPolicy":policyId
+            }
+        )
+        ResponseToast(res,null,null);
         props.handleClose();
     }
-
-    const [policyData,setpolicyData] =useState({
-        member:'Select Member',
-        memberName:'',
-        contactNumber:'',
-    })
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setpolicyData((prevData) => {
-        const newData = { ...prevData, [name]: value };
-        return newData;
-        });
-    };
-
-    const addNewMemeber =()=>{
-        setLabel('Create New Agent');
-        setSelectMember(false);
-        setNewMember(true);
-
-    }
-    const agentName =['Sagar','Rohit','Prince','Sam'];
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,700]}>
+        <Box sx={style} width={[300,500]}>
                 <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
                 <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
-                    {label}
+                    Share Policy
                 </Typography>
                 </Box>
             <Box>
-                {selectMember && (<Grid container spacing={2} p={4}>
-                    <Grid item xs={12} md={8} >
-                        <FormControl variant="standard" fullWidth>
-                        <InputLabel shrink htmlFor="member">
-                            Memeber Name
-                        </InputLabel>
+                <Grid container spacing={2} p={4}>
+                    <Grid item xs={12} md={12} >
+                    <FormControl fullWidth variant='standard'>
+                        <InputLabel shrink id="demo-multiple-checkbox-label">Members</InputLabel>
                         <Select
-                            id = 'member'
-                            name='member'
-                            input={<OutlinedInput />}
-                            value={policyData.member}
-                            label="Member"
-                            onChange={handleInputChange}
+                            labelId="demo-multiple-checkbox-label"
+                            id="demo-multiple-checkbox"
                             size="small"
+                            multiple
                             sx={{ marginTop: '20px' }}
+                            value={personName}
+                            onChange={handleChange}
+                            input={<OutlinedInput />}
+                            renderValue={(selected) => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                {selected.map((value) => {
+                                const label = familyMembers.find((item) => item._id === value)?.name;
+                                return (
+                                    <Chip key={value} label={label} />
+                                );
+                                })}
+                            </Box>
+                            )}
                         >
-                            <MenuItem value="">
-                            <em>Select Member</em>
+                            {familyMembers?.map((val) => (
+                            <MenuItem key={val._id} value={val._id}>
+                                <Checkbox checked={personName.indexOf(val._id) > -1} />
+                                <ListItemText primary={val.name} />
                             </MenuItem>
-                            {
-                                agentName.map((agent,index)=>(<MenuItem value={agent} key={index}>{agent}</MenuItem>))
-                            }
-                            
+                            ))}
                         </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                    <Button variant="outlined" onClick={addNewMemeber} size="small" startIcon={<FaSquarePlus color='#3361E1' size={'30px'}/>} sx={{height:'40px', marginTop:'20px',width:'100%'}} >Add Member</Button>
-                    </Grid>
-                </Grid>
-                )}
-                {newMember && (<Grid container spacing={2} p={4}>
-                    <Grid item xs={12} md={6}>
-                        <FormControl variant="standard" fullWidth>
-                        <InputLabel shrink htmlFor="memberName">
-                            Member Name
-                        </InputLabel>
-                        <TextField
-                            sx={{ paddingTop: '20px' }}
-                            size="small"
-                            id="memberName"
-                            name="memberName"
-                            placeholder="Enter Member Name"
-                            value={policyData.memberName}
-                            onChange={handleInputChange}
-                        />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormControl variant="standard" fullWidth>
-                        <InputLabel shrink htmlFor="contactNumber">
-                            Agent Contact Number
-                        </InputLabel>
-                        <TextField
-                            sx={{ paddingTop: '20px' }}
-                            size="small"
-                            id="contactNumber"
-                            name="contactNumber"
-                            placeholder="Enter Agent Contact Number"
-                            value={policyData.contactNumber}
-                            onChange={handleInputChange}
-                        />
-                        </FormControl>
-                    </Grid>
-                </Grid>
-                )}
-            </Box>
-                <Grid container spacing={2} p={4} >
-                        <Grid item xs={1} md={2} />
-                        <Grid item xs={5} md={4}>
+                    
+                        <Grid item xs={0} md={2} />
+                        <Grid item xs={5.5} md={4}>
                             <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>
                         </Grid>
-                        <Grid item xs={5} md={4}>
+                        <Grid item xs={5.5} md={4}>
                             <Button variant="contained" fullWidth onClick={addsharePolicy}>Add</Button>
                         </Grid>
-                        <Grid item xs={1} md={2} />
-                </Grid>        
+                        <Grid item xs={0} md={2} />
+                      
+                </Grid> 
+            </Box>    
         </Box>
       </Modal>
     </div>

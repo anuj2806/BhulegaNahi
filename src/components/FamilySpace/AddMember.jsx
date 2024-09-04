@@ -32,6 +32,7 @@ const AddMember = (props) => {
     const [memberData,setMemberData] =useState({
         phone:null,
         email:null,
+        userId:user._id,
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -44,20 +45,15 @@ const AddMember = (props) => {
         e.preventDefault();
         
         if(memberData.email && memberData.phone && user._id){
-            const formData = new FormData();
-            formData.set("userId",user._id);
-            formData.set("email",memberData.email);
-            formData.set("phone",memberData.phone);
+            // const formData = new FormData();
+            // formData.set("userId",user._id);
+            // formData.set("email",memberData.email);
+            // formData.set("phone",memberData.phone);
             
             // for (var [key, value] of formData.entries()) { 
             //     console.log(key, value);
             // }
-            const res = await createFamilyMember({
-                "email":"Sagar00069@gmail.com",
-                "phone":6377864476,
-                "userId":"aaaaa"
-            });
-            console.log(user._id,memberData.email,memberData.phone)
+            const res = await createFamilyMember(memberData);
             if("data" in res){
                 toast.success(res.data.message);
                 props.handleClose();

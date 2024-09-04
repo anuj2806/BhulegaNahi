@@ -113,7 +113,6 @@ const UpdateDetails = (props) => {
             natureOfFrequency:props.policyData.natureOfFrequency || '',
             agentName: props.policyData.agentName || ''
         });
-        console.log(props.policyData)
         setStartDate(dayjs(props.policyData.startDate));
         setEndDate(dayjs(props.policyData.endDate));
         }

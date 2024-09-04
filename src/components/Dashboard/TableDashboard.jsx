@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useAllPoliciesQuery } from '../../redux/api/policyAPI';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 const columns = [
   { field: 'policyName',
     headerName: 'Type Of Policy',
@@ -34,7 +35,8 @@ const columns = [
 
 
 export default function TableDashboard() {
-  const {data,error,isError} = useAllPoliciesQuery();
+  const {user} = useSelector((state) => state.userReducer );
+  const {data,error,isError} = useAllPoliciesQuery(user._id);
     const {policies} = data || [];
     if (isError) {
           const err = error;

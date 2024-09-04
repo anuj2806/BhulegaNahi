@@ -26,7 +26,6 @@ const Dashboard = () => {
         if(user){
             
             const data = await getUser(user.uid);
-            console.log(data.user);
             dispatch(userExist(data.user))
             
         }else{

@@ -114,7 +114,7 @@ function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
               <Route path="/policy/addpolicy" element={<PolicyDetail />} />
               <Route path="/policy/updateDetails" element={<UpdateDetails />} />
               <Route path="/familySpace" element={<FamilySpace />} />
-              <Route path="/familySpace/:memberid" element={<MemberPolicy />} />
+              <Route path="/familySpace/:memberid/:membername" element={<MemberPolicy />} />
               <Route path="/agents" element={<Agents />} />
               <Route path="/agents/:agentid" element={<AgentPolicy />} />
               <Route path="/policyCalender" element={<PolicyCalendar />} />

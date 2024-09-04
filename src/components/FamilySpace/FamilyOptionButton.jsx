@@ -55,15 +55,13 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function FamilyOptionButton({data,handleOpenAlert}) {
+export default function FamilyOptionButton({data}) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [openUpdate, setopenUpdate] = useState(false);
   const [openRemove, setopenRemove] = useState(false);
  
-  const handleIsClose = () => setopenUpdate(false);
   const handleOpenRemove = () => {
     setopenRemove(false);
-    handleOpenAlert();
+    
   };
   
   const open = Boolean(anchorEl);
@@ -73,11 +71,8 @@ export default function FamilyOptionButton({data,handleOpenAlert}) {
   const handleClose = (index,name) => {
     setAnchorEl(null);
     if(index===0 ){
-      setopenUpdate(true);
+      setopenRemove(true);;
     }
-    else if(index===1 ){
-      setopenRemove(true);
-    };
   };
   const handleClose1 = () => {
     setAnchorEl(null);
@@ -131,18 +126,12 @@ export default function FamilyOptionButton({data,handleOpenAlert}) {
             },
           }}
       >
-        <MenuItem onClick={() => handleClose(0,'Update Details')} disableRipple>
-          <EditIcon />
-          Update Details
-        </MenuItem>
-        <Divider  sx={{margin:'0px !important'}}/>
-        <MenuItem onClick={() => handleClose(1,'Remove')} disableRipple>
+        <MenuItem onClick={() => handleClose(0,'Remove')} disableRipple>
           <DeleteIcon />
           Remove
         </MenuItem>
       </StyledMenu>
-      <UpdateMember  open={openUpdate} handleClose={handleIsClose} data={data}/>
-      <RemoveMember  open={openRemove} handleClose={handleOpenRemove}/>
+      <RemoveMember  open={openRemove} handleClose={handleOpenRemove} data={data}/>
       
     </div>
   );

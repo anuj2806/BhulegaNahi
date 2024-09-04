@@ -26,6 +26,27 @@ export const userAPI = createApi({
                 body:data
             }),
             invalidatesTags:["user"]
+        }),
+        getAllFamilyMembers:builder.query({
+            query:(id)=>`userFamilyMember?id=${id}`,
+            providesTags:["user"]
+        }),
+        deleteFamilyMember:builder.mutation({
+            query:(data)=>({
+                url:"removeFamilyMember",
+                method:"DELETE",
+                body:data
+            }),
+            invalidatesTags:["user"]
+        }),
+        familyMemberPolicies:builder.query({
+            query:(data)=>{
+                const queryString = new URLSearchParams(data).toString();
+                return {
+                    url:`familyMemberPolicy?${queryString}`
+                }
+            },
+            invalidatesTags:["user"]
         })
     })
 });
@@ -38,4 +59,4 @@ export const getUser = async (id) =>{
         throw(error)
     }
 }
-export const { useLoginMutation,useUserDetailQuery,useCreateFamilyMemberMutation } = userAPI;
+export const { useLoginMutation,useUserDetailQuery,useCreateFamilyMemberMutation,useGetAllFamilyMembersQuery,useDeleteFamilyMemberMutation,useFamilyMemberPoliciesQuery } = userAPI;

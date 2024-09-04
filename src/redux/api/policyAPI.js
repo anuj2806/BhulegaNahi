@@ -6,7 +6,7 @@ export const policyAPI = createApi({
     endpoints:(builder)=>({
         //to get all policies
         allPolicies:builder.query({
-            query:()=>"allPolicies",
+            query:(id)=>`allPolicies/${id}`,
             providesTags:["product"]
         }),
         //create new policy

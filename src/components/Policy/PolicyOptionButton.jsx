@@ -207,7 +207,7 @@ export default function PolicyOptionButton({policyData}) {
       <AddAgent  open={openAgent} handleClose={handleOpenAgent}/>
       <ProsCons  open={openProsCons} handleClose={handleOpenProsCons}/>
       <Advisory  open={openAdvisory} handleClose={handleOpenAdvisory}/>
-      <SharePolicy  open={openShare} handleClose={handleOpenShare}/>
+      <SharePolicy  open={openShare} handleClose={handleOpenShare} policyId={policyData.id}/>
 
     </div>
   );

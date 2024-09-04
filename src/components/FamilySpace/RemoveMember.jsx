@@ -6,6 +6,8 @@ import Modal from '@mui/material/Modal';
 
 import { Grid} from '@mui/material';
 import { RxCrossCircled } from "react-icons/rx";
+import { useDeleteFamilyMemberMutation } from '../../redux/api/userAPI';
+import { ResponseToast } from '../../utils/features';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -17,8 +19,10 @@ const style = {
 };
 
 const RemoveMember = (props) => {
-  const deleteMember = () => {
-    // delete logic
+  const [deleteFamilyMember] = useDeleteFamilyMemberMutation();
+  const deleteMember = async () => {
+    const res = await deleteFamilyMember(props.data);
+    ResponseToast(res,null,null);
     props.handleClose();
     }
   return (

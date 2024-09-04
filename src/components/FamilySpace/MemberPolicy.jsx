@@ -5,7 +5,7 @@ import TableMember from './TableMember';
 import {useParams,useNavigate} from 'react-router-dom'
 const MemberPolicy = () => {
     const navigate = useNavigate();
-    const {memberid} = useParams();
+    const {membername} = useParams();
     const backtoFamily = () => (navigate('/familySpace')); 
   return (
     <Container>
@@ -16,7 +16,7 @@ const MemberPolicy = () => {
                         <IconButton onClick={backtoFamily}>
                             <ArrowBackIosIcon />
                         </IconButton>
-                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'} >{memberid}</Typography>
+                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'} >{membername}</Typography>
                     </Stack>
                     <Divider sx={{marginTop:'10px'}}/>
                 </Box>

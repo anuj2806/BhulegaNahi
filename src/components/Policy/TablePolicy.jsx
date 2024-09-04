@@ -9,8 +9,10 @@ import toast from 'react-hot-toast';
 import { Typography } from '@mui/material';
 import { transformData } from '../../utils/features';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 export default function TablePolicy({totalPolicies}) {
+  const {user} = useSelector((state) => state.userReducer );
   const [open,setOpen]=useState(false);
     const handleIsClose = ()=> (setOpen(false));
     const [policyData,setpolicyData] =useState({
@@ -37,7 +39,7 @@ export default function TablePolicy({totalPolicies}) {
             agentName:params.row.agent,
         })
     };
-    const {data,error,isError} = useAllPoliciesQuery();
+    const {data,error,isError} = useAllPoliciesQuery(user._id);
     const {policies} = data || [];
     if (isError) {
           const err = error;
