@@ -17,7 +17,6 @@ const style = {
 };
 
 const ShowMemberDetail = (props) => {
-    console.log(props.data);
   return (
     <div>
       <Modal

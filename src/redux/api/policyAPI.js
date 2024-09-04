@@ -24,7 +24,8 @@ export const policyAPI = createApi({
                 url:id,
                 method:'PUT',
                 body:formData
-            })
+            }),
+            invalidatesTags:["product"]
         }),
         //delete policy
         deletePolicy:builder.mutation({
@@ -34,8 +35,7 @@ export const policyAPI = createApi({
             }),
             invalidatesTags:["product","user"]
         }),
-        
-        
+
     })
 })
 export const {useNewPolicyMutation,useAllPoliciesQuery,useDeletePolicyMutation,useUpdatePolicyMutation} = policyAPI

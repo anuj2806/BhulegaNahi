@@ -44,7 +44,6 @@ export default function TableFamilySpace() {
       sortable: false,
       width: 5,
       renderCell: (params) => {
-        console.log(params)
           return (<FamilyOptionButton data={params.row} handleOpenAlert={handleOpenAlert}/>);
           
         }

@@ -15,6 +15,17 @@ export const userAPI = createApi({
         userDetail:builder.query({
             query:(id)=>`${id}`,
             providesTags:["user"]
+        }),
+
+        //for family -----------------------
+        //FormData is only work when handle with file
+        createFamilyMember:builder.mutation({
+            query:(data)=>({
+                url:"newFamilyMember",
+                method:"POST",
+                body:data
+            }),
+            invalidatesTags:["user"]
         })
     })
 });
@@ -27,4 +38,4 @@ export const getUser = async (id) =>{
         throw(error)
     }
 }
-export const { useLoginMutation,useUserDetailQuery } = userAPI;
+export const { useLoginMutation,useUserDetailQuery,useCreateFamilyMemberMutation } = userAPI;

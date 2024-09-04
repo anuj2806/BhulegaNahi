@@ -23,6 +23,7 @@ const ShowDetails = (props) => {
     <div>
       <Modal
         open={props.open}
+        onClose={props.handleClick}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -86,7 +87,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Expiry Date"
-                        defaultValue={props.data.renewalDate}
+                        defaultValue={props.data.endDate}
                         InputProps={{
                             readOnly: true,
                         }}

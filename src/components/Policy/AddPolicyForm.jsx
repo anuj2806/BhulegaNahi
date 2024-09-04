@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { useNewPolicyMutation } from '../../redux/api/policyAPI';
 import { ResponseToast } from '../../utils/features';
 
-const frequency = ['One time','Monthly','Quarterly','Semi - Annually','Annually','Once in Two Year','Once in Three Year','Others'];
+    const frequency = ['One time','Monthly','Quarterly','Semi - Annually','Annually','Once in Two Year','Once in Three Year','Others'];
     const insurancePolicies = [
         "Health Insurance",
         "Life Insurance",
@@ -92,7 +92,6 @@ const AddPolicyForm = ({handleClick}) => {
         const { name, value } = event.target;
         setpolicyData((prevData) => {
           const newData = { ...prevData, [name]: value };
-          console.log(newData)
           return newData;
         });
     };
@@ -159,7 +158,7 @@ const AddPolicyForm = ({handleClick}) => {
             <Grid item xs={12} md={4}>
                 <FormControl variant="standard" fullWidth required>
                     <InputLabel shrink htmlFor="policy-Number">
-                        Premium Amount
+                        Policy Number
                     </InputLabel>
                     <TextField
                         sx={{ paddingTop: '20px' }}

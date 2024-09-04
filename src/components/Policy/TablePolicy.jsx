@@ -20,7 +20,8 @@ export default function TablePolicy({totalPolicies}) {
         policyNumber:'',
         amount:'',
         startDate:'',
-        renewalDate:'',
+        endDate:'',
+        natureOfFrequency:'',
         agentName:'',
     });
     const handleRowClick = (params) => {
@@ -31,7 +32,8 @@ export default function TablePolicy({totalPolicies}) {
             policyNumber:params.row.policyNumber,
             amount:params.row.premiumAmount,
             startDate:dayjs(params.row.startDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
-            renewalDate:dayjs(params.row.endDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+            endDate:dayjs(params.row.endDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+            natureOfFrequency:params.row.natureOfFrequency,
             agentName:params.row.agent,
         })
     };
