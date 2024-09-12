@@ -10,6 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import FormControl from '@mui/material/FormControl';
 import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -149,6 +150,7 @@ const RegisterCase = (props) => {
                         </Grid>
                         <Grid item xs={5} md={4}>
                             <Button variant="contained" fullWidth onClick={addAgentt} type='submit'>Submit</Button>
+                            <Button variant="contained" fullWidth component={Link} to ={'/claimAssistance/timeline'} type='submit'>Submit</Button>
                         </Grid>
                         <Grid item xs={1} md={2} />
                 </Grid>      

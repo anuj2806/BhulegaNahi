@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import UploadClaimAssistance from './UploadClaimAssistance';
+import { Link } from 'react-router-dom';
 
 
 
@@ -12,6 +13,10 @@ const columns = [
     { field: 'fullName',
       headerName: 'Full Name',
       width: 240,
+      renderCell: (params) => {
+        return <Link to={`/claimAssistance/${params.row.id}/${params.formattedValue}`} style={{textDecoration:'none'}}>{params.formattedValue}</Link>;
+  }
+      
   },
     { field: 'typeOfPolicy',
       headerName: 'Type Of Policy',
