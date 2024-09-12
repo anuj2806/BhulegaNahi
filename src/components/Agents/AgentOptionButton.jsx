@@ -139,7 +139,7 @@ export default function AgentOptionButton({data,handleOpenAlert}) {
         </MenuItem>
       </StyledMenu>
       <UpdateAgent  open={openUpdate} handleClose={handleIsClose} data={data}/>
-      <RemoveAgent  open={openRemove} handleClose={handleOpenRemove}/>
+      <RemoveAgent  open={openRemove} handleClose={handleOpenRemove} agentId={data._id}/>
     </div>
   );
 }

@@ -26,7 +26,7 @@ const UpdateAgent = (props) => {
   const [policyData,setpolicyData] =useState({
     name:props.data.name,
     email:props.data.email,
-    contact:props.data.contactNumber,
+    contact:props.data.phone,
 })
 const [showData,setshowData] =useState({
     name:'',
@@ -49,6 +49,9 @@ const handleInputChange = (event) => {
         contact:policyData.contact
     })
     setIsOpen(true);
+    };
+    const onSubmitHandler = (e) => {
+      e.preventDefault();
     }
 
   return (
@@ -60,75 +63,69 @@ const handleInputChange = (event) => {
       >
         <Box sx={style} width={[300,700]}>
             <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
-            <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
-                Update Details
-            </Typography>
+              <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
+                  Update Details
+              </Typography>
             </Box>
-        <Grid
-            component="form"
-            container
-            noValidate
-            spacing={2}
-            p={4}
-        >
-        <Grid item xs={12} md={4} >
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="name">
-                Agent Name
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="name"
-                name="name"
-                placeholder="Enter Agent Name"
-                value={policyData.name}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={4}>
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="email">
-                Email
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                value={policyData.email}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={4}>
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="contact">
-                Contact Number
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="contact"
-                name="contact"
-                placeholder="Enter Contact No."
-                value={policyData.contact}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={12} />
+          <Grid component="form" container noValidate onSubmit={onSubmitHandler} spacing={2} p={4} >
+            <Grid item xs={12} md={4} >
+                <FormControl variant="standard" fullWidth>
+                <InputLabel shrink htmlFor="name">
+                    Agent Name
+                </InputLabel>
+                <TextField
+                    sx={{ paddingTop: '20px' }}
+                    size="small"
+                    id="name"
+                    name="name"
+                    placeholder="Enter Agent Name"
+                    value={policyData.name}
+                    onChange={handleInputChange}
+                />
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} md={4}>
+                <FormControl variant="standard" fullWidth>
+                <InputLabel shrink htmlFor="email">
+                    Email
+                </InputLabel>
+                <TextField
+                    sx={{ paddingTop: '20px' }}
+                    size="small"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={policyData.email}
+                    onChange={handleInputChange}
+                />
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} md={4}>
+                <FormControl variant="standard" fullWidth>
+                <InputLabel shrink htmlFor="contact">
+                    Contact Number
+                </InputLabel>
+                <TextField
+                    sx={{ paddingTop: '20px' }}
+                    size="small"
+                    id="contact"
+                    name="contact"
+                    placeholder="Enter Contact No."
+                    value={policyData.contact}
+                    onChange={handleInputChange}
+                />
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} md={12} />
             <Grid item xs={1} md={2} />
             <Grid item xs={5} md={4}>
                 <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>
             </Grid>
             <Grid item xs={5} md={4}>
-                <Button variant="contained" fullWidth onClick={handleIsOpen}>Submit</Button>
+                <Button variant="contained" fullWidth  type='submit'>Submit</Button>
             </Grid>
             <Grid item xs={1} md={2} />
-        </Grid>
+          </Grid>
         </Box>
       </Modal>
       <ShowAgentDetails open={isopen} handleClick={handleIsClose} data={showData}/>

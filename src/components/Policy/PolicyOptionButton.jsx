@@ -204,7 +204,7 @@ export default function PolicyOptionButton({policyData}) {
       </StyledMenu>
       <UpdateDetails  open={isopen} handleClose={handleIsClose} policyData={policyData}/>
       <RemovePolicy  open={openRemove} handleClose={handleOpenRemove} policyData={policyData}/>
-      <AddAgent  open={openAgent} handleClose={handleOpenAgent}/>
+      <AddAgent  open={openAgent} handleClose={handleOpenAgent} policyId={policyData.id}/>
       <ProsCons  open={openProsCons} handleClose={handleOpenProsCons}/>
       <Advisory  open={openAdvisory} handleClose={handleOpenAdvisory}/>
       <SharePolicy  open={openShare} handleClose={handleOpenShare} policyId={policyData.id}/>

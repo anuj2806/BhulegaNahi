@@ -7,6 +7,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Grid} from '@mui/material';
 import { RxCrossCircled } from "react-icons/rx";
+import { useDeleteAgentMutation } from '../../redux/api/agentAPI';
+import { ResponseToast } from '../../utils/features';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -18,9 +20,12 @@ const style = {
 };
 
 const RemoveAgent = (props) => {
-  const deleteAgent = () => {
+  const [deleteUserAgent] = useDeleteAgentMutation();
+  const deleteAgent = async () => {
     // delete logic
-    props.handleClose();
+      const res  = await deleteUserAgent(props.agentId);
+      ResponseToast(res,null,null);
+      props.handleClose();
     }
   return (
     <div>

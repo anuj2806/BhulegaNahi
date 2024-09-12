@@ -5,7 +5,7 @@ import {useParams,useNavigate} from 'react-router-dom'
 import TableAgentPolicy from './TableAgentPolicy';
 const AgentPolicy = () => {
     const navigate = useNavigate();
-    const {agentid} = useParams();
+    const {agentName} = useParams();
     const backtoAgents = () => (navigate('/agents')); 
   return (
     <Container>
@@ -16,7 +16,7 @@ const AgentPolicy = () => {
                         <IconButton onClick={backtoAgents}>
                             <ArrowBackIosIcon />
                         </IconButton>
-                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'} >{agentid}</Typography>
+                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'} >{agentName}</Typography>
                     </Stack>
                     <Divider sx={{marginTop:'10px'}}/>
                 </Box>

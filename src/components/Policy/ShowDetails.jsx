@@ -6,6 +6,7 @@ import { Grid,IconButton} from '@mui/material';
 import TextField from '@mui/material/TextField';
 
 import { IoCloseCircle } from "react-icons/io5";
+import { useAgentDetailQuery } from '../../redux/api/agentAPI';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,6 +20,10 @@ const style = {
 };
 
 const ShowDetails = (props) => {
+const{data,error,isError} = useAgentDetailQuery(props.data.agentName);
+console.log(data)
+const {agent} = data || "";
+
   return (
     <div>
       <Modal
@@ -98,7 +103,7 @@ const ShowDetails = (props) => {
                         id="standard-read-only-input"
                         variant="standard"
                         label="Agent"
-                        defaultValue={props.data.agentName}
+                        defaultValue={agent?.name}
                         InputProps={{
                             readOnly: true,
                         }}

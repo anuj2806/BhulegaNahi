@@ -9,7 +9,7 @@ import { useDeleteFamilyMemberMutation, useGetAllFamilyMembersQuery } from '../.
 import { useSelector } from 'react-redux';
 
 
-export default function TableFamilySpace({setTotalMembers}) {
+export default function TableFamilySpace() {
   const {user} = useSelector((state) => state.userReducer);
   const [userMemberData,setUserMemberData] = useState({
       "userId":null,
@@ -24,7 +24,7 @@ export default function TableFamilySpace({setTotalMembers}) {
   const columns = [
 
     { field: 'name',
-      headerName: 'Name',
+      headerName: 'Member Name',
       width: 350,
       headerClassName:"tableheader",
       renderCell: (params) => {
@@ -53,9 +53,6 @@ export default function TableFamilySpace({setTotalMembers}) {
         const err = error;
         toast.error(err.data.message);
   }
-  React.useEffect(()=>{
-    setTotalMembers(data?.familyMembers.length);
-  },[familyMembers])
   return (
     <div style={{ height: 480, width: '100%'}}>
       {data && 

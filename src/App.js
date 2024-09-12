@@ -30,6 +30,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase.js';
 import { userExist, userNotExist } from './redux/reducer/userReducer.js';
 import { getUser } from './redux/api/userAPI.js';
+import BookAppointment1 from './components/Appointment/BookAppointment1.jsx';
 function App() {
   const isMobile = useMediaQuery('(max-width:1200px)');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -116,10 +117,11 @@ function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
               <Route path="/familySpace" element={<FamilySpace />} />
               <Route path="/familySpace/:memberid/:membername" element={<MemberPolicy />} />
               <Route path="/agents" element={<Agents />} />
-              <Route path="/agents/:agentid" element={<AgentPolicy />} />
+              <Route path="/agents/:agentId/:agentName" element={<AgentPolicy />} />
               <Route path="/policyCalender" element={<PolicyCalendar />} />
               <Route path="/claimAssistance" element={<ClaimAssistance />} />
               <Route path="/appointment" element={<Appointment />} />
+              <Route path="/appointment/bookAppointment" element={<BookAppointment1 />} />
               <Route path="/downloadSOP" element={<DownloadSOP />} />
               <Route path="/downloadSOP/:policyname" element={<SOPpage />} />
               <Route path="/blog" element={<Blog />} />

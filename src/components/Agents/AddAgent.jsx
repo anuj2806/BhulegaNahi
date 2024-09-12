@@ -7,6 +7,9 @@ import { Grid} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
+import { useNewAgentMutation } from '../../redux/api/agentAPI';
+import { ResponseToast } from '../../utils/features';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -19,25 +22,32 @@ const style = {
 };
 
 const AddAgent = (props) => {
+    const {user} = useSelector((state) => state.userReducer );
+    const [newAgent] = useNewAgentMutation();
+    const [agentData,setAgentData] =useState({
 
-    const addAgentt = () => {
-        // add member logic
-        props.handleClose();
-    }
-
-    const [policyData,setpolicyData] =useState({
-        agentName:'',
-        emailid:'',
-        contactNumber:'',
+        name:null,
+        email:null,
+        phone:null,
+        userId:user._id
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setpolicyData((prevData) => {
+        setAgentData((prevData) => {
         const newData = { ...prevData, [name]: value };
         console.log(newData)
         return newData;
         });
     };
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        if(agentData.name && agentData.email && agentData.phone && agentData.userId) {
+            const res = await newAgent(agentData)
+            ResponseToast(res,null,null);
+            props.handleClose();
+        }
+        
+    }
   return (
     <div>
       <Modal open={props.open}>
@@ -47,9 +57,9 @@ const AddAgent = (props) => {
                     Add Agent
                 </Typography>
                 </Box>
-            <Box >
+            
                 
-               <Grid container spacing={2} p={4} >
+               <Grid container spacing={2} p={4} component={'form'} onSubmit={submitHandler}>
                     <Grid item xs={12} md={6}>
                         <FormControl variant="standard" fullWidth required>
                         <InputLabel shrink htmlFor="agentName">
@@ -59,9 +69,9 @@ const AddAgent = (props) => {
                             sx={{ paddingTop: '20px' }}
                             size="small"
                             id="agentName"
-                            name="agentName"
+                            name="name"
                             placeholder="Enter Agent Name"
-                            value={policyData.agentName}
+                            value={agentData.name}
                             onChange={handleInputChange}
                             
                         />
@@ -76,9 +86,9 @@ const AddAgent = (props) => {
                             sx={{ paddingTop: '20px' }}
                             size="small"
                             id="emailid"
-                            name="emailid"
+                            name="email"
                             placeholder="Enter Email Id"
-                            value={policyData.emailid}
+                            value={agentData.email}
                             onChange={handleInputChange}
                             
                         />
@@ -93,26 +103,23 @@ const AddAgent = (props) => {
                             sx={{ paddingTop: '20px' }}
                             size="small"
                             id="contactNumber"
-                            name="contactNumber"
+                            name="phone"
                             placeholder="Enter Contact Number"
-                            value={policyData.contactNumber}
+                            value={agentData.phone}
                             onChange={handleInputChange}
                             
                         />
                         </FormControl>
                     </Grid>
-                </Grid>
-
-            </Box>
-                <Grid container spacing={2} p={4} >
-                        <Grid item xs={1} md={2} />
-                        <Grid item xs={5} md={4}>
-                            <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>
-                        </Grid>
-                        <Grid item xs={5} md={4}>
-                            <Button variant="contained" fullWidth onClick={addAgentt} type='submit'>Add</Button>
-                        </Grid>
-                        <Grid item xs={1} md={2} />
+                    <Grid item xs={12} md={6} />
+                    <Grid item xs={1} md={2} />
+                    <Grid item xs={5} md={4}>
+                        <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>
+                    </Grid>
+                    <Grid item xs={5} md={4}>
+                        <Button variant="contained" fullWidth type='submit'>Add</Button>
+                    </Grid>
+                    <Grid item xs={1} md={2} />
                 </Grid>      
         </Box>
       </Modal>

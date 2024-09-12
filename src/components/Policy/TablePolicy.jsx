@@ -11,7 +11,7 @@ import { transformData } from '../../utils/features';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 
-export default function TablePolicy({totalPolicies}) {
+export default function TablePolicy() {
   const {user} = useSelector((state) => state.userReducer );
   const [open,setOpen]=useState(false);
     const handleIsClose = ()=> (setOpen(false));
@@ -45,10 +45,6 @@ export default function TablePolicy({totalPolicies}) {
           const err = error;
           toast.error(err.data.message);
     }
-    useEffect(()=>{
-      totalPolicies(data?.policies.length);
-    },[policies])
-    
     const columns = [
       { field: 'policyName',
         headerName: 'Type Of Policy',

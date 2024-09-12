@@ -12,9 +12,8 @@ const PolicyDetail = () => {
             <Grid item xs={12} md={12} width={'100px'}>
                 <Box >
                     <Stack direction={'row'} alignItems={'center'}>
-                    <IconButton onClick={backtoPolicy}>
-                            <ArrowBackIosIcon />
-                        </IconButton><Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'} > Add Policy</Typography>
+                        <IconButton onClick={backtoPolicy}><ArrowBackIosIcon /></IconButton>
+                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'} > Add Policy</Typography>
                     </Stack>
                     <Divider sx={{marginTop:'10px'}}/>
                 </Box>

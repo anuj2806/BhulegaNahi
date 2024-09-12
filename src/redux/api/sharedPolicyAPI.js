@@ -4,7 +4,7 @@ export const sharedPolicyAPI = createApi({
     baseQuery:fetchBaseQuery({baseUrl:`${process.env.REACT_APP_SERVER}/api/v1/sharedPolicy`}),
     endpoints:(builder)=>({
         
-        //create new policy
+        
         sharePolicy:builder.mutation({
             query:(data)=>({
                 url:"share",

@@ -3,7 +3,9 @@ import React,{useState} from 'react'
 import GroupsIcon from '@mui/icons-material/Groups';
 import AddAgent from './AddAgent';
 import TableAgents from './TableAgents';
+import { useSelector } from 'react-redux';
 const Agents = () => {
+    const {user} = useSelector((state) => state.userReducer );
     const [open, setopen] = useState(false);
     const handleOpen = () => setopen(false);
     const addAgentClick = () => setopen(true);
@@ -14,7 +16,7 @@ const Agents = () => {
             <Grid item xs={12} md={12} width={'100px'}>
                 <Box >
                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Agents(5)</Typography>
+                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Agents({user?.agents.length})</Typography>
                         <Button variant="contained" size="small"  startIcon={<GroupsIcon/>} onClick={addAgentClick} sx={{height:'35px'}} >Add Agent</Button>
                     </Stack>
                     <Divider sx={{marginTop:'5px'}}/>

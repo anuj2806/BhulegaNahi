@@ -1,78 +1,98 @@
 import React,{useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ShowDetails from '../Policy/ShowDetails';
+import { useSelector } from 'react-redux';
+import { usePolicyOfUserAgentQuery } from '../../redux/api/agentAPI';
+import PolicyView from '../Policy/PolicyView';
+import dayjs from 'dayjs';
+import toast from 'react-hot-toast';
 
-const columns = [
 
-    { field: 'typeOfPolicy',
+  
+
+export default function TableAgentPolicy() {
+  const columns = [
+    { field: 'policyName',
       headerName: 'Type Of Policy',
-      width: 260,
-      align:'center',
-      headerAlign: 'center',
+      width: 240,
       headerClassName:"tableheader",
       // renderCell: (params) => (console.log(params))
       renderCell: (value) => {
-            return <Link style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
+            return <Link onClick={()=>setOpen(true)} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
       }
   },
-    { field: 'nameOfCompany',
-      headerName: 'Name Of Company',
-      width: 260, 
-      align:'center',
-      headerAlign: 'center',
-  },
+    { field: 'companyName', headerName: 'Name Of Company', width: 240 },
     {
-      field: 'amountOfPremium',
+      field: 'premiumAmount',
       headerName: 'Amount Of Premium',
-      width: 260,
-      align:'center',
-      headerAlign: 'center',
+      width: 200,
       renderCell: (value) => {
-          return 'Rs. '+ value.formattedValue;
-    }
+        return 'Rs. '+ value.formattedValue;
+  }
     },
     {
-      field: 'dateOfRenewal',
-      headerName: 'Date Of Renewal',
-      width: 260,
-      align:'center',
-      headerAlign: 'center',
+      field: 'endDate',
+      headerName: 'Date Of Expiry',
+      width: 200,
+      renderCell: (value) => {
+        return dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') ;
+      }
     },
+    { 
+      field: 'photo',
+      sortable: false,
+      disableColumnMenu:true,
+      headerName:'View',
+      width: 130,
+      renderCell: (value) => {
+        return <PolicyView filepath={value.row.photo}/>;
+      }
+    }
   ];
-  
-  const rows = [
-    { id: 1, typeOfPolicy: 'Medical Policy', nameOfCompany: 'HDFC', amountOfPremium: 3500, dateOfRenewal:'23/05/2024' },
-  ];
-export default function TableAgentPolicy() {
+    const {user} = useSelector((state) => state.userReducer);
+    const {agentId} = useParams();
     const [open,setOpen]=useState(false);
     const handleIsClose = ()=> (setOpen(false));
     const [policyData,setpolicyData] =useState({
-        policyType:'',
-        companyName:'',
-        policyNumber:'',
-        amount:'',
-        startDate:'',
-        renewalDate:'',
-        agentName:'',
-    });
-    const handleRowClick = (params) => {
-        setpolicyData({
-            policyType:params.row.typeOfPolicy,
-            companyName:params.row.nameOfCompany,
-            policyNumber:'HDFC72398',
-            amount:params.row.amountOfPremium,
-            startDate:'12/05/2024',
-            renewalDate:params.row.dateOfRenewal,
-            agentName:'Sagar',
-        })
-        setOpen(true);
-    };
+      id:'',
+      policyType:'',
+      companyName:'',
+      policyNumber:'',
+      amount:'',
+      startDate:'',
+      endDate:'',
+      natureOfFrequency:'',
+      agentName:null,
+  });
+  const handleRowClick = (params) => {
+      setpolicyData({
+          id:params.row._id,
+          policyType:params.row.policyName,
+          companyName:params.row.companyName,
+          policyNumber:params.row.policyNumber,
+          amount:params.row.premiumAmount,
+          startDate:dayjs(params.row.startDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+          endDate:dayjs(params.row.endDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+          natureOfFrequency:params.row.natureOfFrequency,
+          agentName:null,
+      })
+  };
     
+    const {data,error,isError} = usePolicyOfUserAgentQuery({
+      userId:user._id,
+      agentId
+    });
+    if (isError) {
+      const err = error;
+      toast.error(err.data.message);
+    }
+    const {agentPolicies} = data || [];
+  
   return (
     <div style={{ height: 480, width: '100%' }}>
-      <DataGrid
-        rows={rows}
+      {data && <DataGrid
+        rows={agentPolicies}
         columns={columns}
         initialState={{
           pagination: {
@@ -85,8 +105,11 @@ export default function TableAgentPolicy() {
         }}
         onRowClick={handleRowClick}
         disableRowSelectionOnClick
-      />
+        getRowId={(row) => row._id}
+      />}
       <ShowDetails open={open} handleClick={handleIsClose} data={policyData}/>
     </div>
   );
 }
+
+
