@@ -23,6 +23,11 @@ const columns = [
       headerName: 'Purpose of Appointment',
       width: 300
   },
+  {
+    field: 'status',
+    headerName: 'Status',
+    width: 300
+},
   ];
 export default function TableAppointment() {
     

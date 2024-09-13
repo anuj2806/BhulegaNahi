@@ -7,10 +7,15 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useBookAppointmentMutation } from '../../redux/api/appointment';
+import { useSelector } from 'react-redux';
+import { ResponseToast } from '../../utils/features';
 const BookAppointment1 = () => {
+    const {user} = useSelector((state) => state.userReducer );
     const [dateValue, setDateValue] = React.useState(dayjs()); // State to store selected date
     const [selectedTime, setSelectedTime] = React.useState(null); // State to store selected time
     const [purposeOfAppointment, setPurposeOfAppointment] = React.useState(null); // State to store purpose
+    const [bookAppointment] = useBookAppointmentMutation();
     const navigate =useNavigate();
     const backtoAppointment = () => (navigate('/appointment'));
     // Time slots for booking in AM/PM format
@@ -33,11 +38,16 @@ const BookAppointment1 = () => {
     };
 
     // Handle "BOOK APPOINTMENT" button click
-    const handleBookAppointment = () => {
+    const handleBookAppointment = async (e) => {
+        e.preventDefault();
         if (selectedTime && dateValue && purposeOfAppointment) {
-            const appointmentDate = dateValue.format('MMMM DD, YYYY');
-            const appointmentTime = selectedTime;
-            toast.success(`Appointment booked on ${appointmentDate} at ${appointmentTime}`);
+            const res = await bookAppointment({
+                "purpose": purposeOfAppointment,
+                "date": dateValue, 
+                "time": selectedTime,
+                "userId": user._id
+            })
+            ResponseToast(res,null,null)
         } else {
             toast.error("Please select a date, time and purpose for the appointment.");
         }
@@ -52,7 +62,7 @@ const BookAppointment1 = () => {
         'Education about Insurance','Others'];
     return (
         <Container >
-            <Grid container spacing={4}>
+            <Grid container spacing={4} component={'form'} onSubmit={handleBookAppointment} >
                 {/* Header */}
                 <Grid item xs={12} md={12}>
                     <Box >
@@ -91,7 +101,7 @@ const BookAppointment1 = () => {
                     </Grid>
                 {/* Book Appointment Button */}
                 <Grid item xs={4} textAlign="center" mt={2.5}>
-                    <Button variant="contained" onClick={handleBookAppointment} type='submit'>BOOK APPOINTMENT</Button>
+                    <Button variant="contained" type='submit'>BOOK APPOINTMENT</Button>
                 </Grid>
                 {/* Calendar and Time Slots */}
                 <Grid item xs={12} md={5.6} ml={4}>
