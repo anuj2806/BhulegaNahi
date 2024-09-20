@@ -1,40 +1,45 @@
 import React,{useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { useSelector } from 'react-redux';
+import { useAllUserAppointmentQuery } from '../../redux/api/appointment';
+import toast from 'react-hot-toast';
+import dayjs from 'dayjs';
 
-
-
-const rows = [
-  { id: 1, appointment: 'Appointment-1', dateandtime: '06/07/2024 at 07:00 PM ', purpose: 'Buying Health Insurance'}
-];
 const columns = [
 
-    { field: 'appointment',
-      headerName: '',
-      width: 300,
+    { field:'appointment',
+      headerName: 'Appointment',
+      width: 230,
       sortable: false,
-      disableColumnMenu:true
+      disableColumnMenu:true,
   },
-    { field: 'dateandtime',
+    { field: 'date',
       headerName: 'Scheduled Date & Time',
-      width: 300 
+      width: 230,
+      renderCell: (value) => {
+        return `${dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY')} at ${value.row.time}`
+      } 
   },
     {
       field: 'purpose',
       headerName: 'Purpose of Appointment',
-      width: 300
+      width: 400
   },
   {
     field: 'status',
     headerName: 'Status',
-    width: 300
+    width: 100
 },
   ];
 export default function TableAppointment() {
-    
+  const {user} = useSelector((state) => state.userReducer );
+  const {data,error,isError} = useAllUserAppointmentQuery(user._id);
+  if(error) toast.error(error); 
+  const {appointments} = data || [];
   return (
     <div style={{ height: 480, width: '100%'}}>
-      <DataGrid
-        rows={rows}
+      {data && (<DataGrid
+        rows={appointments}
         columns={columns}
         initialState={{
           pagination: {
@@ -46,7 +51,8 @@ export default function TableAppointment() {
                           outline: "none !important"},
             }}
         disableRowSelectionOnClick
-      />
+        getRowId={(row) => row._id}
+      />)}
     </div>
   );
 }

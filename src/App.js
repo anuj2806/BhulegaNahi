@@ -32,6 +32,9 @@ import { userExist, userNotExist } from './redux/reducer/userReducer.js';
 import { getUser } from './redux/api/userAPI.js';
 import BookAppointment1 from './components/Appointment/BookAppointment1.jsx';
 import ClaimDetail from './components/ClaimAssistance/ClaimDetail.jsx';
+import Signup from './components/LogIn/SignUp.jsx';
+import PersonalInfo from './components/LogIn/PersonalInfo.jsx';
+import axios from 'axios';
 function App() {
   const isMobile = useMediaQuery('(max-width:1200px)');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -41,18 +44,33 @@ function App() {
   };
   const {user,loading} = useSelector((state) => state.userReducer );
   const dispatch = useDispatch();
-  useEffect(()=>{
-    onAuthStateChanged(auth,async (user) =>{
-      if(user){
-        console.log("user is"+user.uid);
-        const data = await getUser(user.uid);
-        dispatch(userExist(data.user))
-        
-      }else{
-        dispatch(userNotExist(null))
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("User ID:", user.uid);
+        try {
+          const { data } = await getUser(user.uid);
+          if (!data) {
+            console.error("User data not found");
+            dispatch(userNotExist(null));
+            return;
+          }
+          dispatch(userExist(data.user));
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.error("Axios error:", error.response?.data || error.message);
+          } else {
+            console.error("Unexpected error:", error);
+          }
+          dispatch(userNotExist(null));
+        }
+      } else {
+        dispatch(userNotExist(null));
       }
-    })
-  },[])
+    });
+  
+    return () => unsubscribe();
+  }, []);
  // console.log("user is"+user);
   return (
     <Router>
@@ -60,6 +78,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} /> 
         <Route path="/login" element={<ProtectedRoute isAuthenticated={user?false:true} ><LoginPage /></ProtectedRoute>} />
+        <Route path="/signup" element={<ProtectedRoute isAuthenticated={user?false:true} ><PersonalInfo/></ProtectedRoute>} />
         <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false} redirect='/'><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile}/></ProtectedRoute>} />
       </Routes>
       <Toaster/>

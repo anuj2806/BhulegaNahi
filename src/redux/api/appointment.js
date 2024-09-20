@@ -11,6 +11,10 @@ export const appointmentAPI = createApi({
             }),
             invalidatesTags:["appointment"]
         }),
+        allUserAppointment:builder.query({
+            query:(id)=>id,
+            providesTags:["appointment"]
+        }),
     })
 })
-export const {useBookAppointmentMutation} = appointmentAPI
+export const {useBookAppointmentMutation,useAllUserAppointmentQuery} = appointmentAPI

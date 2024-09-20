@@ -47,7 +47,7 @@ const BookAppointment1 = () => {
                 "time": selectedTime,
                 "userId": user._id
             })
-            ResponseToast(res,null,null)
+            ResponseToast(res,navigate,'/appointment')
         } else {
             toast.error("Please select a date, time and purpose for the appointment.");
         }

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid,Select,OutlinedInput,MenuItem} from '@mui/material';
+import { Grid,Select,OutlinedInput,MenuItem, Card, InputAdornment} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -12,16 +12,23 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import VerifyOTP from './VerifyOTP';
+import Signup from './SignUp';
+import { checkMobileNumber, sendOTPText } from '../../redux/api/userAPI';
 const PersonalInfo = () => {
-  const [dateOfBirth,setdateOfBirth] =useState();
-
-  const genderr =[ 'Male','Female','Other']; 
+  const [dateOfBirth,setdateOfBirth] =useState(null);
+  const [sendOTP,setSendOTP] = useState(false);
+  const [verifyOTP,setVerifyOTP] = useState(false);
+  const [nextPage,setNextPage] = useState(false);
+  const genderr =[ 'male','female']; 
+  const [otp, setOtp] = React.useState('')
+  const [randomNumber,setRandomNumber] = useState();
   const [policyData,setpolicyData] =useState({
-    firstName:'',
-    lastName:'',
     email:'',
-    gender:'',
-    mobileNumber:'',
+    fullName:null,
+    gender:null,
+    mobileNumber:null,
     dob:dateOfBirth,
 })
 const handleInputChange = (event) => {
@@ -31,136 +38,173 @@ const handleInputChange = (event) => {
       return newData;
     });
   };
+  function generateRandomNumber() {
+    return Math.floor(100000 + Math.random() * 900000);
+  }
   
 
-  return (
-    <Grid
-            component="form"
-            container
-            noValidate
-            spacing={2}
-            p={2}
-        >
-        <Grid item xs={12}>
-            <Typography variant="h6" fontFamily={'Lato'} fontWeight={'700'}>Personal Information</Typography>
-        </Grid>
-        <Grid item xs={12} md={6} >
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="firstName">
-                First Name
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="firstName"
-                name="firstName"
-                placeholder="Enter your first name"
-                value={policyData.firstName}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={6}>
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="lastName">
-             Last Name
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="lastName"
-                name="lastName"
-                placeholder="Enter your last name"
-                value={policyData.lastName}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={8}>
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="email">
-                Email
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                value={policyData.email}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={4}>
-            <FormControl variant="standard" fullWidth>
-                <InputLabel shrink htmlFor="gender">
-                    Gender
-                </InputLabel>
-                <Select
-                    id = 'gender'
-                    name='gender'
-                    input={<OutlinedInput />}
-                    value={policyData.gender}
-                    label="Gender"
-                    placeholder='Enter your gender'
-                    onChange={handleInputChange}
-                    size="small"
-                    sx={{ marginTop: '20px' }}
-                    >
-                    <MenuItem value="">
-                    <em>Select Gender</em>
-                    </MenuItem>
-                    {
-                     genderr.map((gender,index)=>(<MenuItem value={gender} key={index}>{gender}</MenuItem>))
-                    }
-                            
-                </Select>
-            </FormControl> 
-        </Grid>
-        <Grid item xs={12} md={12}>
-        <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="mobileNumber">
-                Mobile Number
-            </InputLabel>
-            <TextField
-                sx={{ paddingTop: '20px' }}
-                size="small"
-                id="mobileNumber"
-                name="mobileNumber"
-                placeholder='Enter your mobile number'
-                value={policyData.mobileNumber}
-                onChange={handleInputChange}
-            />
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={12}>
-            <FormControl variant="standard" fullWidth>
-            <InputLabel shrink htmlFor="dob">
-                Date Of Birth
-            </InputLabel>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                inputFormat="DD/MM/YYYY"
-                sx={{ paddingTop: '20px' }}
-                slotProps={{ textField: { size: 'small' } }}
-                value={dateOfBirth}
-                onChange={(newValue) => {
-                    setdateOfBirth(newValue);
-                    setpolicyData((prevData) => {
-                        const newData = { ...prevData, ['dob']:dayjs(newValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') };
-                        return newData;
-                      });
+ const sendOTPPage = async () =>{
+        if(!policyData.mobileNumber) return toast.error("Plese Enter Mobile Number")
+        if (policyData.mobileNumber.length === 10) {
+            try {
+                const data = await checkMobileNumber(policyData.mobileNumber);
+                if(data?.user.length !=0) return toast.error("Mobile Number Already Registered")
+            } catch (error) {
+                
+            }
+            const otpValue = generateRandomNumber();
+            setRandomNumber(otpValue);
+            setSendOTP(true);
+            try {
+                await sendOTPText(policyData.mobileNumber,otpValue)
+            } catch (error) {
+                
+            }
+            
+        }
+        else{
+            toast.error("Invalid Mobile Number")
+        }
+ } 
+ const veifyOTPPage = () =>{
+    if(otp == randomNumber){
+        setVerifyOTP(true);
 
-                }}
-                />
-            </LocalizationProvider>
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} md={12} >
-                <Button variant="contained" fullWidth component={Link} to="/dashboard">Start</Button>
-        </Grid>
-    </Grid>
+    }
+    else{
+        toast.error("Plese Enter valid OTP")
+    }
+ } 
+const signUpPage = () =>{
+    if(!policyData.fullName) return toast.error("Plese Enter Full Name");
+    if(!policyData.dob) return toast.error("Plese Enter DOB");
+    if(!policyData.gender) return toast.error("Plese Select Gender");
+    
+    setNextPage(true);
+}
+  return (
+    <>
+    {!nextPage && <Card elevation={3} sx={{padding:'16px',width:['70%','50%','30%'],margin:'auto',marginTop:['10%','5%']}}>
+        <Grid component="form" container noValidate spacing={2} p={2} >
+            <Grid item xs={12}>
+                <Typography variant="h6" fontFamily={'Lato'} fontWeight={'700'}>Personal Information</Typography>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <FormControl variant="standard" fullWidth>
+                    <InputLabel shrink htmlFor="logincontactNumber">
+                        Mobile Number
+                    </InputLabel>
+                    <TextField
+                        disabled={sendOTP}
+                        sx={{ paddingTop: '20px' }}
+                        size="small"
+                        id="logincontactNumber"
+                        name="mobileNumber"
+                        placeholder="Enter Contact Number"
+                        value={policyData.mobileNumber}
+                        onChange={handleInputChange}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">+91</InputAdornment>,
+                        }} />
+                    </FormControl>
+            </Grid>
+        { !sendOTP && (<><Grid item xs={12} md={12}>
+                      <Button variant="contained" fullWidth onClick={sendOTPPage}>Send OTP</Button>
+                  </Grid>
+            </>)
+        }{
+        sendOTP && !verifyOTP && (
+        <>
+            <Grid item xs={12} md={12}>
+                <Typography align="right" fontSize={'12px'} fontStyle={'italic'} fontFamily={'Lato'} fontWeight={'400'}>OTP has been sent to +91******{policyData.mobileNumber.slice(-4)} </Typography>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <VerifyOTP setOtp={setOtp} otp={otp}/>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <Typography component={Link} fontSize={'12px'} fontStyle={'italic'} fontFamily={'Lato'} fontWeight={'400'}>Resend OTP</Typography>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <Button variant="contained" fullWidth onClick={veifyOTPPage}>Verify OTP</Button>
+            </Grid>
+        </>) 
+        }
+        {
+        verifyOTP  && (
+                <>
+                    <Grid item xs={12} md={12}>
+                    <FormControl variant="standard" fullWidth>
+                        <InputLabel shrink htmlFor="fullName">
+                            Full Name
+                        </InputLabel>
+                        <TextField
+                            sx={{ paddingTop: '20px' }}
+                            size="small"
+                            id="fullName"
+                            name="fullName"
+                            placeholder="Enter Full Name"
+                            value={policyData.fullName}
+                            onChange={handleInputChange}
+                        />
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel shrink htmlFor="gender">
+                                Gender
+                            </InputLabel>
+                            <Select
+                                id='gender'
+                                name='gender'
+                                input={<OutlinedInput />}
+                                value={policyData.gender}
+                                label="Gender"
+                                placeholder='Enter your gender'
+                                onChange={handleInputChange}
+                                size="small"
+                                sx={{ marginTop: '20px' }}
+                            >
+                                <MenuItem value={null}>
+                                    <Typography color={'#778899b8'}>Select Gender</Typography>
+                                </MenuItem>
+                                {genderr.map((gender, index) => (<MenuItem value={gender} key={index}>{gender}</MenuItem>))}
+
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel shrink htmlFor="dob">
+                                Date Of Birth
+                            </InputLabel>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    inputFormat="DD/MM/YYYY"
+                                    sx={{ paddingTop: '20px' }}
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    value={dateOfBirth}
+                                    onChange={(newValue) => {
+                                        setdateOfBirth(newValue);
+                                        setpolicyData((prevData) => {
+                                            const newData = { ...prevData, ['dob']: dayjs(newValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') };
+                                            return newData;
+                                        });
+
+                                    } } />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Button variant="contained" fullWidth onClick={signUpPage}>NEXT</Button>
+                    </Grid>
+        </>)}
+            
+         </Grid>
+    </Card>}
+        {
+            nextPage && <Signup name={policyData.fullName} gender={policyData.gender} dob={policyData.dob} phone={policyData.mobileNumber}/>
+        }
+    </>
   )
 }
 

@@ -59,4 +59,33 @@ export const getUser = async (id) =>{
         throw(error)
     }
 }
+export const checkMobileNumber = async (number) =>{
+    try {
+        const {data} = await axios.get(`${process.env.REACT_APP_SERVER}/api/v1/user/mobileCheck/${number}`);
+        return data
+    } catch (error) {
+        throw(error)
+    }
+}
+export const sendOTPText = async (mobileNumber,otpValue) => {
+    try {
+      const urlEncodedData = new URLSearchParams({
+        "module":"TRANS_SMS",
+        "apikey":`${process.env.REACT_APP_API_KEY}`,
+        "to":`91${mobileNumber}`,
+        "from":"ADWITT",
+        "msg":`Your One-Time Password (OTP) for login / Verification at Claims Mitra is ${otpValue}. Please do not share this OTP with anyone.`
+    
+    }).toString();
+      const response = await axios.post("https://2factor.in/API/R1/", urlEncodedData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw error; // Rethrow to handle it later
+    }
+  };
+
 export const { useLoginMutation,useUserDetailQuery,useCreateFamilyMemberMutation,useGetAllFamilyMembersQuery,useDeleteFamilyMemberMutation,useFamilyMemberPoliciesQuery } = userAPI;

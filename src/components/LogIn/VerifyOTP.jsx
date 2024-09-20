@@ -1,7 +1,8 @@
 import React from 'react'
 import { MuiOtpInput } from 'mui-one-time-password-input'
-const VerifyOTP = () => {
-    const [otp, setOtp] = React.useState('')
+import { Typography } from '@mui/material'
+const VerifyOTP = ({setOtp,otp}) => {
+    
 
     const handleChange = (newValue) => {
         setOtp(newValue)
@@ -20,7 +21,9 @@ const VerifyOTP = () => {
         return matchIsNumeric(value)
       }
   return (
-    <MuiOtpInput  value={otp} onChange={handleChange} autoFocus length={4} validateChar={validateChar} TextFieldsProps={{ placeholder: '-' }} />
+    <>
+      <MuiOtpInput  value={otp} onChange={handleChange} autoFocus length={6} validateChar={validateChar}  TextFieldsProps={{ placeholder: '-',size: 'small'}} />
+    </>
   )
 }
 
