@@ -29,7 +29,7 @@ const PersonalInfo = () => {
     fullName:null,
     gender:null,
     mobileNumber:null,
-    dob:dateOfBirth,
+    dob:null,
 })
 const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -186,7 +186,7 @@ const signUpPage = () =>{
                                     onChange={(newValue) => {
                                         setdateOfBirth(newValue);
                                         setpolicyData((prevData) => {
-                                            const newData = { ...prevData, ['dob']: dayjs(newValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') };
+                                            const newData = { ...prevData, ['dob']: dayjs(newValue, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY') };
                                             return newData;
                                         });
 

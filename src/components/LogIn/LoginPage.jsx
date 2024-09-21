@@ -31,6 +31,16 @@ const LoginPage = () => {
     try{
         const provider = new GoogleAuthProvider();
         const {user} = await signInWithPopup(auth,provider);
+        const res = await login({
+          _id:user.uid,
+        });
+        if("data" in res){
+          toast.success(res.data.message);
+        }else{
+          const error = res.error ;
+          const message =error.data.message;
+          toast.error(message);
+        }
     }
     catch(error){
       toast.error("sign in faild")
@@ -38,10 +48,47 @@ const LoginPage = () => {
   }
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      toast.error("User logged in:", userCredential.user.uid);
+      const {user} = await signInWithEmailAndPassword(auth, email, password);
+      const res = await login({
+        _id:user.uid,
+      });
+      if("data" in res){
+        toast.success(res.data.message);
+      }else{
+        const error = res.error ;
+        const message =error.data.message;
+        toast.error(message);
+      }
     } catch (error) {
-      toast.error(error.message);
+      // Handle specific Firebase authentication errors
+      switch (error.code) {
+        case 'auth/missing-email':
+          toast.error("Please enter your email address.");
+          break;
+        case 'auth/missing-password':
+          toast.error("Please enter a password.");
+          break;
+        case 'auth/invalid-email':
+          toast.error("Please enter a valid email address.");
+          break;
+        case 'auth/email-already-in-use':
+          toast.error("This email is already in use.");
+          break;
+        case 'auth/user-disabled':
+          toast.error("This user has been disabled.");
+          break;
+        case 'auth/user-not-found':
+          toast.error("No user found with this email address.");
+          break;
+        case 'auth/wrong-password':
+          toast.error("Incorrect password. Please try again.");
+          break;
+        case 'auth/invalid-credential':
+          toast.error("Invalid credentials provided.");
+          break;
+        default:
+          toast.error("An unknown error occurred: " + error.message);
+      }
     }
   };
   return (

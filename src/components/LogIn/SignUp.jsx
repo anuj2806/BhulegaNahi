@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, Typography, Grid, Divider, Stack } from '@mui/material';
-import { signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithPopup, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -30,6 +30,7 @@ const Signup = ({name,gender,dob,phone}) => {
     });
     if("data" in res){
       toast.success(res.data.message);
+      
     }else{
       const error = res.error ;
       const message =error.data.message;
@@ -61,14 +62,16 @@ const Signup = ({name,gender,dob,phone}) => {
         if (res.data) {
           toast.success(res.data.message);
           console.log('User registered:', userCredential.user);
-          navigate('/login');
+          await signOut(auth);
+          navigate("/login");
         } else {
           const error = res.error;
           const message = error?.data?.message || "An error occurred"; // Fallback for missing message
           toast.error(message);
   
           // Delete user if registration fails
-          await deleteUserAccount(userCredential.user);
+          if(userCredential.user) await deleteUserAccount(userCredential.user);
+          
         }
       } catch (error) {
         switch (error.code) {

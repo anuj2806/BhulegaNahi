@@ -56,7 +56,7 @@ export const getUser = async (id) =>{
         const {data} = await axios.get(`${process.env.REACT_APP_SERVER}/api/v1/user/${id}`);
         return data
     } catch (error) {
-        throw(error)
+        throw new Error(error.response?.data?.message || "Failed to fetch user data"); 
     }
 }
 export const checkMobileNumber = async (number) =>{
