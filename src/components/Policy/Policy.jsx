@@ -6,6 +6,7 @@ import TablePolicy from './TablePolicy';
 import { useSelector } from 'react-redux';
 const Policy = () => {
     const {user} = useSelector((state) => state.userReducer );
+    
   return (
     <Container>
         <Grid container >

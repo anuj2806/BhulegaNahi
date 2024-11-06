@@ -61,6 +61,7 @@ export default function TableMember() {
       toast.error(err.data.message);
 }
     const rows = data?.sharedPolicies || [];
+    console.log(rows);
     const [policyData,setpolicyData] =useState({
       id:'',
       policyType:'',
@@ -103,7 +104,7 @@ export default function TableMember() {
         }}
         onRowClick={handleRowClick}
         disableRowSelectionOnClick
-        getRowId={(row) => row._id}
+        getRowId={(row) => row && row._id ? row._id : 'fallback-id'}
       />
     }
       <ShowDetails open={open} handleClick={handleIsClose} data={policyData}/>

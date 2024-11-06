@@ -1,7 +1,6 @@
 {
   "name": "bhuleganahi",
   "version": "0.1.0",
-  "homepage": "https://anuj2806.github.io/BhulegaNahi",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -19,7 +18,6 @@
     "dayjs": "^1.11.11",
     "firebase": "^10.13.0",
     "mui-one-time-password-input": "^2.0.2",
-    "mui-tel-input": "^5.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",

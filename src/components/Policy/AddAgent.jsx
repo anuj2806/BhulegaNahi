@@ -11,7 +11,7 @@ import { FaSquarePlus } from "react-icons/fa6";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useUserAgentQuery } from '../../redux/api/agentAPI';
+import { usePolicyOfUserAgentQuery, useUserAgentQuery } from '../../redux/api/agentAPI';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useAddAgentMutation } from '../../redux/api/policyAPI';

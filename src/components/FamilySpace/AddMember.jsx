@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid} from '@mui/material';
+import { Grid, InputAdornment} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -27,11 +27,14 @@ const style = {
 };
 
 const AddMember = (props) => {
+    const relationships = ['Brother', 'Sister', 'Father', 'Mother', 'Spouse', 'Son', 'Daughter',
+         'Cousin', 'Uncle', 'Aunt', 'Nephew', 'Niece', 'Grandparent', 'Grandchild'];
     const [createFamilyMember] = useCreateFamilyMemberMutation();
     const {user} = useSelector((state) => state.userReducer );
     const [memberData,setMemberData] =useState({
         phone:null,
         email:null,
+        relation:null,
         userId:user._id,
     })
     const handleInputChange = (event) => {
@@ -44,15 +47,8 @@ const AddMember = (props) => {
     const submitHandler = async (e) =>{
         e.preventDefault();
         
-        if(memberData.email && memberData.phone && user._id){
-            // const formData = new FormData();
-            // formData.set("userId",user._id);
-            // formData.set("email",memberData.email);
-            // formData.set("phone",memberData.phone);
-            
-            // for (var [key, value] of formData.entries()) { 
-            //     console.log(key, value);
-            // }
+        if(memberData.email && memberData.phone && user._id && memberData.relation){
+           
             const res = await createFamilyMember(memberData);
             if("data" in res){
                 toast.success(res.data.message);
@@ -123,9 +119,39 @@ const AddMember = (props) => {
                                 value={memberData.phone}
                                 onChange={handleInputChange}
                                 required
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">+91</InputAdornment>,
+                                }} 
                             />
                             </FormControl>
                         </Grid>
+                        <Grid item xs={12} md={6} >
+                            <FormControl variant="standard" fullWidth required>
+                            <InputLabel shrink htmlFor="relation">
+                                Relation
+                            </InputLabel>
+                            <Select
+                                    id = 'relation'
+                                    name='relation'
+                                    input={<OutlinedInput />}
+                                    value={memberData.relation}
+                                    label="Type of Policy"
+                                    onChange={handleInputChange}
+                                    size="small"
+                                    displayEmpty
+                                    sx={{ marginTop: '20px' }}
+                                >
+                                    <MenuItem value='null' disabled >
+                                        <Typography color={'#778899b8'}>Select Relation</Typography> 
+                                    </MenuItem>
+                                        {
+                                        relationships.map((type,index)=>(<MenuItem value={type} key={index}>{type}</MenuItem>))
+                                        }
+                                            
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={0} md={6} />
                         <Grid item xs={1} md={2} />
                         <Grid item xs={5} md={4}>
                             <Button variant="outlined" fullWidth onClick={props.handleClose}>Invite Later</Button>

@@ -46,7 +46,7 @@ const Advisory=(props)=> {
                             <List dense={true}>
                                 { num.map((i,j)=>(
                                     <>
-                                    <ListItem>
+                                    <ListItem key={i}>
                                     <ListItemIcon><GoDotFill/></ListItemIcon>
                                     <ListItemText
                                         primary="Lorem ipsum dolor sit amet consectetur."

@@ -1,8 +1,6 @@
 import React,{useState} from 'react'
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { Grid,Select,OutlinedInput,MenuItem, Card, InputAdornment} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
@@ -26,10 +24,10 @@ const PersonalInfo = () => {
   const [randomNumber,setRandomNumber] = useState();
   const [policyData,setpolicyData] =useState({
     email:'',
-    fullName:null,
-    gender:null,
-    mobileNumber:null,
-    dob:null,
+    fullName:'',
+    gender:'',
+    mobileNumber:'',
+    dob:'',
 })
 const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -48,7 +46,7 @@ const handleInputChange = (event) => {
         if (policyData.mobileNumber.length === 10) {
             try {
                 const data = await checkMobileNumber(policyData.mobileNumber);
-                if(data?.user.length !=0) return toast.error("Mobile Number Already Registered")
+                if(data?.user.length !==0) return toast.error("Mobile Number Already Registered")
             } catch (error) {
                 
             }
@@ -167,7 +165,8 @@ const signUpPage = () =>{
                                 <MenuItem value={null}>
                                     <Typography color={'#778899b8'}>Select Gender</Typography>
                                 </MenuItem>
-                                {genderr.map((gender, index) => (<MenuItem value={gender} key={index}>{gender}</MenuItem>))}
+                                <MenuItem value={'male'} >Male</MenuItem>
+                                <MenuItem value={'female'} >Female</MenuItem>
 
                             </Select>
                         </FormControl>
@@ -183,6 +182,7 @@ const signUpPage = () =>{
                                     sx={{ paddingTop: '20px' }}
                                     slotProps={{ textField: { size: 'small' } }}
                                     value={dateOfBirth}
+                                    disableFuture
                                     onChange={(newValue) => {
                                         setdateOfBirth(newValue);
                                         setpolicyData((prevData) => {

@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 
 import { IoCloseCircle } from "react-icons/io5";
 import { useAgentDetailQuery } from '../../redux/api/agentAPI';
+import Loader from '../Loader/Loader';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -20,9 +21,12 @@ const style = {
 };
 
 const ShowDetails = (props) => {
-const{data,error,isError} = useAgentDetailQuery(props.data.agentName);
-console.log(data)
-const {agent} = data || "";
+    const{data,error,isError,isLoading} =  useAgentDetailQuery(props.data.agentName);
+    const {agent} = data || "";
+
+ if (isLoading) {
+    return <Loader/>
+  }
 
   return (
     <div>
@@ -45,7 +49,7 @@ const {agent} = data || "";
             <Grid  container spacing={2} p={4} >
                 <Grid item xs={12} md={4} >
                     <TextField
-                    id="standard-read-only-input"
+        
                     variant="standard"
                     label="Name Of Company"
                     defaultValue={props.data.companyName}
@@ -56,7 +60,6 @@ const {agent} = data || "";
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField
-                        id="standard-read-only-input"
                         variant="standard"
                         label="Premium Amount"
                         defaultValue={props.data.amount}
@@ -67,7 +70,6 @@ const {agent} = data || "";
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField
-                        id="standard-read-only-input"
                         variant="standard"
                         label="Policy Number"
                         defaultValue={props.data.policyNumber}
@@ -78,7 +80,6 @@ const {agent} = data || "";
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField
-                        id="standard-read-only-input"
                         variant="standard"
                         label="Start Date"
                         defaultValue={props.data.startDate}
@@ -89,7 +90,6 @@ const {agent} = data || "";
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField
-                        id="standard-read-only-input"
                         variant="standard"
                         label="Expiry Date"
                         defaultValue={props.data.endDate}
@@ -100,10 +100,9 @@ const {agent} = data || "";
                 </Grid>
                 {props.data.agentName && <Grid item xs={12} md={4}>
                     <TextField
-                        id="standard-read-only-input"
                         variant="standard"
                         label="Agent"
-                        defaultValue={agent?.name}
+                        defaultValue={`${agent.name}(${agent.phone})`}
                         InputProps={{
                             readOnly: true,
                         }}

@@ -47,7 +47,7 @@ const ProsCons=(props)=> {
                         <Box border={'1px solid gray'} borderRadius={'5px'}>
                             <List dense={true}>
                                 { num.map((i,j)=>(
-                                    <ListItem>
+                                    <ListItem key={i}>
                                     <ListItemIcon><GoDotFill/></ListItemIcon>
                                     <ListItemText
                                         primary="Lorem ipsum dolor sit amet consectetur."
@@ -66,7 +66,7 @@ const ProsCons=(props)=> {
                         <Box border={'1px solid gray'} borderRadius={'5px'}>
                             <List dense={true}>
                                 { num.map((i,j)=>(
-                                    <ListItem>
+                                    <ListItem key={i}>
                                     <ListItemIcon><GoDotFill/></ListItemIcon>
                                     <ListItemText
                                         primary="Lorem ipsum dolor sit amet consectetur."

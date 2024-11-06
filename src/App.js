@@ -24,17 +24,19 @@ import MyProfile from './components/MyProfile/MyProfile.jsx';
 import Appointment from './components/Appointment/Appointment.jsx';
 import ProtectedRoute from './components/Admin/ProtectedRoute.js';
 import LandingPage from './components/Home/LandingPage.jsx';
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged} from 'firebase/auth';
 import { auth } from './firebase.js';
 import { userExist, userNotExist } from './redux/reducer/userReducer.js';
 import { getUser } from './redux/api/userAPI.js';
 import BookAppointment1 from './components/Appointment/BookAppointment1.jsx';
 import ClaimDetail from './components/ClaimAssistance/ClaimDetail.jsx';
-import Signup from './components/LogIn/SignUp.jsx';
 import PersonalInfo from './components/LogIn/PersonalInfo.jsx';
-import axios from 'axios';
+import TermsAndConditions from './components/Home/TermsAndConditions.jsx';
+import PrivacyPolicy from './components/Home/PrivacyPolicy.jsx';
+import AboutUs from './components/Home/AboutUs.jsx';
+
 function App() {
   const isMobile = useMediaQuery('(max-width:1200px)');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -69,6 +71,9 @@ function App() {
       <CssBaseline />
       <Routes>
         <Route path="/" element={<LandingPage />} /> 
+        <Route path="/termsAndConditions" element={<TermsAndConditions />} /> 
+        <Route path="/privacyPolicy" element={<PrivacyPolicy />} /> 
+        <Route path="/aboutUs" element={<AboutUs />} /> 
         <Route path="/login" element={<ProtectedRoute isAuthenticated={user?false:true} ><LoginPage /></ProtectedRoute>} />
         <Route path="/signup" element={<PersonalInfo/>}/>
         <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false} redirect='/'><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile}/></ProtectedRoute>} />

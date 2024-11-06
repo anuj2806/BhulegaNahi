@@ -13,14 +13,16 @@ import { getUser, useUserDetailQuery } from '../../redux/api/userAPI';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { userExist, userNotExist } from '../../redux/reducer/userReducer';
+import { usePoliciesByRangeQuery } from '../../redux/api/policyAPI';
 const Dashboard = () => {
-    const [age, setAge] = React.useState('Last 15 Days');
+    const [range, setRange] = React.useState(7);
     const dispatch = useDispatch();
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setRange(event.target.value);
     };
     const {user} = useSelector((state) => state.userReducer );
-    
+    const {data,error,isError}=usePoliciesByRangeQuery({id:user?._id,range});
+   const {policies} = data || [];
     useEffect(()=>{
         onAuthStateChanged(auth,async (user) =>{
         if(user){
@@ -32,7 +34,7 @@ const Dashboard = () => {
             dispatch(userNotExist(null))
         }
         })
-    },[])
+    },[dispatch])
   return (
     <Grid container spacing={2} p={2}>
         <Grid item xs={12} md={12}>
@@ -126,47 +128,35 @@ const Dashboard = () => {
                                 <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
-                                value={age}
+                                value={range}
                                 onChange={handleChange}
                                 sx={{color:'blue'}}
                                 >
-                                <MenuItem value={'Over All'}>Over All</MenuItem>
-                                <MenuItem value={'Last 7 Days'}>Last 7 Days</MenuItem>
-                                <MenuItem value={'Last 15 Days'}>Last 15 Days</MenuItem>
-                                <MenuItem value={'Last 1 Months'}>Last 1 Months</MenuItem>
-                                <MenuItem value={'Custom'}>Custom</MenuItem>
+                                <MenuItem value={7}>Last 7 Days</MenuItem>
+                                <MenuItem value={15}>Last 15 Days</MenuItem>
+                                <MenuItem value={30}>Last 1 Months</MenuItem>
+                                <MenuItem value={90}>Last 3 Months</MenuItem>
+                                {/* <MenuItem value={180}>Last 6 Months</MenuItem> */}
                                 </Select>
                             </FormControl>
                         </Grid> 
-                        <Grid item xs={12} md={12}>
-                            <Card variant="outlined" sx={{margin:'10px'}}>
+                        <Grid item xs={12} md={12} sx={{maxHeight: "340px",overflow: "scroll",scrollbarWidth: "none"}}>
+                            {policies?.map((policy,index)=>(
+                                <Card variant="outlined" sx={{margin:'10px'}} key={index}>
                                 <CardContent className='datatiles'  style={{padding:0}}>
                                     <Grid container >
                                         <Grid item xs={0.3} md={0.3} sx={{backgroundColor:'#FF9900',display:'flex'}}></Grid>
                                         <Grid item xs={11.7} md={11.7}>
                                             <Stack direction={'column'}  p={2}>
-                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Policy Number :</span><span><b>1231243</b></span></Typography>
-                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Name :</span><span><b> Piyush Singha</b></span></Typography>
-                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Premium :</span><span><b> Rs. 876.00</b></span></Typography>
+                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Policy Number :</span><span><b>{policy.policyNumber}</b></span></Typography>
+                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Name :</span><span><b>{user.name}</b></span></Typography>
+                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Premium :</span><span><b> Rs. {policy.premiumAmount}</b></span></Typography>
                                             </Stack> 
                                         </Grid>    
                                     </Grid>
                                 </CardContent>
-                            </Card>
-                            <Card variant="outlined" sx={{margin:'10px'}}>
-                                <CardContent className='datatiles'  style={{padding:0}}>
-                                    <Grid container >
-                                        <Grid item xs={0.3} md={0.3} sx={{backgroundColor:'#FF9900',display:'flex'}}></Grid>
-                                        <Grid item xs={11.7} md={11.7}>
-                                            <Stack direction={'column'}  p={2}>
-                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Policy Number :</span><span><b>1231243</b></span></Typography>
-                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Name :</span><span><b> Piyush Singha</b></span></Typography>
-                                                <Typography variant="subtitle2" component="subtitle1" fontFamily={'Inter'} ><span>Premium :</span><span><b> Rs. 876.00</b></span></Typography>
-                                            </Stack> 
-                                        </Grid>    
-                                    </Grid>
-                                </CardContent>
-                            </Card>
+                                </Card>
+                            ))}
                         </Grid>   
                     </Grid>
                 </CardContent>

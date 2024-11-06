@@ -1,4 +1,5 @@
 import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { userAPI } from './userAPI';
 export const agentAPI = createApi({
     reducerPath:"agentApi",
     tagTypes: ["agent"],
@@ -31,11 +32,19 @@ export const agentAPI = createApi({
         }),
         //delete user agent 
         deleteAgent:builder.mutation({
-            query:(id)=>({
-                url:id,
+            query:({agentId,userId})=>({
+                url:`deleteAgent?userId=${userId}&agentId=${agentId}`,
                 method:"DELETE"
             }),
-            invalidatesTags:["agent","user","policy"]
+            invalidatesTags:["agent","policy"],
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                   await queryFulfilled;
+                   dispatch(userAPI.util.invalidateTags(["user"]));
+                } catch (error) {
+                   console.error('Failed to delete agent:', error);
+                }
+             }
         }),
         //update agent
         updateAgent:builder.mutation({

@@ -9,6 +9,8 @@ import { Grid} from '@mui/material';
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeleteAgentMutation } from '../../redux/api/agentAPI';
 import { ResponseToast } from '../../utils/features';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,11 +23,20 @@ const style = {
 
 const RemoveAgent = (props) => {
   const [deleteUserAgent] = useDeleteAgentMutation();
+  const {user} = useSelector((state) => state.userReducer);
+  
   const deleteAgent = async () => {
     // delete logic
-      const res  = await deleteUserAgent(props.agentId);
+    
+    if(props.agentId && user._id){
+      console.log(props.agentId,user._id)
+      const res  = await deleteUserAgent({userId:user._id,agentId:props.agentId});
       ResponseToast(res,null,null);
       props.handleClose();
+    }else{
+      toast.error("Invalid Id's")
+    }
+      
     }
   return (
     <div>

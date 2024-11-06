@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid} from '@mui/material';
+import { Grid, InputAdornment} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -107,7 +107,9 @@ const AddAgent = (props) => {
                             placeholder="Enter Contact Number"
                             value={agentData.phone}
                             onChange={handleInputChange}
-                            
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">+91</InputAdornment>,
+                            }} 
                         />
                         </FormControl>
                     </Grid>

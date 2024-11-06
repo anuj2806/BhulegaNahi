@@ -1,25 +1,9 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Button, Box, Grid, CardMedia,Stack,IconButton, InputLabel, Select, OutlinedInput, MenuItem, TextField, Divider } from '@mui/material';
-// import MuiPhoneNumber from 'material-ui-phone-number';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { MuiTelInput } from 'mui-tel-input';
-import { useNavigate } from 'react-router-dom';
-import logo from '../../assests/logo.png'
-import DescriptionIcon from '@mui/icons-material/Description';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import GoogleIcon from '@mui/icons-material/Google';
-import VerifyOTP from './VerifyOTP';
-import PersonalInfo from './PersonalInfo';
+import { Typography, Button, Box, Grid, TextField, Divider } from '@mui/material';
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
 import toast from 'react-hot-toast';
 import { useLoginMutation } from '../../redux/api/userAPI';
-import { ResponseToast } from '../../utils/features';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');

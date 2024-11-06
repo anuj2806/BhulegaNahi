@@ -9,6 +9,7 @@ import { Grid} from '@mui/material';
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeletePolicyMutation } from '../../redux/api/policyAPI';
 import { ResponseToast } from '../../utils/features';
+import { usePolicyOfUserAgentQuery } from '../../redux/api/agentAPI';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -23,11 +24,13 @@ const RemovePolicy = (props) => {
     const [id,setId] = useState();
     const [deletePolicy] = useDeletePolicyMutation();
     const deletePolicyfun = async() => {
+      console.log(id)
       const res = await deletePolicy(id);
       ResponseToast(res,null,null);
       props.handleClose();
     }
     useEffect(()=>{
+      console.log(props.policyData)
       if(props.policyData){
         setId(props.policyData.id)
       }

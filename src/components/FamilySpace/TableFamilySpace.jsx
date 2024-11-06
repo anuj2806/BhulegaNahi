@@ -25,17 +25,18 @@ export default function TableFamilySpace() {
 
     { field: 'name',
       headerName: 'Member Name',
-      width: 350,
+      width: 250,
       headerClassName:"tableheader",
       renderCell: (params) => {
             return <Link to={`/familySpace/${params.row._id}/${params.formattedValue}`} style={{textDecoration:'none'}}>{params.formattedValue}</Link>;
       }
   },
+    { field: 'relation', headerName: 'Relation', width: 200 },
     { field: 'email', headerName: 'Email', width: 350 },
     {
       field: 'phone',
       headerName: 'Contact Number',
-      width: 300,
+      width: 200,
     },
     {
       sortable: false,
@@ -49,6 +50,7 @@ export default function TableFamilySpace() {
   const {data,error,isError} = useGetAllFamilyMembersQuery(user._id);
   
   const {familyMembers} = data || [];
+  console.log(familyMembers)
   if (isError) {
         const err = error;
         toast.error(err.data.message);

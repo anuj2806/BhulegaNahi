@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, Typography, Grid, Divider, Stack } from '@mui/material';
+import { TextField, Button, Box, Typography, Grid, Divider} from '@mui/material';
 import { signInWithPopup, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
 import { useNavigate } from 'react-router-dom';

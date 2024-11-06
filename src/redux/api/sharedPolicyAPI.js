@@ -11,7 +11,7 @@ export const sharedPolicyAPI = createApi({
                 method:"POST",
                 body:data
             }),
-            invalidatesTags:["product","user"]
+            invalidatesTags:["user"]
         }),
     })
 })

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid,Input,MenuItem,OutlinedInput,Select, Typography} from '@mui/material';
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid,Input,InputAdornment,MenuItem,OutlinedInput,Select, Typography} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -12,7 +12,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { useNewPolicyMutation } from '../../redux/api/policyAPI';
-import { ResponseToast } from '../../utils/features';
+import { formatRupees, ResponseToast } from '../../utils/features';
+
 
     const frequency = ['One time','Monthly','Quarterly','Semi - Annually','Annually','Once in Two Year','Once in Three Year','Others'];
     const insurancePolicies = [
@@ -78,22 +79,24 @@ const AddPolicyForm = ({handleClick}) => {
     const [newPolicy] = useNewPolicyMutation();
     const navigate = useNavigate();
     const [policyData,setpolicyData] =useState({
-        policyNumber:null,
-        policyName:null,
-        companyName:null,
-        premiumAmount:null,
-        startDate:null,
-        endDate:null,
-        natureOfFrequency:null,
+        policyNumber:'',
+        policyName:'',
+        companyName:'',
+        premiumAmount:0,
+        startDate:'',
+        endDate:'',
+        natureOfFrequency:'',
         _id:user._id
 
     });
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setpolicyData((prevData) => {
-          const newData = { ...prevData, [name]: value };
-          return newData;
-        });
+            if (name === 'premiumAmount' && !/^\d*$/.test(value)) {
+              return prevData; 
+            }
+            return { ...prevData, [name]: value };
+          });
     };
     
     const handleChangeFileUpload =(e)=>{
@@ -124,6 +127,7 @@ const AddPolicyForm = ({handleClick}) => {
     const handlePreviewClose = () => {
         setOpenPreview(false);
     };
+    
     const submitHandler = async (e) =>{
         e.preventDefault();
         if(policyData._id && policyData.companyName && policyData.endDate && policyData.natureOfFrequency 
@@ -188,7 +192,7 @@ const AddPolicyForm = ({handleClick}) => {
                         displayEmpty
                         sx={{ marginTop: '20px' }}
                     >
-                        <MenuItem value='null' disabled >
+                        <MenuItem value='' disabled >
                             <Typography color={'#778899b8'}>Select policy</Typography> 
                         </MenuItem>
                             {
@@ -214,7 +218,7 @@ const AddPolicyForm = ({handleClick}) => {
                         displayEmpty
                         sx={{ marginTop: '20px' }}
                     >
-                        <MenuItem value='null' disabled >
+                        <MenuItem value='' disabled >
                             <Typography color={'#778899b8'}>Select company</Typography> 
                         </MenuItem>
                             {
@@ -238,6 +242,10 @@ const AddPolicyForm = ({handleClick}) => {
                         value={policyData.premiumAmount}
                         onChange={handleInputChange}
                         required
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">Rs.</InputAdornment>,
+                            inputProps: { inputMode: 'numeric', pattern: '[0-9]*' }
+                          }}
                     />
                 </FormControl>
             </Grid>
@@ -302,7 +310,7 @@ const AddPolicyForm = ({handleClick}) => {
                         required
                         sx={{ marginTop: '20px' }}
                     >
-                        <MenuItem value='null' disabled >
+                        <MenuItem value='' disabled >
                             <Typography color={'#778899b8'}>Select frequency</Typography> 
                         </MenuItem>
                             {
