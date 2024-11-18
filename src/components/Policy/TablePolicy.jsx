@@ -7,7 +7,6 @@ import PolicyView from './PolicyView';
 import { useAllPoliciesQuery } from '../../redux/api/policyAPI';
 import toast from 'react-hot-toast';
 import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 
 export default function TablePolicy() {
@@ -27,18 +26,18 @@ export default function TablePolicy() {
     });
     const handleRowClick = (params) => {
         setpolicyData({
-            id:params.row._id,
+            id:params.row.id,
             policyType:params.row.policyName,
             companyName:params.row.companyName,
             policyNumber:params.row.policyNumber,
             amount:params.row.premiumAmount,
-            startDate:dayjs(params.row.startDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
-            endDate:dayjs(params.row.endDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+            startDate:params.row.startDate,
+            endDate:params.row.endDate,  
             natureOfFrequency:params.row.natureOfFrequency,
-            agentName:params.row.agent,
+            agentName:params.row.agent_id,
         })
     };
-    const {data,error,isError} = useAllPoliciesQuery(user._id);
+    const {data,error,isError} = useAllPoliciesQuery(user[0].id);
     const {policies} = data || [];
     if (isError) {
           const err = error;
@@ -66,10 +65,7 @@ export default function TablePolicy() {
       {
         field: 'endDate',
         headerName: 'Date Of Expiry',
-        width: 200,
-        renderCell: (value) => {
-          return dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') ;
-        }
+        width: 150,
       },
       { 
         field: 'photo',
@@ -82,8 +78,9 @@ export default function TablePolicy() {
         }
       },
       {
+        headerName:'Action',
         sortable: false,
-        width: 5,
+        width: 80,
         renderCell: (params) => {
             return  <PolicyOptionButton policyData={policyData}/>;
           }
@@ -105,7 +102,7 @@ export default function TablePolicy() {
             }}
         onRowClick={handleRowClick}
         disableRowSelectionOnClick
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.id}
       />):<Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                 No Policy Found
             </Typography>}

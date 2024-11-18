@@ -67,7 +67,7 @@ export default function TableAgentPolicy() {
   });
   const handleRowClick = (params) => {
       setpolicyData({
-          id:params.row._id,
+          id:params.row.id,
           policyType:params.row.policyName,
           companyName:params.row.companyName,
           policyNumber:params.row.policyNumber,
@@ -80,7 +80,7 @@ export default function TableAgentPolicy() {
   };
     
     const {data,error,isError} = usePolicyOfUserAgentQuery({
-      userId:user._id,
+      userId:user[0].id,
       agentId
     });
     if (isError) {
@@ -88,7 +88,6 @@ export default function TableAgentPolicy() {
       toast.error(err.data.message);
     }
     const {agentPolicies} = data || [];
-  
   return (
     <div style={{ height: 480, width: '100%' }}>
       {data && <DataGrid
@@ -105,7 +104,7 @@ export default function TableAgentPolicy() {
         }}
         onRowClick={handleRowClick}
         disableRowSelectionOnClick
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.id}
       />}
       <ShowDetails open={open} handleClick={handleIsClose} data={policyData}/>
     </div>

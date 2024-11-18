@@ -43,9 +43,10 @@ const BookAppointment1 = () => {
         if (selectedTime && dateValue && purposeOfAppointment) {
             const res = await bookAppointment({
                 "purpose": purposeOfAppointment,
-                "date": dateValue, 
+                "date": dayjs(dateValue).format('YYYY-MM-DD'), 
                 "time": selectedTime,
-                "userId": user._id
+                "phone": user[0].phone,
+                "email":user[0].email
             })
             ResponseToast(res,navigate,'/appointment')
         } else {

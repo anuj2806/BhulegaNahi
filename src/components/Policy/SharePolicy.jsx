@@ -47,7 +47,7 @@ const SharePolicy = (props) => {
         const { value } = event.target;
         setPersonName(typeof value === 'string' ? value.split(',') : value,);
     };
-    const {data,error,isError} = useGetAllFamilyMembersQuery(user._id);
+    const {data,error,isError} = useGetAllFamilyMembersQuery(user[0].id);
   
     const {familyMembers} = data || [];
     if (isError) {
@@ -58,7 +58,7 @@ const SharePolicy = (props) => {
     const addsharePolicy = async () => {
         const res = await sharePolicy(
             {
-                "sharedBy":user._id,
+                "sharedBy":user[0].id,
                 "sharedTo":personName[0],
                 "sharedPolicy":policyId
             }
@@ -69,8 +69,8 @@ const SharePolicy = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,500]}>
-                <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
+        <Box sx={style} width={['85%','40%']}>
+                <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center',borderRadius:'5px 5px 0 0'}}>
                 <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                     Share Policy
                 </Typography>
@@ -92,7 +92,7 @@ const SharePolicy = (props) => {
                             renderValue={(selected) => (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => {
-                                const label = familyMembers.find((item) => item._id === value)?.name;
+                                const label = familyMembers.find((item) => item.id === value)?.name;
                                 return (
                                     <Chip key={value} label={label} />
                                 );
@@ -101,8 +101,8 @@ const SharePolicy = (props) => {
                             )}
                         >
                             {familyMembers?.map((val) => (
-                            <MenuItem key={val._id} value={val._id}>
-                                <Checkbox checked={personName.indexOf(val._id) > -1} />
+                            <MenuItem key={val.id} value={val.id}>
+                                <Checkbox checked={personName.indexOf(val.id) > -1} />
                                 <ListItemText primary={val.name} />
                             </MenuItem>
                             ))}

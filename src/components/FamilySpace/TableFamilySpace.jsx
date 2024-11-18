@@ -17,8 +17,8 @@ export default function TableFamilySpace() {
   });
   const handleRowClick = (params) =>{
     setUserMemberData({
-      "userId":user._id,
-      "memeberId":params.row._id
+      "userId":user[0].id,
+      "memeberId":params.row.id
     })
   }
   const columns = [
@@ -28,7 +28,7 @@ export default function TableFamilySpace() {
       width: 250,
       headerClassName:"tableheader",
       renderCell: (params) => {
-            return <Link to={`/familySpace/${params.row._id}/${params.formattedValue}`} style={{textDecoration:'none'}}>{params.formattedValue}</Link>;
+            return <Link to={`/familySpace/${params.row.id}/${params.formattedValue}`} style={{textDecoration:'none'}}>{params.formattedValue}</Link>;
       }
   },
     { field: 'relation', headerName: 'Relation', width: 200 },
@@ -47,10 +47,8 @@ export default function TableFamilySpace() {
         }
     },
   ];
-  const {data,error,isError} = useGetAllFamilyMembersQuery(user._id);
-  
+  const {data,error,isError} = useGetAllFamilyMembersQuery(user[0].id);
   const {familyMembers} = data || [];
-  console.log(familyMembers)
   if (isError) {
         const err = error;
         toast.error(err.data.message);
@@ -72,7 +70,7 @@ export default function TableFamilySpace() {
             }}
         disableRowSelectionOnClick
         onRowClick={handleRowClick}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.id}
       />}
     </div>
   );

@@ -1,8 +1,8 @@
 import { Button, Container, Stack,Grid,Typography,Box,Divider, IconButton } from '@mui/material'
 import React from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import PolicyTab from './PolicyTab';
 import { useNavigate } from 'react-router-dom';
+import AddPolicyForm from './AddPolicyForm';
 const PolicyDetail = () => {
   const navigate = useNavigate();
   const backtoPolicy = () => (navigate('/policy')); 
@@ -19,7 +19,7 @@ const PolicyDetail = () => {
                 </Box>
             </Grid>
             <Grid item xs={12} md={12}>
-              <PolicyTab/>
+              <AddPolicyForm/>
             </Grid>    
         </Grid>
     </Container>

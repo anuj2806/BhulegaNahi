@@ -28,9 +28,8 @@ const RemoveAgent = (props) => {
   const deleteAgent = async () => {
     // delete logic
     
-    if(props.agentId && user._id){
-      console.log(props.agentId,user._id)
-      const res  = await deleteUserAgent({userId:user._id,agentId:props.agentId});
+    if(props.agentId && user[0].id){
+      const res  = await deleteUserAgent({userId:user[0].id,agentId:props.agentId});
       ResponseToast(res,null,null);
       props.handleClose();
     }else{
@@ -41,8 +40,8 @@ const RemoveAgent = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,500]}>
-            <Grid container spacing={2} p={4} >
+        <Box sx={style} width={['85%','40%']}>
+            <Grid container spacing={1} p={4} >
                 <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                     <RxCrossCircled color='red' size={'50px'} />
                 </Grid>
@@ -53,7 +52,7 @@ const RemoveAgent = (props) => {
                 </Grid>
                 <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                     <Typography variant="subtitle" fontFamily={'Lato'} fontWeight={'regular'} fontSize={16} >
-                        Do you really want to delete these records? This<br/>
+                        Do you really want to delete these records? This
                         process cannot be undone.
                     </Typography>
                 </Grid>

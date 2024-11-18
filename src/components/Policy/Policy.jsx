@@ -13,7 +13,7 @@ const Policy = () => {
             <Grid item xs={12} md={12} width={'100px'}>
                 <Box >
                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Policy({user?.policies.length})</Typography>
+                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Policy</Typography>
                         <Button variant="contained" component={Link} to="/policy/addpolicy" size="small" startIcon={<PolicyIcon />} sx={{height:'35px'}} >Add Policy</Button>
                     </Stack>
                     <Divider sx={{marginTop:'5px'}}/>

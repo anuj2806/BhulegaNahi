@@ -1,28 +1,16 @@
-import React from 'react'
-import { MuiOtpInput } from 'mui-one-time-password-input'
-import { Typography } from '@mui/material'
+import React, { useMemo } from 'react'
+import { Typography ,Box} from '@mui/material'
+import { OtpBox } from './OtpBox';
 const VerifyOTP = ({setOtp,otp}) => {
+  const [otp1, setOtp1] = React.useState(otp);
+  useMemo(() => setOtp(otp1), [otp1])
+        
     
-
-    const handleChange = (newValue) => {
-        setOtp(newValue)
-    }
-
-    const matchIsNumeric = (text) =>{
-        const isNumber = typeof text === 'number'
-        const isString = matchIsString(text)
-        return (isNumber || (isString && text !== '')) && !isNaN(Number(text))
-      }
-    const matchIsString =(value)=> {
-        return typeof value === 'string' || value instanceof String;
-    }
-      
-      const validateChar = (value, index) => {
-        return matchIsNumeric(value)
-      }
   return (
     <>
-      <MuiOtpInput  value={otp} onChange={handleChange} autoFocus length={6} validateChar={validateChar}  TextFieldsProps={{ placeholder: '-',size: 'small'}} />
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}> 
+        <OtpBox  value={otp1} onChange={setOtp1} length={6} />
+      </Box>
     </>
   )
 }

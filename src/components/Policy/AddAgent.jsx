@@ -31,15 +31,14 @@ const AddAgent = (props) => {
     const {user} = useSelector((state) => state.userReducer );
     const [agent,setAgent] =useState(null);
     const [addAgentToPolicy] = useAddAgentMutation();
-    const {data,error,isError} = useUserAgentQuery(user._id);
-
+    const {data,error,isError} = useUserAgentQuery(user[0].id);
     const {agents} = data || [];
     const agentAdd = async (e) => {
         e.preventDefault();
         // add agent logic
-        if(props.policyId && user._id && agent){
+        if(props.policyId && user[0].id && agent){
             const data = {
-                "userId":user._id,
+                "userId":user[0].id,
                 "agentId":agent,
                 "policyId":props.policyId
             }
@@ -55,8 +54,8 @@ const AddAgent = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,500]}>
-            <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
+        <Box sx={style} width={['85%','40%']}>
+            <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center', borderRadius:'5px 5px 0 0'}} >
                 <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                     Add Agent
                 </Typography>
@@ -76,7 +75,7 @@ const AddAgent = (props) => {
                                 input={<OutlinedInput />}
                             >
                                 {agents?.map((val) => (
-                                <MenuItem key={val._id} value={val._id}>
+                                <MenuItem key={val.id} value={val.id}>
                                     <ListItemText primary={val.name} />
                                 </MenuItem>
                                 ))}

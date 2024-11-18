@@ -21,7 +21,7 @@ const Dashboard = () => {
         setRange(event.target.value);
     };
     const {user} = useSelector((state) => state.userReducer );
-    const {data,error,isError}=usePoliciesByRangeQuery({id:user?._id,range});
+    const {data,error,isError}=usePoliciesByRangeQuery({id:user?.id,range});
    const {policies} = data || [];
     useEffect(()=>{
         onAuthStateChanged(auth,async (user) =>{
@@ -39,7 +39,7 @@ const Dashboard = () => {
     <Grid container spacing={2} p={2}>
         <Grid item xs={12} md={12}>
             <Typography variant="subtitle1" component="subtitle1" fontFamily={'Lato'} color={'rgba(0,0,0,0.87)'} fontWeight={'semibold'} fontSize={'20px'}>
-                Welcome Back, {user.name}
+                Welcome Back, {user.length>0?user[0].name:""}
             </Typography>
             <Divider/>
         </Grid>
@@ -54,7 +54,7 @@ const Dashboard = () => {
                         <Grid item xs={8} md={8}>
                             <Stack direction={'column'}  alignItems={'center'} m={'auto'} p={2}>
                                 <Typography variant="subtitle1" component="subtitle1" fontFamily={'Inter'} fontWeight={'500'} >Total Policy</Typography>
-                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.policies.length}</Typography>
+                                {/* <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.policies.length}</Typography> */}
                             </Stack> 
                         </Grid>    
                     </Grid>
@@ -72,7 +72,7 @@ const Dashboard = () => {
                         <Grid item xs={8} md={8}>
                             <Stack direction={'column'}  alignItems={'center'} m={'auto'} p={2}>
                                 <Typography variant="subtitle1" component="subtitle1" fontFamily={'Inter'} fontWeight={'500'} >Total Family Space</Typography>
-                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.familyMembers.length}</Typography>
+                                {/* <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.familyMembers.length}</Typography> */}
                             </Stack> 
                         </Grid>    
                     </Grid>
@@ -89,7 +89,7 @@ const Dashboard = () => {
                         <Grid item xs={8} md={8}>
                             <Stack direction={'column'}  alignItems={'center'} m={'auto'} p={2}>
                                 <Typography variant="subtitle1" component="subtitle1" fontFamily={'Inter'} fontWeight={'500'} >Total Agents</Typography>
-                                <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.agents.length}</Typography>
+                                {/* <Typography variant="h4" component="h4" align='center' fontFamily={'Inter'} fontWeight={'500'}>{user?.agents.length}</Typography> */}
                             </Stack> 
                         </Grid>    
                     </Grid>
@@ -107,7 +107,7 @@ const Dashboard = () => {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={12}>
-                        <TableDashboard/>
+                            <TableDashboard/>
                         </Grid>    
                     </Grid>
                     </CardContent>

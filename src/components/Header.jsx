@@ -6,9 +6,9 @@ import logo from '../assests/logo.png'
 
 const Header = ({isMobile,handleDrawerToggle}) => {
     return (
-    <Grid container style={{ height: '64px'}}>
+    <Grid container style={{ height: '50px'}} p={'0px 10px'} alignItems={'center'}>
          {isMobile && (
-        <Grid item xs={isMobile ? 1 : 0} p={'0px 10px'} alignContent={'center'}>
+        <Grid item xs={isMobile ? 1 : 0} alignContent={'center'}>
              <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -19,11 +19,11 @@ const Header = ({isMobile,handleDrawerToggle}) => {
             </IconButton>
         </Grid>
          )}
-        <Grid item xs={isMobile ? 10 : 2} p={'0px 10px'}  alignItems={'center'} display={'flex'} justifyContent={isMobile ? 'center' : 'left'}>
+        <Grid item xs={isMobile ? 10 : 2}  alignItems={'center'} display={'flex'} justifyContent={isMobile ? 'center' : 'left'}>
         <img src={logo} alt="bhuleganahi" width={'150px'} height={'40px'} />
         </Grid>
         <Grid item xs={isMobile ? 1 : 10} alignContent={'center'}>
-            <Stack direction={'row'} justifyContent={'space-between'} p={'0px 10px'} >
+            <Stack direction={'row'} justifyContent={'space-between'} >
                 <Typography variant="h5" component="subtitle1" fontFamily={'Inter'} fontWeight={'700'} ></Typography>
                 <AccountMenu/>
             </Stack>

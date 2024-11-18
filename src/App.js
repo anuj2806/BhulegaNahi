@@ -76,7 +76,7 @@ function App() {
         <Route path="/aboutUs" element={<AboutUs />} /> 
         <Route path="/login" element={<ProtectedRoute isAuthenticated={user?false:true} ><LoginPage /></ProtectedRoute>} />
         <Route path="/signup" element={<PersonalInfo/>}/>
-        <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false} redirect='/'><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile}/></ProtectedRoute>} />
+        <Route path="/*" element={<ProtectedRoute isAuthenticated={user?true:false} redirect='/login'><AuthenticatedRoutes handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} isMobile={isMobile}/></ProtectedRoute>} />
       </Routes>
       <Toaster/>
     </Router>
@@ -86,13 +86,13 @@ function App() {
 function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
   return (
     <Grid container >
-        <Grid item xs={12} md={12} style={{ zIndex:2000 }}>        
+        <Grid item xs={12} md={12} height={'51px'}>         
           <Header isMobile={isMobile} handleDrawerToggle={handleDrawerToggle}/>
           <Divider />
         </Grid>
        
         {isMobile ? (
-          <Grid item xs={2}>
+          <Grid item xs={1.99}>
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -101,15 +101,15 @@ function AuthenticatedRoutes({handleDrawerToggle,mobileOpen,isMobile}) {
           PaperProps={{
             style: {
               position: 'absolute',
-              top: '64px',
-              height: 'calc(100% - 64px)',
+              top: '50px',
+              height: 'calc(100% - 50px)',
               boxShadow: 'none',
               overflow: 'auto',
             }
           }}
           BackdropProps={{
             sx: {
-              top: '64px' // Adjust top position of the Backdrop
+              top: '50px' // Adjust top position of the Backdrop
             }
           }}
         >

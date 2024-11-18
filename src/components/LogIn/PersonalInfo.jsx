@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Grid,Select,OutlinedInput,MenuItem, Card, InputAdornment} from '@mui/material';
+import { Grid,Select,OutlinedInput,MenuItem, Card, InputAdornment, Stack} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -20,7 +20,7 @@ const PersonalInfo = () => {
   const [verifyOTP,setVerifyOTP] = useState(false);
   const [nextPage,setNextPage] = useState(false);
   const genderr =[ 'male','female']; 
-  const [otp, setOtp] = React.useState('')
+  const [otp, setOtp] = useState('')
   const [randomNumber,setRandomNumber] = useState();
   const [policyData,setpolicyData] =useState({
     email:'',
@@ -37,7 +37,7 @@ const handleInputChange = (event) => {
     });
   };
   function generateRandomNumber() {
-    return Math.floor(100000 + Math.random() * 900000);
+    return Math.floor(100000 + Math.random() * 900000); 
   }
   
 
@@ -82,7 +82,7 @@ const signUpPage = () =>{
 }
   return (
     <>
-    {!nextPage && <Card elevation={3} sx={{padding:'16px',width:['70%','50%','30%'],margin:'auto',marginTop:['10%','5%']}}>
+    {!nextPage && <Card elevation={3} sx={{padding:'8px',width:['85%','30%'],margin:"auto",marginTop:["50%","10%"]}}>  
         <Grid component="form" container noValidate spacing={2} p={2} >
             <Grid item xs={12}>
                 <Typography variant="h6" fontFamily={'Lato'} fontWeight={'700'}>Personal Information</Typography>
@@ -108,6 +108,10 @@ const signUpPage = () =>{
             </Grid>
         { !sendOTP && (<><Grid item xs={12} md={12}>
                       <Button variant="contained" fullWidth onClick={sendOTPPage}>Send OTP</Button>
+                      <Stack display={'flex'} flexDirection={'row'} marginTop={1}> 
+                            <Typography fontSize={'14px'}  fontFamily={'Lato'} fontWeight={'400'}>Already User ? </Typography>
+                            <Typography component={Link} to="/login" fontSize={'14px'}  fontFamily={'Lato'} fontWeight={'400'}> Login</Typography>
+                        </Stack>
                   </Grid>
             </>)
         }{
@@ -198,7 +202,7 @@ const signUpPage = () =>{
                         <Button variant="contained" fullWidth onClick={signUpPage}>NEXT</Button>
                     </Grid>
         </>)}
-            
+      
          </Grid>
     </Card>}
         {

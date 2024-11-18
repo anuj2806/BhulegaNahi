@@ -18,14 +18,14 @@ const Signup = ({name,gender,dob,phone}) => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      console.log(result.user.uid)
       const res = await login({
         name:result.user.displayName,
         email:result.user.email,
         gender,
         photo:result.user.photoURL,
-        role:"user",
         dob,
-        _id:result.user.uid,
+        id:result.user.uid,
         phone
     });
     if("data" in res){
@@ -51,9 +51,8 @@ const Signup = ({name,gender,dob,phone}) => {
           email: userCredential.user.email,
           gender,
           photo: userCredential.user.photoURL,
-          role: "user",
           dob,
-          _id: userCredential.user.uid,
+          id: userCredential.user.uid,
           phone,
         };
   
@@ -113,7 +112,7 @@ const Signup = ({name,gender,dob,phone}) => {
   
 
   return (
-    <Grid container spacing={2} alignItems="center" justifyContent="center" style={{ height: '100vh' }}>
+    <Grid container spacing={2} alignItems="center"  justifyContent="center" style={{ height: '100vh' }}>
       <Grid item xs={12} md={6}>
         <Box p={4} boxShadow={3} borderRadius={2}>
           <Typography variant="h4" gutterBottom>Sign Up</Typography>

@@ -24,13 +24,11 @@ const RemovePolicy = (props) => {
     const [id,setId] = useState();
     const [deletePolicy] = useDeletePolicyMutation();
     const deletePolicyfun = async() => {
-      console.log(id)
       const res = await deletePolicy(id);
       ResponseToast(res,null,null);
       props.handleClose();
     }
     useEffect(()=>{
-      console.log(props.policyData)
       if(props.policyData){
         setId(props.policyData.id)
       }
@@ -38,8 +36,8 @@ const RemovePolicy = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,500]}>
-            <Grid container spacing={2} p={4} >
+        <Box sx={style} width={['85%','40%']}>
+            <Grid container spacing={1} p={4} >
                 <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                     <RxCrossCircled color='red' size={'50px'} />
                 </Grid>
@@ -50,8 +48,8 @@ const RemovePolicy = (props) => {
                 </Grid>
                 <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                     <Typography variant="subtitle" fontFamily={'Lato'} fontWeight={'regular'} fontSize={16} >
-                        Do you really want to delete these records? This<br/>
-                        process cannot be undone.
+                        Do you really want to delete these records?  
+                        This process cannot be undone.
                     </Typography>
                 </Grid>
                 

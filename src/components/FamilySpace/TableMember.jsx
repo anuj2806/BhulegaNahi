@@ -15,7 +15,6 @@ export default function TableMember() {
       headerName: 'Type Of Policy',
       width: 240,
       headerClassName:"tableheader",
-      // renderCell: (params) => (console.log(params))
       renderCell: (value) => {
             return <Link onClick={()=>setOpen(true)} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
       }
@@ -33,9 +32,6 @@ export default function TableMember() {
       field: 'endDate',
       headerName: 'Date Of Expiry',
       width: 200,
-      renderCell: (value) => {
-        return dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY') ;
-      }
     },
     { 
       field: 'photo',
@@ -53,7 +49,7 @@ export default function TableMember() {
     const handleIsClose = ()=> (setOpen(false));
     const {memberid} = useParams();
     const {data,error,isError} = useFamilyMemberPoliciesQuery({
-      "userId":user._id,
+      "userId":user[0].id,
       "memberId":memberid
     });
     if (isError) {
@@ -61,7 +57,6 @@ export default function TableMember() {
       toast.error(err.data.message);
 }
     const rows = data?.sharedPolicies || [];
-    console.log(rows);
     const [policyData,setpolicyData] =useState({
       id:'',
       policyType:'',
@@ -75,15 +70,15 @@ export default function TableMember() {
   });
   const handleRowClick = (params) => {
       setpolicyData({
-          id:params.row._id,
+          id:params.row.id,
           policyType:params.row.policyName,
           companyName:params.row.companyName,
           policyNumber:params.row.policyNumber,
           amount:params.row.premiumAmount,
-          startDate:dayjs(params.row.startDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
-          endDate:dayjs(params.row.endDate, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY'),
+          startDate:params.row.startDate,
+          endDate:params.row.endDate,
           natureOfFrequency:params.row.natureOfFrequency,
-          agentName:params.row.agent,
+          agentName:params.row.agent_id,
       })
   };
     
@@ -104,7 +99,7 @@ export default function TableMember() {
         }}
         onRowClick={handleRowClick}
         disableRowSelectionOnClick
-        getRowId={(row) => row && row._id ? row._id : 'fallback-id'}
+        getRowId={(row) => row && row.id ? row.id : 'fallback-id'}
       />
     }
       <ShowDetails open={open} handleClick={handleIsClose} data={policyData}/>

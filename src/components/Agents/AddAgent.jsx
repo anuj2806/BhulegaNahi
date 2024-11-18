@@ -29,7 +29,7 @@ const AddAgent = (props) => {
         name:null,
         email:null,
         phone:null,
-        userId:user._id
+        userId:user[0].id
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -51,8 +51,8 @@ const AddAgent = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,700]}>
-                <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
+        <Box sx={style} width={['85%','60%']}>
+                <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center',borderRadius:'5px 5px 0 0'}}>
                 <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                     Add Agent
                 </Typography>
@@ -60,7 +60,7 @@ const AddAgent = (props) => {
             
                 
                <Grid container spacing={2} p={4} component={'form'} onSubmit={submitHandler}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                         <FormControl variant="standard" fullWidth required>
                         <InputLabel shrink htmlFor="agentName">
                            Agent Name
@@ -77,7 +77,7 @@ const AddAgent = (props) => {
                         />
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                         <FormControl variant="standard" fullWidth required>
                         <InputLabel shrink htmlFor="emailid">
                            Email Id
@@ -94,7 +94,7 @@ const AddAgent = (props) => {
                         />
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                         <FormControl variant="standard" fullWidth required>
                         <InputLabel shrink htmlFor="contactNumber">
                             Contact Number
@@ -113,7 +113,7 @@ const AddAgent = (props) => {
                         />
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6} />
+                    <Grid item xs={12} md={12} />
                     <Grid item xs={1} md={2} />
                     <Grid item xs={5} md={4}>
                         <Button variant="outlined" fullWidth onClick={props.handleClose}>Cancel</Button>

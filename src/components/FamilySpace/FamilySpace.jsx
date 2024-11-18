@@ -6,7 +6,6 @@ import TableFamilySpace from './TableFamilySpace';
 import AddMember from './AddMember';
 import { useSelector } from 'react-redux';
 const FamilySpace = () => {
-    const {user} = useSelector((state) => state.userReducer );
     const [open, setopen] = useState(false);
     const handleOpen = () => setopen(false);
     const addMemberClick = () => setopen(true);
@@ -17,7 +16,7 @@ const FamilySpace = () => {
             <Grid item xs={12} md={12} width={'100px'}>
                 <Box >
                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Family Space({user?.familyMembers.length})</Typography>
+                        <Typography variant="h6" m={1} fontFamily={'Lato'} fontWeight={'700'}>Family Space</Typography>
                         <Button variant="contained" size="small" startIcon={<GroupAddIcon/>} onClick={addMemberClick} sx={{height:'35px'}} >Add Member</Button>
                     </Stack>
                     <Divider sx={{marginTop:'5px'}}/>

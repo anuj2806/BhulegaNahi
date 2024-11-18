@@ -13,7 +13,7 @@ const columns = [
   {
     field: 'premiumAmount',
     headerName: 'Amount Of Premium',
-    width: 200,
+    width: 180,
     renderCell: (value) => {
       return 'Rs. ' + value.formattedValue;
     }
@@ -21,16 +21,13 @@ const columns = [
   {
     field: 'endDate',
     headerName: 'Date Of Expiry',
-    width: 200,
-    renderCell: (value) => {
-      return dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY');
-    }
+    width: 120,
   },
 ];
 
 export default function TableDashboard() {
   const { user } = useSelector((state) => state.userReducer);
-  const { data, error, isError } = useAllPoliciesQuery(user._id);
+  const { data, error, isError } = useAllPoliciesQuery(user[0].id);
   const { policies } = data || [];
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -41,7 +38,7 @@ export default function TableDashboard() {
   }
 
   return (
-    <div style={{ height: 390, width: '100%' }}>
+    <div style={{ height: 369, width: '100%' }}>
       {isMobile ? (
         <Grid item xs={12} md={12} sx={{maxHeight: "340px",overflow: "scroll",scrollbarWidth: "none"}}>
           {policies && policies.length > 0 ? (
@@ -85,7 +82,7 @@ export default function TableDashboard() {
             },
           }}
           disableRowSelectionOnClick
-          getRowId={(row) => row._id}
+          getRowId={(row) => row.id}
         />
       )}
     </div>

@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { useNewPolicyMutation } from '../../redux/api/policyAPI';
 import { formatRupees, ResponseToast } from '../../utils/features';
-
+import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 
     const frequency = ['One time','Monthly','Quarterly','Semi - Annually','Annually','Once in Two Year','Once in Three Year','Others'];
     const insurancePolicies = [
@@ -86,7 +86,7 @@ const AddPolicyForm = ({handleClick}) => {
         startDate:'',
         endDate:'',
         natureOfFrequency:'',
-        _id:user._id
+        _id:user[0].id
 
     });
     const handleInputChange = (event) => {
@@ -135,7 +135,7 @@ const AddPolicyForm = ({handleClick}) => {
             && policyData.startDate)
         {  
             const formData = new FormData();
-            formData.append("_id", policyData._id);
+            formData.append("user_id", policyData._id);
             formData.append("companyName", policyData.companyName);
             formData.append("endDate", policyData.endDate);
             formData.append("natureOfFrequency", policyData.natureOfFrequency);
@@ -158,6 +158,8 @@ const AddPolicyForm = ({handleClick}) => {
             noValidate
             spacing={2}
             onSubmit={submitHandler}
+            marginTop={1}
+            marginBottom={4}
         >
             <Grid item xs={12} md={4}>
                 <FormControl variant="standard" fullWidth required>
@@ -257,13 +259,14 @@ const AddPolicyForm = ({handleClick}) => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                         disableFuture
+                        format="DD/MM/YYYY"
                         sx={{ paddingTop: '20px' }}
                         slotProps={{ textField: { size: 'small' } }}
                         value={startDate}
                         onChange={(newValue) => {
                             setStartDate(newValue);
                             setpolicyData((prevData) => {
-                                const newData = { ...prevData, ["startDate"]: dayjs(newValue, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY') };
+                                const newData = { ...prevData, ["startDate"]: dayjs(newValue) };
                                 return newData;
                             });
                         }}
@@ -276,21 +279,23 @@ const AddPolicyForm = ({handleClick}) => {
                     <InputLabel shrink htmlFor="renewal-date">
                         Expiry Date
                     </InputLabel>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <DatePicker
                             disablePast
+                            format="DD/MM/YYYY"
                             sx={{ paddingTop: '20px' }}
                             slotProps={{ textField: { size: 'small' } }}
                             value={endDate}
                             onChange={(newValue) => {
                                 setEndDate(newValue);
                                 setpolicyData((prevData) => {
-                                    const newData = { ...prevData, ["endDate"]: dayjs(newValue, "YYYY-MM-DD+h:mm").format('MM/DD/YYYY') };
+                                    const newData = { ...prevData, ["endDate"]: dayjs(newValue)};
                                     return newData;
                                 });
                             }}
                         />
                     </LocalizationProvider>
+                   
                 </FormControl>
             </Grid>
             <Grid item xs={12} md={4} >

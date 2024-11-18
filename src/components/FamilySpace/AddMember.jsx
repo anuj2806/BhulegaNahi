@@ -7,12 +7,10 @@ import { Grid, InputAdornment} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { FaSquarePlus } from "react-icons/fa6";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useSelector } from 'react-redux';
-import { ResponseToast } from '../../utils/features';
 import toast from 'react-hot-toast';
 import { useCreateFamilyMemberMutation } from '../../redux/api/userAPI';
 
@@ -35,7 +33,7 @@ const AddMember = (props) => {
         phone:null,
         email:null,
         relation:null,
-        userId:user._id,
+        userId:user[0].id,
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -47,7 +45,7 @@ const AddMember = (props) => {
     const submitHandler = async (e) =>{
         e.preventDefault();
         
-        if(memberData.email && memberData.phone && user._id && memberData.relation){
+        if(memberData.email && memberData.phone && user[0].id && memberData.relation){
            
             const res = await createFamilyMember(memberData);
             if("data" in res){
@@ -64,8 +62,8 @@ const AddMember = (props) => {
   return (
     <div>
       <Modal open={props.open}>
-        <Box sx={style} width={[300,700]}>
-                <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center'}}>
+        <Box sx={style} width={['85%','40%']}>
+                <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'center',borderRadius:'5px 5px 0 0'}}>
                     <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
                         Add Member
                     </Typography>
@@ -152,14 +150,14 @@ const AddMember = (props) => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={0} md={6} />
-                        <Grid item xs={1} md={2} />
-                        <Grid item xs={5} md={4}>
+                        <Grid item xs={0} md={2} />
+                        <Grid item xs={12} md={4}>
                             <Button variant="outlined" fullWidth onClick={props.handleClose}>Invite Later</Button>
                         </Grid>
-                        <Grid item xs={5} md={4}>
+                        <Grid item xs={12} md={4}>
                             <Button variant="contained" fullWidth type='submit'>Send Invitation</Button>
                         </Grid>
-                        <Grid item xs={1} md={2} />
+                        <Grid item xs={0} md={2} />
                 </Grid>        
             </Box>
         </Modal>

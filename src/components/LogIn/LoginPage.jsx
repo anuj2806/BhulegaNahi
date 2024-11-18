@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Typography, Button, Box, Grid, TextField, Divider } from '@mui/material';
+import { Typography, Button, Box, Grid, TextField, Divider, Stack } from '@mui/material';
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
 import toast from 'react-hot-toast';
 import { useLoginMutation } from '../../redux/api/userAPI';
-
+import { Link } from 'react-router-dom';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -76,7 +76,7 @@ const LoginPage = () => {
     }
   };
   return (
-    <Grid container spacing={2} alignItems="center" justifyContent="center" style={{ height: '100vh' }}>
+    <Grid container spacing={2} alignItems="center" justifyContent="center" style={{ height: '100vh' }}> 
     <Grid item xs={12} md={6}>
       <Box p={4} boxShadow={3} borderRadius={2}>
         <Typography variant="h4" gutterBottom>Log In</Typography>
@@ -98,6 +98,10 @@ const LoginPage = () => {
           margin="normal"
           size="small"
         />
+        <Stack display={'flex'} flexDirection={'row'} marginBottom={1}> 
+          <Typography fontSize={'14px'}  fontFamily={'Lato'} fontWeight={'400'}>New User ? </Typography>
+          <Typography component={Link} to="/signup" fontSize={'14px'}  fontFamily={'Lato'} fontWeight={'400'}> Signup</Typography>
+        </Stack>
         <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
           Login
         </Button>

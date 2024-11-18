@@ -15,18 +15,17 @@ import dayjs from 'dayjs';
 import { IoCloseCircle } from 'react-icons/io5';
 import { useUpdatePolicyMutation } from '../../redux/api/policyAPI';
 import { ResponseToast } from '../../utils/features';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+
 const style = {
   position: 'absolute',
-  top: '45%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-//   width: 700,
   bgcolor: 'background.paper',
- 
   boxShadow: 24,
   borderRadius:'5px',
+  overflowY:'auto',
+  scrollbarWidth: 'none'
 };
 const frequency = ['One time','Monthly','Quarterly','Semi - Annually','Annually','Once in Two Year','Once in Three Year','Others'];
     const insurancePolicies = [
@@ -87,8 +86,6 @@ const UpdateDetails = (props) => {
   const [endDate,setEndDate] =useState();
   const [updatePolicy] = useUpdatePolicyMutation();
   const handleIsClose = () => setIsOpen(false);
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
     const [policyData,setpolicyData] =useState({
         policyId:'',
         policyType:'',
@@ -113,8 +110,8 @@ const UpdateDetails = (props) => {
             natureOfFrequency:props.policyData.natureOfFrequency || '',
             agentName: props.policyData.agentName || ''
         });
-        setStartDate(dayjs(props.policyData.startDate));
-        setEndDate(dayjs(props.policyData.endDate));
+        setStartDate(dayjs(props.policyData.startDate,'DD/MM/YYYY'));
+        setEndDate(dayjs(props.policyData.endDate,'DD/MM/YYYY')); 
         }
 
     }, [props.policyData]);
@@ -136,7 +133,7 @@ const UpdateDetails = (props) => {
     };
     const handleIsOpen = () => {
     props.handleClose();
-    console.log(policyData)
+   
     setshowData({
         policyType:policyData.policyType,
         companyName:policyData.companyName,
@@ -170,10 +167,8 @@ const UpdateDetails = (props) => {
     <div>
       <Modal
         open={props.open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
-        <Box sx={style} width={[300,700]}>
+        <Box sx={style} width={['85%','60%']} height={['80%','62%']} >
             <Box position="static" sx={{width:'100%',height:'50px',backgroundColor:'#3361E1',display:'flex',justifyContent:'space-between'}}>
                 <div></div>
                 <Typography variant="subtitle" color={'white'} fontFamily={'Lato'} fontWeight={'semibold'} fontSize={16} alignSelf={'center'} >
@@ -228,8 +223,7 @@ const UpdateDetails = (props) => {
                             </MenuItem>
                                 {
                                 insurancePolicies.map((type,index)=>(<MenuItem value={type} key={index}>{type}</MenuItem>))
-                                }
-                                    
+                                }  
                         </Select>
                     </FormControl>
                 </Grid>
@@ -271,8 +265,7 @@ const UpdateDetails = (props) => {
                             name="premiumAmount"
                             placeholder="Enter your amount"
                             value={policyData.premiumAmount}
-                            onChange={handleInputChange}
-                            
+                            onChange={handleInputChange} 
                         />
                     </FormControl>
                 </Grid>
@@ -284,13 +277,14 @@ const UpdateDetails = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                             disableFuture
+                            format="DD/MM/YYYY" 
                             sx={{ paddingTop: '20px' }}
                             slotProps={{ textField: { size: 'small' } }}
                             value={startDate}
                             onChange={(newValue) => {
                                 setStartDate(newValue);
                                 setpolicyData((prevData) => {
-                                    const newData = { ...prevData, ["startDate"]: dayjs(newValue, "YYYY-MM-DD+h:mm").tz("Asia/Kolkata").format('MM/DD/YYYY') };
+                                    const newData = { ...prevData, ["startDate"]: dayjs(newValue) };  
                                     return newData;
                                 });
                             }}
@@ -306,13 +300,14 @@ const UpdateDetails = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 disablePast
+                                format="DD/MM/YYYY" 
                                 sx={{ paddingTop: '20px' }}
                                 slotProps={{ textField: { size: 'small' } }}
                                 value={endDate}
                                 onChange={(newValue) => {
                                     setEndDate(newValue);
                                     setpolicyData((prevData) => {
-                                        const newData = { ...prevData, ["endDate"]: dayjs(newValue, "YYYY-MM-DD+h:mm").tz("Asia/Kolkata").format('MM/DD/YYYY') };
+                                        const newData = { ...prevData, ["endDate"]: dayjs(newValue)}; 
                                         return newData;
                                     });
                                 }}

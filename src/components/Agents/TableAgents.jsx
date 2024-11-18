@@ -11,7 +11,7 @@ export default function TableAgents() {
   const [isopen, setIsOpen] = React.useState(false);
   const handleOpenAlert=()=>setIsOpen(true);
 
-  const {data,error,isError} = useUserAgentQuery(user._id);
+  const {data,error,isError} = useUserAgentQuery(user[0].id);
 
   const {agents} = data || [];
 
@@ -26,7 +26,7 @@ export default function TableAgents() {
       width: 350,
       headerClassName:"tableheader",
       renderCell: (value) => {
-            return <Link to={`/agents/${value.row._id}/${value.row.name}`} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
+            return <Link to={`/agents/${value.row.id}/${value.row.name}`} style={{textDecoration:'none'}}>{value.formattedValue}</Link>;
       }
   },
     { field: 'email', headerName: 'Email', width: 350 },
@@ -58,7 +58,7 @@ export default function TableAgents() {
                           outline: "none !important"},
             }}
         disableRowSelectionOnClick
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.id}
       />}
     </div>
   );

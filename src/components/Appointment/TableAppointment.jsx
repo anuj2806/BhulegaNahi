@@ -7,17 +7,20 @@ import dayjs from 'dayjs';
 
 const columns = [
 
-    { field:'appointment',
+    { field:'Sr_No',
       headerName: 'Appointment',
       width: 230,
       sortable: false,
       disableColumnMenu:true,
+      renderCell: (value) => {
+        return `Appointment - ${value.formattedValue}`
+      } 
   },
-    { field: 'date',
+    { field: 'appointment_date',
       headerName: 'Scheduled Date & Time',
       width: 230,
       renderCell: (value) => {
-        return `${dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY')} at ${value.row.time}`
+        return `${dayjs(value.formattedValue, "YYYY-MM-DD+h:mm").format('DD/MM/YYYY')} at ${value.row.appointment_time}`
       } 
   },
     {
@@ -33,7 +36,7 @@ const columns = [
   ];
 export default function TableAppointment() {
   const {user} = useSelector((state) => state.userReducer );
-  const {data,error,isError} = useAllUserAppointmentQuery(user._id);
+  const {data,error,isError} = useAllUserAppointmentQuery(user[0].phone);
   if(error) toast.error(error); 
   const {appointments} = data || [];
   return (
@@ -51,7 +54,7 @@ export default function TableAppointment() {
                           outline: "none !important"},
             }}
         disableRowSelectionOnClick
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.id}
       />)}
     </div>
   );
